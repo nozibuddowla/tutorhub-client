@@ -6,6 +6,7 @@ import auth from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { AuthContext } from "../Provider/AuthProvider";
+import axios from "axios";
 
 const Register = () => {
   const { setUser, createUser, signInWithGoogle } = useContext(AuthContext);
@@ -30,12 +31,17 @@ const Register = () => {
     return "";
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const pass = event.target.password.value;
+    const phone = event.target.phone.value;
+    const role = event.target.role.value;
     const name = event.target.username.value;
-    const photoUrl = event.target.photoUrl.value;
+    const photoUrl = event.target.photoUrl;
+    const file = photoUrl.files[0];
+
+    // console.log(file);
 
     // console.log(email, pass);
 
@@ -49,58 +55,123 @@ const Register = () => {
 
     setPasswordError("");
 
-    createUser(email, pass)
-      .then((userCredential) => {
-        updateProfile(auth.currentUser, {
-          displayName: name,
-          photoURL: photoUrl,
-        })
-          .then(() => {
-            // console.log(userCredential.user);
-            setUser({
-              ...userCredential.user,
-              displayName: name,
-              photoURL: photoUrl,
-            });
-            toast.success("Registration successful! Welcome to Artrium!");
-            event.target.reset();
-            navigate("/");
-          })
-          .catch((error) => {
-            console.error("Profile update error:", error);
-            toast.error("Failed to update profile");
-          });
-      })
-      .catch((err) => {
-        console.error("Registration error:", err);
-        const errorMessage = err.message;
+    try {
+      // Upload image to ImgBB
+      const formData = new FormData();
+      formData.append("image", file);
 
-        if (errorMessage.includes("email-already-in-use")) {
-          toast.error("This email is already registered");
-        } else if (errorMessage.includes("invalid-email")) {
-          toast.error("Invalid email address");
-        } else if (errorMessage.includes("weak-password")) {
-          toast.error("Password is too weak");
-        } else {
-          toast.error("Registration failed. Please try again");
-        }
+      const imgResponse = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      // console.log("Image uploaded:", imgResponse.data);
+
+      const photoURL = imgResponse.data.data.display_url;
+
+      // console.log("Creating user in Firebase...");
+
+      // Create user in Firebase
+      const userCredential = await createUser(email, pass);
+
+      // console.log("User created in Firebase:", userCredential.user);
+
+      // Update Firebase profile
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: photoURL,
       });
+
+      // console.log("Firebase profile updated");
+
+      // Prepare user data for MongoDB
+      const userData = {
+        name,
+        email,
+        phone,
+        role,
+        photoURL,
+        createdAt: new Date().toISOString(),
+        uid: userCredential.user.uid,
+      };
+
+      // console.log("Saving to MongoDB:", userData);
+
+      // Save user to MongoDB
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users`,
+        userData,
+      );
+
+      // console.log("MongoDB response:", response.data);
+
+      if (response.data.success) {
+        setUser({
+          ...userCredential.user,
+          displayName: name,
+          photoURL: photoURL,
+        });
+
+        toast.success("Registration successful! Welcome to TutorHub!");
+        event.target.reset();
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      console.error("Error details:", error.response?.data);
+
+      // Handle specific Firebase errors
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("This email is already registered");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password is too weak");
+      } else if (error.response) {
+        // Server responded with error
+        toast.error(error.response.data.message || "Registration failed");
+      } else if (error.request) {
+        // Request made but no response
+        toast.error("Server is not responding. Please check your connection.");
+      } else {
+        // Other errors
+        toast.error(error.message || "Registration failed. Please try again");
+      }
+    }
   };
 
   // console.log(user);
 
   // Handle Google Sign in
-  const handleGoogleSignUp = () => {
-    signInWithGoogle()
-      .then((result) => {
-        setUser(result.user);
-        toast.success("Successfully signed in with Google!");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Google sign-in error:", error);
-        toast.error("Google sign-in failed. Please try again");
-      });
+  const handleGoogleSignUp = async () => {
+    try {
+      const result = await signInWithGoogle();
+
+      // Save Google user to MongoDB
+      const userData = {
+        name: result.user.displayName,
+        email: result.user.email,
+        phone: "", // Google doesn't provide phone
+        role: "student", // Default role for Google sign-in
+        photoURL: result.user.photoURL,
+        createdAt: new Date().toISOString(),
+        uid: result.user.uid,
+      };
+
+      await axios.post(`${import.meta.env.VITE_API_URL}/users`, userData);
+
+      setUser(result.user);
+      toast.success("Successfully signed in with Google!");
+      navigate("/");
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Google sign-in failed. Please try again");
+    }
   };
 
   return (
@@ -125,22 +196,6 @@ const Register = () => {
                   type="text"
                   name="username"
                   placeholder="Enter your username..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
-                  required
-                />
-              </div>
-
-              {/* photo url */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Photo <span className="text-red-500">*</span>
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  name="photoUrl"
-                  placeholder="Enter your photoURL..."
                   className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
                   required
                 />
@@ -196,6 +251,56 @@ const Register = () => {
                   Must contain: uppercase, lowercase letter, and minimum 6
                   characters
                 </p>
+              </div>
+
+              {/* Role Selection */}
+              <div className="form-control w-full">
+                <label className="label mb-2">
+                  <span className="text-sm font-bold">
+                    Role <span className="text-red-500">*</span>
+                  </span>
+                </label>
+                <select
+                  name="role"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  required
+                >
+                  <option value="">Select your role...</option>
+                  <option value="student">Student</option>
+                  <option value="tutor">Tutor</option>
+                </select>
+              </div>
+
+              {/* Phone Number */}
+              <div className="form-control w-full">
+                <label className="label mb-2">
+                  <span className="text-sm font-bold">
+                    Phone Number <span className="text-red-500">*</span>
+                  </span>
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Enter your phone number..."
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  required
+                />
+              </div>
+
+              {/* Photo */}
+              <div className="form-control w-full">
+                <label className="label mb-2">
+                  <span className="text-sm font-bold">
+                    Photo <span className="text-red-500">*</span>
+                  </span>
+                </label>
+                <input
+                  type="file"
+                  name="photoUrl"
+                  accept="image/*"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                  required
+                />
               </div>
 
               <div className="w-full flex items-center gap-2">

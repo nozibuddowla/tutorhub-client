@@ -15,6 +15,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState("");
 
   // Google Provider
   const googleProvider = new GoogleAuthProvider();
@@ -42,6 +43,19 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // Update user role
+  const updateUserRole = async (email, newRole) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/users/role/${email}`,
+        { role: newRole },
+      );
+      setRole(newRole);
+    } catch (error) {
+      console.error("Error updating user role:", error);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
@@ -55,7 +69,11 @@ const AuthProvider = ({ children }) => {
         };
 
         try {
-          await axios.put("https://artrium-server.vercel.app/users", userData);
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/users/role/${currentUser.email}`,
+          );
+          setRole(response.data.role);
+          console.log(response.data.role);
         } catch (error) {
           console.error("Error syncing user to DB:", error);
         }
