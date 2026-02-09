@@ -4,64 +4,118 @@ import { toast } from "react-toastify";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { AuthContext } from "../Provider/AuthProvider";
 import MyContainer from "../components/MyContainer";
+import axios from "axios";
 
 const Login = () => {
-  const { user, setUser, signIn, signInWithGoogle } = useContext(AuthContext);
+  const { setUser, signIn, signInWithGoogle, setRole } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location);
 
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const pass = event.target.password.value;
 
-    // console.log(email, pass);
+    try {
+      const userCredential = await signIn(email, pass);
+      const user = userCredential.user;
+      setUser(user);
 
-    signIn(email, pass)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setUser(user);
-        toast.success("Login successful! Welcome back!");
-        event.target.reset();
-        navigate(location.state || "/");
-      })
-      .catch((err) => {
-        console.error("Login error:", err);
+      // Get user role and generate JWT
+      const roleResponse = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/role/${email}`,
+      );
 
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        console.log(errorCode, errorMessage);
+      const userRole = roleResponse.data.role || "student";
+      setRole(userRole);
 
-        if (errorMessage.includes("user-not-found")) {
-          toast.error("No account found with this email");
-        } else if (errorMessage.includes("wrong-password")) {
-          toast.error("Incorrect password");
-        } else if (errorMessage.includes("invalid-credential")) {
-          toast.error("Invalid email or password");
-        } else {
-          toast.error("Login failed. Please try again");
-        }
-      });
+      // Generate JWT token
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        { email: email },
+        { withCredentials: true },
+      );
+
+      toast.success("Login successful! Welcome back!");
+      event.target.reset();
+
+      // Role-based routing
+      if (userRole === "admin") {
+        navigate("/admin-dashboard");
+      } else if (userRole === "tutor") {
+        navigate("/tutor-dashboard");
+      } else {
+        navigate("/student-dashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+
+      const errorMessage = err.message;
+
+      if (errorMessage.includes("user-not-found")) {
+        toast.error("No account found with this email");
+      } else if (errorMessage.includes("wrong-password")) {
+        toast.error("Incorrect password");
+      } else if (errorMessage.includes("invalid-credential")) {
+        toast.error("Invalid email or password");
+      } else {
+        toast.error("Login failed. Please try again");
+      }
+    }
   };
 
   // console.log(user);
 
   // Handle Google Sign in
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((result) => {
-        setUser(result.user);
-        toast.success("Successfully signed in with Google!");
-        navigate(location.state || "/");
-      })
-      .catch((error) => {
-        console.error("Google sign-in error:", error);
-        toast.error("Google sign-in failed. Please try again");
-      });
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+
+      // Save Google user to MongoDB if not exists
+      const userData = {
+        name: result.user.displayName,
+        email: result.user.email,
+        phone: "",
+        role: "student", // Default role for Google sign-in
+        photoURL: result.user.photoURL,
+        createdAt: new Date().toISOString(),
+        uid: result.user.uid,
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users`,
+        userData,
+      );
+
+      const userRole = response.data.role || "student";
+      setUser(result.user);
+      setRole(userRole);
+
+      // Generate JWT token
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        { email: result.user.email },
+        { withCredentials: true },
+      );
+
+      toast.success("Successfully signed in with Google!");
+
+      // Role-based routing
+      if (userRole === "admin") {
+        navigate("/admin-dashboard");
+      } else if (userRole === "tutor") {
+        navigate("/tutor-dashboard");
+      } else {
+        navigate("/student-dashboard");
+      }
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("Google sign-in failed. Please try again");
+    }
   };
 
   const handleForget = () => {

@@ -3,6 +3,9 @@ import RootLayout from "../RootLayout/RootLayout";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import AdminDashboard from "../Pages/AdminDashboard";
+import TutorDashboard from "../Pages/TutorDashboard";
+import StudentDashboard from "../Pages/StudentDashboard";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +23,18 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Register></Register>,
+      },
+      {
+        path: "/student-dashboard",
+        element: <StudentDashboard />,
+      },
+      {
+        path: "/tutor-dashboard",
+        element: <TutorDashboard />,
+      },
+      {
+        path: "/admin-dashboard",
+        element: <AdminDashboard />,
       },
     ],
   },

@@ -38,9 +38,20 @@ const AuthProvider = ({ children }) => {
   };
 
   // Sign out
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
-    return signOut(auth);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/logout`,
+        {},
+        { withCredentials: true },
+      );
+
+      return signOut(auth);
+    } catch (error) {
+      console.error("Logout error:", error);
+      return signOut(auth);
+    }
   };
 
   // Update user role
@@ -61,23 +72,28 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
 
       if (currentUser) {
-        const userData = {
-          displayName: currentUser.displayName,
-          email: currentUser.email,
-          photoURL: currentUser.photoURL,
-          lastSignInTime: currentUser.metadata.lastSignInTime,
-        };
-
         try {
-          const response = await axios.get(
+          // Generate JWT token
+          const tokenResponse = await axios.post(
+            `${import.meta.env.VITE_API_URL}/jwt`,
+            { email: currentUser.email },
+            { withCredentials: true },
+          );
+
+          // Get user role
+          const roleResponse = await axios.get(
             `${import.meta.env.VITE_API_URL}/users/role/${currentUser.email}`,
           );
-          setRole(response.data.role);
-          console.log(response.data.role);
+
+          setRole(roleResponse.data.role || "student");
         } catch (error) {
-          console.error("Error syncing user to DB:", error);
+          console.error("Error fetching user data:", error);
+          setRole("student"); // Default role
         }
+      } else {
+        setRole("");
       }
+
       setLoading(false);
     });
 
@@ -95,7 +111,10 @@ const AuthProvider = ({ children }) => {
     signIn,
     signInWithGoogle,
     logOut,
+    role,
+    setRole,
   };
+  
   return <AuthContext value={authData}>{children}</AuthContext>;
 };
 
