@@ -3,9 +3,10 @@ import RootLayout from "../RootLayout/RootLayout";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
-import AdminDashboard from "../Pages/AdminDashboard";
-import TutorDashboard from "../Pages/TutorDashboard";
-import StudentDashboard from "../Pages/StudentDashboard";
+import DashboardLayout from "../DashboardLayout/DashboardLayout";
+import StudentDashboard from "../Pages/Dashboard/StudentDashboard";
+import TutorDashboard from "../Pages/Dashboard/TutorDashboard";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -24,16 +25,22 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Register></Register>,
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
       {
-        path: "/student-dashboard",
+        path: "student",
         element: <StudentDashboard />,
       },
       {
-        path: "/tutor-dashboard",
+        path: "tutor",
         element: <TutorDashboard />,
       },
       {
-        path: "/admin-dashboard",
+        path: "admin",
         element: <AdminDashboard />,
       },
     ],

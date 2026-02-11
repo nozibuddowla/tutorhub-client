@@ -43,14 +43,7 @@ const Login = () => {
       toast.success("Login successful! Welcome back!");
       event.target.reset();
 
-      // Role-based routing
-      if (userRole === "admin") {
-        navigate("/admin-dashboard");
-      } else if (userRole === "tutor") {
-        navigate("/tutor-dashboard");
-      } else {
-        navigate("/student-dashboard");
-      }
+      navigate(`/dashboard/${userRole}`);
     } catch (err) {
       console.error("Login error:", err);
 

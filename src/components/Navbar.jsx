@@ -18,9 +18,9 @@ const Navbar = () => {
 
   // Get dashboard link based on role
   const getDashboardLink = () => {
-    if (role === "admin") return "/admin-dashboard";
-    if (role === "tutor") return "/tutor-dashboard";
-    return "/student-dashboard";
+    if (role === "admin") return "/dashboard/admin";
+    if (role === "tutor") return "/dashboard/tutor";
+    return "/dashboard/student";
   };
 
   const navLinks = (

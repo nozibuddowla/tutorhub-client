@@ -111,6 +111,7 @@ const Register = () => {
       // console.log("MongoDB response:", response.data);
 
       if (response.data.success) {
+        const userRole = role;
         setUser({
           ...userCredential.user,
           displayName: name,
@@ -119,7 +120,8 @@ const Register = () => {
 
         toast.success("Registration successful! Welcome to TutorHub!");
         event.target.reset();
-        navigate("/");
+        
+        navigate(`/dashboard/${userRole}`);
       }
     } catch (error) {
       console.error("Registration error:", error);
