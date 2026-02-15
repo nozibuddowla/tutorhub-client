@@ -8,6 +8,8 @@ import StudentDashboard from "../Pages/Dashboard/StudentDashboard";
 import TutorDashboard from "../Pages/Dashboard/TutorDashboard";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 import ManageUsers from "../Pages/ManageUsers";
+import ManageTuitions from "../Pages/ManageTuitions";
+import Reports from "../Pages/Reports";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
       {
         path: "admin/users",
         element: <ManageUsers />,
+      },
+      {
+        path: "admin/tuitions",
+        element: <ManageTuitions />,
+      },
+      {
+        path: "admin/reports",
+        element: <Reports />,
       },
     ],
   },

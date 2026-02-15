@@ -54,19 +54,20 @@ const roleConfig = {
     badgeColor: "#e53e3e",
     links: [
       { to: "/dashboard/admin", label: "Overview", icon: "home" },
-      { type: "divider", label: "Public View" }, // Optional: Add a divider
-      { to: "/", label: "Main Home", icon: "home" },
-      { to: "/tuitions", label: "Browse Tuitions", icon: "book" },
+      { type: "divider", label: "Management" },
       { to: "/dashboard/admin/users", label: "Manage Users", icon: "users" },
       {
         to: "/dashboard/admin/tuitions",
-        label: "All Tuitions",
+        label: "Manage Tuitions",
         icon: "clipboard",
       },
-      { to: "/dashboard/admin/tutors", label: "Verify Tutors", icon: "shield" },
-      { to: "/dashboard/admin/payments", label: "Payments", icon: "payment" },
-      { to: "/dashboard/admin/reports", label: "Reports", icon: "chart" },
-      { to: "/dashboard/admin/settings", label: "Settings", icon: "settings" },
+      {
+        to: "/dashboard/admin/reports",
+        label: "Reports & Analytics",
+        icon: "chart",
+      },
+      { type: "divider", label: "Public View" },
+      { to: "/", label: "Main Home", icon: "home" },
     ],
   },
   tutor: {

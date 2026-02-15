@@ -1,25 +1,95 @@
-// ─── AdminDashboard.jsx ───────────────────────────────────────────────────────
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
+import { Link } from "react-router";
 
-const StatCard = ({ label, value, icon, color, change }) => (
-  <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-    <div className="flex items-center justify-between mb-3">
-      <span className="text-2xl">{icon}</span>
-      <span
-        className="text-xs font-bold px-2 py-1 rounded-full"
-        style={{ background: `${color}20`, color }}
-      >
-        {change}
-      </span>
+const StatCard = ({ label, value, icon, color, change, link }) => (
+  <Link to={link || "#"}>
+    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-2xl">{icon}</span>
+        <span
+          className="text-xs font-bold px-2 py-1 rounded-full"
+          style={{ background: `${color}20`, color }}
+        >
+          {change}
+        </span>
+      </div>
+      <p className="text-3xl font-black text-gray-900">{value}</p>
+      <p className="text-sm text-gray-500 mt-1">{label}</p>
     </div>
-    <p className="text-3xl font-black text-gray-900">{value}</p>
-    <p className="text-sm text-gray-500 mt-1">{label}</p>
-  </div>
+  </Link>
 );
 
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalTuitions: 0,
+    pendingTuitions: 0,
+    totalEarnings: 0,
+  });
+  const [recentUsers, setRecentUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Fetch users
+      const usersRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/users`,
+        { withCredentials: true },
+      );
+
+      // Fetch tuitions
+      const tuitionsRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/tuitions`,
+        { withCredentials: true },
+      );
+
+      // Fetch payments
+      const paymentsRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/payments`,
+        { withCredentials: true },
+      );
+
+      const users = usersRes.data;
+      const tuitions = tuitionsRes.data;
+      const payments = paymentsRes.data;
+
+      setStats({
+        totalUsers: users.length,
+        totalTuitions: tuitions.length,
+        pendingTuitions: tuitions.filter(
+          (t) => !t.status || t.status === "pending",
+        ).length,
+        totalEarnings: payments.reduce((sum, p) => sum + (p.amount || 0), 0),
+      });
+
+      // Get 5 most recent users
+      setRecentUsers(
+        users
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 5),
+      );
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching dashboard data:", err);
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -38,31 +108,35 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Total Users"
-          value="248"
+          value={stats.totalUsers}
           icon="👥"
           color="#2b6cb0"
-          change="+12%"
+          change="View All"
+          link="/dashboard/admin/users"
         />
         <StatCard
           label="Active Tuitions"
-          value="64"
+          value={stats.totalTuitions}
           icon="📚"
           color="#38a169"
-          change="+5%"
+          change="Manage"
+          link="/dashboard/admin/tuitions"
         />
         <StatCard
           label="Pending Approval"
-          value="8"
+          value={stats.pendingTuitions}
           icon="⏳"
           color="#e53e3e"
-          change="New"
+          change="Review"
+          link="/dashboard/admin/tuitions"
         />
         <StatCard
-          label="Monthly Revenue"
-          value="৳28k"
+          label="Total Revenue"
+          value={`৳${stats.totalEarnings.toLocaleString()}`}
           icon="💳"
           color="#d69e2e"
-          change="+18%"
+          change="View"
+          link="/dashboard/admin/reports"
         />
       </div>
 
@@ -70,72 +144,105 @@ const AdminDashboard = () => {
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Recent Users */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="font-bold text-gray-800 mb-4">Recent Registrations</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold text-gray-800">Recent Registrations</h3>
+            <Link
+              to="/dashboard/admin/users"
+              className="text-sm text-purple-600 font-semibold hover:underline"
+            >
+              View All →
+            </Link>
+          </div>
           <div className="space-y-3">
-            {[
-              {
-                name: "Rahim Uddin",
-                role: "Student",
-                time: "10 min ago",
-                color: "#2b6cb0",
-              },
-              {
-                name: "Fatima Begum",
-                role: "Tutor",
-                time: "1 hour ago",
-                color: "#6b46c1",
-              },
-              {
-                name: "Karim Ahmed",
-                role: "Student",
-                time: "3 hours ago",
-                color: "#2b6cb0",
-              },
-            ].map((u, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-bold"
-                  style={{ background: u.color }}
-                >
-                  {u.name[0]}
+            {recentUsers.length > 0 ? (
+              recentUsers.map((u) => (
+                <div key={u._id} className="flex items-center gap-3">
+                  <img
+                    src={
+                      u.photoURL ||
+                      `https://api.dicebear.com/7.x/initials/svg?seed=${u.name}`
+                    }
+                    alt={u.name}
+                    className="w-8 h-8 rounded-xl object-cover"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-800">
+                      {u.name}
+                    </p>
+                    <p className="text-xs text-gray-400 capitalize">{u.role}</p>
+                  </div>
+                  <span className="text-xs text-gray-400">
+                    {u.createdAt
+                      ? new Date(u.createdAt).toLocaleDateString()
+                      : "N/A"}
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-800">
-                    {u.name}
-                  </p>
-                  <p className="text-xs text-gray-400">{u.role}</p>
-                </div>
-                <span className="text-xs text-gray-400">{u.time}</span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-sm text-gray-500 text-center py-4">
+                No users found
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Pending Actions */}
+        {/* Quick Actions */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="font-bold text-gray-800 mb-4">Pending Actions</h3>
+          <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
           <div className="space-y-3">
-            {[
-              { text: "Verify tutor: Nasreen Akter", urgent: true },
-              { text: "Approve tuition: HSC Math in Dhaka", urgent: true },
-              { text: "Resolve dispute: Payment issue", urgent: false },
-              { text: "Review: New tutor application x3", urgent: false },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50"
-              >
-                <span
-                  className={`w-2 h-2 rounded-full shrink-0 ${item.urgent ? "bg-red-500" : "bg-yellow-400"}`}
-                />
-                <span className="text-sm text-gray-700 flex-1">
-                  {item.text}
-                </span>
-                <button className="text-xs font-semibold text-blue-600 hover:underline">
-                  Review
-                </button>
+            <Link
+              to="/dashboard/admin/users"
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 transition-colors group"
+            >
+              <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                <span className="text-lg">👥</span>
               </div>
-            ))}
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-gray-800">
+                  Manage Users
+                </p>
+                <p className="text-xs text-gray-500">
+                  View, edit, or delete users
+                </p>
+              </div>
+              <span className="text-gray-400 group-hover:text-purple-600">
+                →
+              </span>
+            </Link>
+
+            <Link
+              to="/dashboard/admin/tuitions"
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors group"
+            >
+              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                <span className="text-lg">📚</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-gray-800">
+                  Manage Tuitions
+                </p>
+                <p className="text-xs text-gray-500">Approve or reject posts</p>
+              </div>
+              <span className="text-gray-400 group-hover:text-blue-600">→</span>
+            </Link>
+
+            <Link
+              to="/dashboard/admin/reports"
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-colors group"
+            >
+              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <span className="text-lg">📊</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-gray-800">
+                  View Reports
+                </p>
+                <p className="text-xs text-gray-500">Analytics and earnings</p>
+              </div>
+              <span className="text-gray-400 group-hover:text-green-600">
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </div>
