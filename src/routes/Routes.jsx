@@ -7,6 +7,7 @@ import DashboardLayout from "../DashboardLayout/DashboardLayout";
 import StudentDashboard from "../Pages/Dashboard/StudentDashboard";
 import TutorDashboard from "../Pages/Dashboard/TutorDashboard";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
+import ManageUsers from "../Pages/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: <AdminDashboard />,
+      },
+      {
+        path: "admin/users",
+        element: <ManageUsers />,
       },
     ],
   },

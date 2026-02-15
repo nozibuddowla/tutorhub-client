@@ -17,7 +17,7 @@ const ManageUsers = () => {
       );
       setUsers(res.data);
     } catch (err) {
-      toast.error("Failed to fetch users");
+      toast.error("Failed to fetch users: ", err.message);
     }
   };
 
@@ -31,7 +31,7 @@ const ManageUsers = () => {
       toast.success(`Role updated to ${newRole}`);
       fetchUsers();
     } catch (err) {
-      toast.error("Error updating role");
+      toast.error("Error updating role: ", err.message);
     }
   };
 
@@ -45,7 +45,7 @@ const ManageUsers = () => {
         toast.success("User deleted");
         fetchUsers();
       } catch (err) {
-        toast.error("Delete failed");
+        toast.error("Delete failed: ", err.message);
       }
     }
   };

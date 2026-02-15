@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router";
+import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { toast } from "react-toastify";
 
@@ -54,6 +54,9 @@ const roleConfig = {
     badgeColor: "#e53e3e",
     links: [
       { to: "/dashboard/admin", label: "Overview", icon: "home" },
+      { type: "divider", label: "Public View" }, // Optional: Add a divider
+      { to: "/", label: "Main Home", icon: "home" },
+      { to: "/tuitions", label: "Browse Tuitions", icon: "book" },
       { to: "/dashboard/admin/users", label: "Manage Users", icon: "users" },
       {
         to: "/dashboard/admin/tuitions",
@@ -76,6 +79,9 @@ const roleConfig = {
     badgeColor: "#6b46c1",
     links: [
       { to: "/dashboard/tutor", label: "Overview", icon: "home" },
+      { type: "divider", label: "Public View" },
+      { to: "/", label: "Main Home", icon: "home" },
+      { to: "/tutors", label: "Tutor List", icon: "users" },
       { to: "/dashboard/tutor/tuitions", label: "My Tuitions", icon: "book" },
       {
         to: "/dashboard/tutor/applied",
@@ -102,6 +108,9 @@ const roleConfig = {
     badgeColor: "#2b6cb0",
     links: [
       { to: "/dashboard/student", label: "Overview", icon: "home" },
+      { type: "divider", label: "Public View" },
+      { to: "/", label: "Home Page", icon: "home" },
+      { to: "/tuitions", label: "Find Tuitions", icon: "book" },
       {
         to: "/dashboard/student/tuitions",
         label: "Find Tuitions",
@@ -144,20 +153,17 @@ const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
         {/* Header */}
         <div className="px-6 pt-8 pb-6 border-b border-white/10">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white text-lg"
-                style={{ background: config.accent }}
-              >
+            <Link
+              to="/"
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white text-lg bg-[#632ee3]">
                 T
               </div>
-              <div>
-                <p className="text-white font-bold text-sm leading-none">
-                  TutorHub
-                </p>
-                <p className="text-white/40 text-xs mt-0.5">{config.label}</p>
-              </div>
-            </div>
+              <p className="text-white font-bold text-sm leading-none">
+                TutorHub
+              </p>
+            </Link>
             <button
               onClick={onClose}
               className="lg:hidden text-white/50 hover:text-white transition-colors"
@@ -207,29 +213,44 @@ const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
             Navigation
           </p>
           <ul className="space-y-1">
-            {config.links.map((link) => (
-              <li key={link.to}>
-                <NavLink
-                  to={link.to}
-                  end={link.to === `/dashboard/${role}`}
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                    ${
-                      isActive
-                        ? "text-white shadow-lg"
-                        : "text-white/50 hover:text-white hover:bg-white/5"
-                    }`
-                  }
-                  style={({ isActive }) =>
-                    isActive ? { background: config.accent } : {}
-                  }
-                >
-                  <Icon d={icons[link.icon]} size={18} />
-                  {link.label}
-                </NavLink>
-              </li>
-            ))}
+            {config.links.map((link, index) => {
+              if (link.type === "divider") {
+                return (
+                  <li key={`divider-${index}`} className="mt-6 mb-2">
+                    <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest px-2">
+                      {link.label}
+                    </p>
+                  </li>
+                );
+              }
+
+              // HANDLE REGULAR LINKS
+              return (
+                <li key={link.to || index}>
+                  <NavLink
+                    to={link.to}
+                    end={link.to === `/dashboard/${role}`}
+                    onClick={onClose}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+              ${
+                isActive && link.to.includes("dashboard")
+                  ? "text-white shadow-lg"
+                  : "text-white/50 hover:text-white hover:bg-white/5"
+              }`
+                    }
+                    style={({ isActive }) =>
+                      isActive && link.to.includes("dashboard")
+                        ? { background: config.accent }
+                        : {}
+                    }
+                  >
+                    <Icon d={icons[link.icon]} size={18} />
+                    {link.label}
+                  </NavLink>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
@@ -250,11 +271,19 @@ const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
 
 // ─── Dashboard Layout ─────────────────────────────────────────────────────────
 const DashboardLayout = () => {
-  const { user, logOut, role } = useContext(AuthContext);
+  const { user, logOut, role, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const currentRole = role || "student";
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+
+  const currentRole = role || "";
   const config = roleConfig[currentRole] || roleConfig.student;
 
   const handleLogout = async () => {

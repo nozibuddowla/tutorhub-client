@@ -73,27 +73,27 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser) {
         try {
-          // Generate JWT token
-          const tokenResponse = await axios.post(
-            `${import.meta.env.VITE_API_URL}/jwt`,
-            { email: currentUser.email },
-            { withCredentials: true },
-          );
-
           // Get user role
           const roleResponse = await axios.get(
             `${import.meta.env.VITE_API_URL}/users/role/${currentUser.email}`,
           );
 
-          setRole(roleResponse.data.role || "student");
+          if (roleResponse.data.success) {
+            setRole(roleResponse.data.role);
+            // Only get JWT if the user is confirmed in the DB
+            await axios.post(
+              `${import.meta.env.VITE_API_URL}/jwt`,
+              { email: currentUser.email },
+              { withCredentials: true },
+            );
+          }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Auth initialization error:", error);
           setRole("student"); // Default role
         }
       } else {
         setRole("");
       }
-
       setLoading(false);
     });
 
@@ -114,7 +114,7 @@ const AuthProvider = ({ children }) => {
     role,
     setRole,
   };
-  
+
   return <AuthContext value={authData}>{children}</AuthContext>;
 };
 
