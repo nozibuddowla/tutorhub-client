@@ -10,6 +10,9 @@ import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
 import ManageUsers from "../Pages/ManageUsers";
 import ManageTuitions from "../Pages/ManageTuitions";
 import Reports from "../Pages/Reports";
+import TutorApplications from "../Pages/TutorApplications";
+import TutorOngoingTuitions from "../Pages/TutorOngoingTuitions";
+import TutorRevenue from "../Pages/TutorRevenue";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,9 @@ const router = createBrowserRouter([
         path: "tutor",
         element: <TutorDashboard />,
       },
+      { path: "tutor/applications", element: <TutorApplications /> },
+      { path: "tutor/ongoing", element: <TutorOngoingTuitions /> },
+      { path: "tutor/revenue", element: <TutorRevenue /> },
       {
         path: "admin",
         element: <AdminDashboard />,
