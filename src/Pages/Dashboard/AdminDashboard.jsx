@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import { Link } from "react-router";
+import Loading from "../../components/Loading";
 
 const StatCard = ({ label, value, icon, color, change, link }) => (
   <Link to={link || "#"}>
@@ -84,11 +85,7 @@ const AdminDashboard = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

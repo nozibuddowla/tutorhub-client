@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 const AllTuitions = () => {
   const [tuitions, setTuitions] = useState([]);
@@ -31,11 +32,7 @@ const AllTuitions = () => {
   });
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -133,7 +130,7 @@ const AllTuitions = () => {
 
                 <Link
                   to={`/tuitions/${tuition._id}`}
-                  className="block w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-xl text-center hover:opacity-90 transition-opacity"
+                  className="block w-full py-3 bg-linear-to-r from-purple-600 to-blue-600 text-white font-bold rounded-xl text-center hover:opacity-90 transition-opacity"
                 >
                   View Details & Apply
                 </Link>

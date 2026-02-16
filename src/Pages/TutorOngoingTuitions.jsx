@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
+import Loading from "../components/Loading";
+import { Link } from "react-router";
 
 const TutorOngoingTuitions = () => {
   const { user } = useContext(AuthContext);
@@ -27,11 +29,7 @@ const TutorOngoingTuitions = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -99,9 +97,12 @@ const TutorOngoingTuitions = () => {
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
-                <button className="flex-1 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors">
+                <Link
+                  to={`/tuitions/${tuition.tuitionId}`}
+                  className="flex-1 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors"
+                >
                   View Details
-                </button>
+                </Link>
                 <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
                   Contact Student
                 </button>

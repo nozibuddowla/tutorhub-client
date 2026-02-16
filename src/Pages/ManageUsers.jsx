@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -85,11 +86,7 @@ const ManageUsers = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

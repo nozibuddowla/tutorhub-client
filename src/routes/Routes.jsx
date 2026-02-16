@@ -21,11 +21,16 @@ import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
 import PaymentCheckout from "../Pages/PaymentCheckout";
 import AllTuitions from "../Pages/AllTuitions";
 import TuitionDetails from "../Pages/TuitionDetails";
+import NotFound from "../components/NotFound";
+import Loading from "../components/Loading";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout></RootLayout>,
+    errorElement: <NotFound />,
+    hydrateFallback: <Loading />,
     children: [
       {
         path: "/",
@@ -50,46 +55,143 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/payment/checkout",
+    element: (
+      <ProtectedRoute allowedRoles={["student"]}>
+        <PaymentCheckout />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute allowedRoles={["student", "tutor", "admin"]}>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
+      // Student Routes
       {
         path: "student",
-        element: <StudentDashboard />,
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <StudentDashboard />
+          </ProtectedRoute>
+        ),
       },
-      { path: "student/my-tuitions", element: <StudentTuitions /> },
-      { path: "student/post-tuition", element: <PostTuition /> },
-      { path: "student/applied-tutors", element: <AppliedTutors /> },
-      { path: "student/payments", element: <StudentPayments /> },
-      { path: "student/settings", element: <ProfileSettings /> },
+      {
+        path: "student/my-tuitions",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <StudentTuitions />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "student/post-tuition",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <PostTuition />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "student/applied-tutors",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <AppliedTutors />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "student/payments",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <StudentPayments />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "student/settings",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <ProfileSettings />
+          </ProtectedRoute>
+        ),
+      },
+
+      // Tutor Routes
       {
         path: "tutor",
-        element: <TutorDashboard />,
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <TutorDashboard />
+          </ProtectedRoute>
+        ),
       },
-      { path: "tutor/applications", element: <TutorApplications /> },
-      { path: "tutor/ongoing", element: <TutorOngoingTuitions /> },
-      { path: "tutor/revenue", element: <TutorRevenue /> },
+      {
+        path: "tutor/applications",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <TutorApplications />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tutor/ongoing",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <TutorOngoingTuitions />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tutor/revenue",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <TutorRevenue />
+          </ProtectedRoute>
+        ),
+      },
+
+      // Admin Routes
       {
         path: "admin",
-        element: <AdminDashboard />,
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "admin/users",
-        element: <ManageUsers />,
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <ManageUsers />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "admin/tuitions",
-        element: <ManageTuitions />,
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <ManageTuitions />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "admin/reports",
-        element: <Reports />,
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <Reports />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
   {
-    path: "/payment/checkout",
-    element: <PaymentCheckout />,
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

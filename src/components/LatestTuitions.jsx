@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
+import Loading from "./Loading";
 
 const LatestTuitions = () => {
   const [tuitions, setTuitions] = useState([]);
@@ -24,17 +25,7 @@ const LatestTuitions = () => {
   }, []);
 
   if (loading) {
-    return (
-      <section className="max-w-7xl mx-auto py-20 px-4">
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-            <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-cyan-600 rounded-full animate-spin animation-delay-150"></div>
-          </div>
-          <p className="text-gray-400 font-medium">Loading tuition posts...</p>
-        </div>
-      </section>
-    );
+    return <Loading />;
   }
 
   return (

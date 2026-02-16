@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import Loading from "../../../components/Loading";
 
 const StudentTuitions = () => {
   const { user } = useContext(AuthContext);
@@ -97,11 +98,7 @@ const StudentTuitions = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

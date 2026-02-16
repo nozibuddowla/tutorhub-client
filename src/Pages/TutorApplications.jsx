@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
+import Loading from "../components/Loading";
 
 const TutorApplications = () => {
   const { user } = useContext(AuthContext);
@@ -76,11 +77,7 @@ const TutorApplications = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
