@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const StudentTuitions = () => {
   const { user } = useContext(AuthContext);
@@ -56,19 +57,43 @@ const StudentTuitions = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this tuition post?")) {
-      try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/tuitions/${id}`, {
-          withCredentials: true,
-        });
-        toast.success("Tuition deleted successfully!");
-        fetchTuitions();
-      } catch (err) {
-        toast.error("Failed to delete tuition");
-        console.error(err);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this tuition post!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`${import.meta.env.VITE_API_URL}/tuitions/${id}`, {
+            withCredentials: true,
+          });
+
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Your tuition post has been deleted.",
+            timer: 2200,
+            showConfirmButton: false,
+          });
+
+          fetchTuitions();
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to delete tuition. Please try again.",
+          });
+          console.error(err);
+        }
       }
-    }
+    });
   };
 
   if (loading) {
