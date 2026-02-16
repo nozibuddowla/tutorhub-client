@@ -177,10 +177,9 @@ const Navbar = () => {
                   <Link to={getDashboardLink()}>Dashboard</Link>
                 </li>
                 <li>
-                  <Link to="/profile">Profile</Link>
-                </li>
-                <li>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/dashboard/student/settings">
+                    Profile
+                  </Link>
                 </li>
                 <li>
                   <button onClick={handleLogout} className="text-red-500">
