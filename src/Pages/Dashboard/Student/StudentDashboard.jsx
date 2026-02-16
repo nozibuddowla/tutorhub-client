@@ -1,6 +1,5 @@
-// ─── StudentDashboard.jsx ─────────────────────────────────────────────────────
 import React, { useContext } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const StatCard = ({ label, value, icon, color }) => (
   <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
