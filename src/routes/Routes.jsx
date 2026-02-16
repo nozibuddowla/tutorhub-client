@@ -18,6 +18,9 @@ import PostTuition from "../Pages/Dashboard/Student/PostTuition";
 import AppliedTutors from "../Pages/Dashboard/Student/AppliedTutors";
 import StudentPayments from "../Pages/Dashboard/Student/StudentPayments";
 import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
+import PaymentCheckout from "../Pages/PaymentCheckout";
+import AllTuitions from "../Pages/AllTuitions";
+import TuitionDetails from "../Pages/TuitionDetails";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Register></Register>,
+      },
+      {
+        path: "/tuitions",
+        element: <AllTuitions />,
+      },
+      {
+        path: "/tuitions/:id",
+        element: <TuitionDetails />,
       },
     ],
   },
@@ -75,6 +86,10 @@ const router = createBrowserRouter([
         element: <Reports />,
       },
     ],
+  },
+  {
+    path: "/payment/checkout",
+    element: <PaymentCheckout />,
   },
 ]);
 
