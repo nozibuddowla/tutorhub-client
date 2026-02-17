@@ -24,15 +24,9 @@ const Navbar = () => {
   };
 
   const getProfileLink = () => {
-    if (role === "admin") {
-      return "/dashboard/admin/settings";
-    }
-    if (role === "tutor") {
-      return "/dashboard/tutor/settings";
-    }
-    if (role === "student") {
-      return "/dashboard/student/settings";
-    }
+    if (role === "admin") return "/dashboard/admin/settings";
+    if (role === "tutor") return "/dashboard/tutor/settings";
+    return "/dashboard/student/settings";
   }
 
   const navLinks = (

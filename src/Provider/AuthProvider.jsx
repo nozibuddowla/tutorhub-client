@@ -20,6 +20,57 @@ const AuthProvider = ({ children }) => {
   // Google Provider
   const googleProvider = new GoogleAuthProvider();
 
+  // ─── AXIOS INTERCEPTOR ───────────────────────────────────────────────────────
+  // Automatically handle 401 (token expired/invalid) responses globally
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response, // Pass through successful responses
+
+      async (error) => {
+        const status = error?.response?.status;
+        const originalRequest = error?.config;
+
+        // If 401 and not already retrying and not a login/logout request
+        if (
+          status === 401 &&
+          !originalRequest._retry &&
+          !originalRequest.url.includes("/jwt") &&
+          !originalRequest.url.includes("/logout") &&
+          !originalRequest.url.includes("/users/role")
+        ) {
+          originalRequest._retry = true;
+
+          // Token expired - force logout
+          try {
+            await axios.post(
+              `${import.meta.env.VITE_API_URL}/logout`,
+              {},
+              { withCredentials: true },
+            );
+          } catch (e) {
+            // Silent fail - logout anyway
+          }
+
+          await signOut(auth);
+          setUser(null);
+          setRole("");
+
+          // Redirect to login
+          window.location.href = "/login";
+        }
+
+        return Promise.reject(error);
+      },
+    );
+
+    // Cleanup interceptor on unmount
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
+  // ─── AUTH METHODS ────────────────────────────────────────────────────────────
+
   const createUser = (email, pass) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, pass);
@@ -54,19 +105,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Update user role
-  const updateUserRole = async (email, newRole) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/users/role/${email}`,
-        { role: newRole },
-      );
-      setRole(newRole);
-    } catch (error) {
-      console.error("Error updating user role:", error);
-    }
-  };
-
+  // ─── AUTH STATE LISTENER ─────────────────────────────────────────────────────
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
@@ -102,7 +141,7 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const authData = {
+  const authData = {  
     user,
     setUser,
     loading,
