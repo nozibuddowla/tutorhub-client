@@ -17,13 +17,13 @@ import StudentTuitions from "../Pages/Dashboard/Student/StudentTuitions";
 import PostTuition from "../Pages/Dashboard/Student/PostTuition";
 import AppliedTutors from "../Pages/Dashboard/Student/AppliedTutors";
 import StudentPayments from "../Pages/Dashboard/Student/StudentPayments";
-import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
 import PaymentCheckout from "../Pages/PaymentCheckout";
 import AllTuitions from "../Pages/AllTuitions";
 import TuitionDetails from "../Pages/TuitionDetails";
 import NotFound from "../components/NotFound";
 import Loading from "../components/Loading";
 import ProtectedRoute from "./ProtectedRoute";
+import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
 
 const router = createBrowserRouter([
   {
@@ -153,6 +153,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "tutor/settings",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <ProfileSettings />
+          </ProtectedRoute>
+        ),
+      },
 
       // Admin Routes
       {
@@ -184,6 +192,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["admin"]}>
             <Reports />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "admin/settings",
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <ProfileSettings />
           </ProtectedRoute>
         ),
       },

@@ -23,6 +23,18 @@ const Navbar = () => {
     return "/dashboard/student";
   };
 
+  const getProfileLink = () => {
+    if (role === "admin") {
+      return "/dashboard/admin/settings";
+    }
+    if (role === "tutor") {
+      return "/dashboard/tutor/settings";
+    }
+    if (role === "student") {
+      return "/dashboard/student/settings";
+    }
+  }
+
   const navLinks = (
     <>
       <li>
@@ -177,7 +189,7 @@ const Navbar = () => {
                   <Link to={getDashboardLink()}>Dashboard</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard/student/settings">
+                  <Link to={getProfileLink()}>
                     Profile
                   </Link>
                 </li>
