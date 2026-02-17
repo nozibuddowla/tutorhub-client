@@ -4,6 +4,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import TutorReviews from "../components/TutorReviews";
 
 const TuitionDetails = () => {
   const { id } = useParams();
@@ -208,6 +209,8 @@ const TuitionDetails = () => {
               </button>
             )}
           </div>
+
+          <TutorReviews  />
         </div>
       </div>
 

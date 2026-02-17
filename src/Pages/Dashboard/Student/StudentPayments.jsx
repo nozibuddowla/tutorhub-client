@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import Loading from "../../../components/Loading";
+import ReviewModal from "../../../components/ReviewModal";
 
 const StudentPayments = () => {
   const { user } = useContext(AuthContext);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPayment, setSelectedPayment] = useState(null);
 
   useEffect(() => {
     fetchPayments();
@@ -36,7 +39,7 @@ const StudentPayments = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 text-white">
+      <div className="bg-linear-to-r from-purple-600 to-blue-600 rounded-2xl p-6 text-white">
         <h2 className="text-2xl font-black">Payment History 💳</h2>
         <p className="text-white/80 mt-1">Track your tuition payments</p>
       </div>
@@ -117,6 +120,9 @@ const StudentPayments = () => {
                   <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
                     Transaction ID
                   </th>
+                  <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -182,6 +188,17 @@ const StudentPayments = () => {
                         {payment.transactionId || "N/A"}
                       </p>
                     </td>
+                    <td className="py-4 px-6">
+                      {payment.status === "success" && (
+                        <button
+                          onClick={() => setSelectedPayment(payment)}
+                          className="text-xs bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 transition-colors"
+                        >
+                          {" "}
+                          Review Tutor{" "}
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -197,6 +214,12 @@ const StudentPayments = () => {
           </div>
         )}
       </div>
+      {selectedPayment && (
+        <ReviewModal
+          payment={selectedPayment}
+          onClose={() => setSelectedPayment(null)}
+        />
+      )}
     </div>
   );
 };
