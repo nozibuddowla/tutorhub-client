@@ -25,6 +25,7 @@ import Loading from "../components/Loading";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
 import AllTutors from "../Pages/AllTutors";
+import TutorProfile from "../Pages/TutorProfile";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/tutors",
         element: <AllTutors />,
+      }, 
+      {
+        path: "/tutors/:id",
+        element: <TutorProfile />,
       }
     ],
   },

@@ -50,9 +50,10 @@ const LatestTuitions = () => {
       {tuitions.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {tuitions.map((post) => (
-            <div
+            <Link
               key={post._id}
-              className="group border border-gray-100 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all"
+              to={`/tuitions/${post._id}`}
+              className="group border border-gray-100 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all block"
             >
               <span className="bg-indigo-50 text-indigo-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 {post.subject}
@@ -70,11 +71,11 @@ const LatestTuitions = () => {
                     BDT/mo
                   </span>
                 </p>
-                <button className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm hover:bg-indigo-600 transition">
-                  Apply
-                </button>
+                <span className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm group-hover:bg-indigo-600 transition">
+                  View Details
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (

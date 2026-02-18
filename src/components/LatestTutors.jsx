@@ -76,35 +76,42 @@ const LatestTutors = () => {
               whileHover={{ y: -8 }}
               className="group relative"
             >
-              <div className="relative bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                {/* Avatar */}
-                <div className="relative mb-4">
-                  <img
-                    src={
-                      tutor.photoURL ||
-                      `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
-                    }
-                    className="w-24 h-24 rounded-2xl mx-auto object-cover ring-4 ring-gray-100 group-hover:ring-purple-400 transition-all duration-300"
-                    alt={tutor.name}
-                  />
+              <Link to={`/tutors/${tutor._id}`} className="block">
+                <div className="relative bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
+                  {/* Avatar */}
+                  <div className="relative mb-4">
+                    <img
+                      src={
+                        tutor.photoURL ||
+                        `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
+                      }
+                      className="w-24 h-24 rounded-2xl mx-auto object-cover ring-4 ring-gray-100 group-hover:ring-purple-400 transition-all duration-300"
+                      alt={tutor.name}
+                    />
 
-                  {/* Verified Badge */}
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-linear-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
-                    ✓
+                    {/* Verified Badge */}
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-linear-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                      ✓
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="text-center">
+                    <h3 className="font-bold text-base text-gray-900 group-hover:text-purple-600 transition-all mb-1">
+                      {tutor.name}
+                    </h3>
+                    <p className="text-xs font-bold text-purple-600 uppercase tracking-wider flex items-center justify-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span>
+                      {tutor.role}
+                    </p>
+                    {tutor.averageRating && (
+                      <p className="text-xs text-yellow-500 font-semibold mt-1">
+                        ⭐ {parseFloat(tutor.averageRating).toFixed(1)}
+                      </p>
+                    )}
                   </div>
                 </div>
-
-                {/* Info */}
-                <div className="text-center">
-                  <h3 className="font-bold text-base text-gray-900 group-hover:text-purple-600 transition-all mb-1">
-                    {tutor.name}
-                  </h3>
-                  <p className="text-xs font-bold text-purple-600 uppercase tracking-wider flex items-center justify-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span>
-                    {tutor.role}
-                  </p>
-                </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
