@@ -26,6 +26,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
 import AllTutors from "../Pages/AllTutors";
 import TutorProfile from "../Pages/TutorProfile";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -57,11 +59,13 @@ const router = createBrowserRouter([
       {
         path: "/tutors",
         element: <AllTutors />,
-      }, 
+      },
       {
         path: "/tutors/:id",
         element: <TutorProfile />,
-      }
+      },
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
     ],
   },
   {
