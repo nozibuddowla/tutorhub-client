@@ -11,6 +11,7 @@ const AppliedTutors = () => {
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [messaging, setMessaging] = useState(null);
 
   useEffect(() => {
     fetchApplications();
@@ -80,6 +81,35 @@ const AppliedTutors = () => {
         }
       }
     });
+  };
+
+  // Open or create a conversation with the tutor then navigate to messages
+  const handleMessage = async (application) => {
+    setMessaging(application._id);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/conversations`,
+        {
+          studentEmail: user.email,
+          tutorEmail: application.tutorEmail,
+          tuitionId: application.tuitionId,
+          tuitionTitle: application.tuitionTitle || application.subject,
+          studentName: user.displayName || "Student",
+          tutorName: application.tutorName,
+          studentPhoto: user.photoURL || "",
+          tutorPhoto: application.tutorPhoto || "",
+        },
+        { withCredentials: true },
+      );
+
+      navigate("/dashboard/student/messages", {
+        state: { openConversation: res.data.conversation },
+      });
+    } catch (err) {
+      toast.error("Failed to open conversation");
+    } finally {
+      setMessaging(null);
+    }
   };
 
   if (loading) {
@@ -205,6 +235,19 @@ const AppliedTutors = () => {
                       >
                         <span>✓</span> Accept & Pay
                       </button>
+                      {/* ── Message button ── */}
+                      <button
+                        onClick={() => handleMessage(application)}
+                        disabled={messaging === application._id}
+                        className="w-full px-6 py-3 bg-purple-500 text-white rounded-xl font-semibold hover:bg-purple-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                      >
+                        {messaging === application._id ? (
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <span>💬</span>
+                        )}
+                        Message
+                      </button>
                       <button
                         onClick={() => handleReject(application._id)}
                         className="w-full px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
@@ -215,8 +258,23 @@ const AppliedTutors = () => {
                   )}
 
                   {application.status === "approved" && (
-                    <div className="w-full px-4 py-2 bg-green-100 text-green-700 rounded-xl text-center font-semibold text-sm">
-                      ✓ Hired
+                    <div className="flex flex-col gap-2 w-full">
+                      <div className="w-full px-4 py-2 bg-green-100 text-green-700 rounded-xl text-center font-semibold text-sm">
+                        ✓ Hired
+                      </div>
+                      {/* Message button still visible after approval */}
+                      <button
+                        onClick={() => handleMessage(application)}
+                        disabled={messaging === application._id}
+                        className="w-full px-4 py-2 bg-purple-100 text-purple-700 rounded-xl font-semibold text-sm hover:bg-purple-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                      >
+                        {messaging === application._id ? (
+                          <span className="w-3 h-3 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          "💬"
+                        )}
+                        Message Tutor
+                      </button>
                     </div>
                   )}
 

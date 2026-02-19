@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import axios from "axios";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const Icon = ({ d, size = 20 }) => (
@@ -97,6 +98,12 @@ const roleConfig = {
         label: "Revenue History",
         icon: "wallet",
       },
+      {
+        to: "/dashboard/tutor/messages",
+        label: "Messages",
+        icon: "message",
+        badge: true,
+      },
       { type: "divider", label: "Public View" },
       { to: "/", label: "Main Home", icon: "home" },
     ],
@@ -127,6 +134,12 @@ const roleConfig = {
         label: "Applied Tutors",
         icon: "users",
       },
+      {
+        to: "/dashboard/student/messages",
+        label: "Messages",
+        icon: "message",
+        badge: true,
+      },
       { type: "divider", label: "Account" },
       { to: "/dashboard/student/payments", label: "Payments", icon: "wallet" },
       {
@@ -141,7 +154,15 @@ const roleConfig = {
 };
 
 // ─── Sidebar Component ────────────────────────────────────────────────────────
-const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
+const Sidebar = ({
+  config,
+  user,
+  role,
+  onLogout,
+  isOpen,
+  onClose,
+  unreadMessages = 0,
+}) => {
   return (
     <>
       {/* Backdrop (mobile) */}
@@ -242,6 +263,11 @@ const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
                     to={link.to}
                     end={link.to === `/dashboard/${role}`}
                     onClick={onClose}
+                    style={({ isActive }) =>
+                      isActive && link.to.includes("dashboard")
+                        ? { background: config.accent }
+                        : {}
+                    }
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
               ${
@@ -250,14 +276,15 @@ const Sidebar = ({ config, user, role, onLogout, isOpen, onClose }) => {
                   : "text-white/50 hover:text-white hover:bg-white/5"
               }`
                     }
-                    style={({ isActive }) =>
-                      isActive && link.to.includes("dashboard")
-                        ? { background: config.accent }
-                        : {}
-                    }
                   >
                     <Icon d={icons[link.icon]} size={18} />
-                    {link.label}
+                    <span className="flex-1">{link.label}</span>
+                    {/* Unread badge on Messages link */}
+                    {link.badge && unreadMessages > 0 && (
+                      <span className="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold shrink-0">
+                        {unreadMessages > 9 ? "9+" : unreadMessages}
+                      </span>
+                    )}
                   </NavLink>
                 </li>
               );
@@ -285,6 +312,26 @@ const DashboardLayout = () => {
   const { user, logOut, role, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [unreadMessages, setUnreadMessages] = useState(0);
+
+  useEffect(() => {
+    if (!user?.email) return;
+    const fetchUnread = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/messages/unread/${user.email}`,
+          { withCredentials: true },
+        );
+        setUnreadMessages(res.data.unread || 0);
+      } catch {
+        /* silent */
+      }
+    };
+    fetchUnread();
+    // Poll every 30 seconds for new messages
+    const interval = setInterval(fetchUnread, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
 
   if (loading) {
     return <Loading />;
@@ -313,6 +360,7 @@ const DashboardLayout = () => {
         onLogout={handleLogout}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        unreadMessages={unreadMessages}
       />
 
       {/* Main Content */}

@@ -3,12 +3,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "../components/Loading";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const TutorOngoingTuitions = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [tuitions, setTuitions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [messaging, setMessaging] = useState(null);
 
   useEffect(() => {
     fetchOngoingTuitions();
@@ -28,9 +30,35 @@ const TutorOngoingTuitions = () => {
     }
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  const handleContactStudent = async (tuition) => {
+    setMessaging(tuition._id);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/conversations`,
+        {
+          studentEmail: tuition.studentEmail,
+          tutorEmail: user.email,
+          tuitionId: tuition.tuitionId,
+          tuitionTitle: tuition.tuitionTitle || tuition.subject,
+          studentName: tuition.studentName || "Student",
+          tutorName: user.displayName || "Tutor",
+          studentPhoto: tuition.studentPhoto || "",
+          tutorPhoto: user.photoURL || "",
+        },
+        { withCredentials: true },
+      );
+
+      navigate("/dashboard/tutor/messages", {
+        state: { openConversation: res.data.conversation },
+      });
+    } catch (err) {
+      toast.error("Failed to open conversation");
+    } finally {
+      setMessaging(null);
+    }
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -42,7 +70,6 @@ const TutorOngoingTuitions = () => {
         </p>
       </div>
 
-      {/* Tuitions Grid */}
       {tuitions.length > 0 ? (
         <div className="grid gap-4">
           {tuitions.map((tuition) => (
@@ -99,11 +126,21 @@ const TutorOngoingTuitions = () => {
               <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
                 <Link
                   to={`/tuitions/${tuition.tuitionId}`}
-                  className="flex-1 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors"
+                  className="flex-1 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
                 >
                   View Details
                 </Link>
-                <button className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                {/* ── WIRED: Contact Student ── */}
+                <button
+                  onClick={() => handleContactStudent(tuition)}
+                  disabled={messaging === tuition._id}
+                  className="flex-1 px-4 py-2 bg-teal-100 text-teal-700 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                >
+                  {messaging === tuition._id ? (
+                    <span className="w-4 h-4 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    "💬"
+                  )}
                   Contact Student
                 </button>
               </div>

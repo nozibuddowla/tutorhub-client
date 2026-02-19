@@ -28,6 +28,7 @@ import AllTutors from "../Pages/AllTutors";
 import TutorProfile from "../Pages/TutorProfile";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
+import MessagesPage from "../Pages/Dashboard/MessagesPage";
 
 const router = createBrowserRouter([
   {
@@ -118,6 +119,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "student/messages",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <MessagesPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "student/payments",
         element: (
           <ProtectedRoute allowedRoles={["student"]}>
@@ -164,6 +173,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["tutor"]}>
             <TutorRevenue />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tutor/messages",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <MessagesPage />
           </ProtectedRoute>
         ),
       },
