@@ -29,6 +29,7 @@ import TutorProfile from "../Pages/TutorProfile";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import MessagesPage from "../Pages/Dashboard/MessagesPage";
+import ClassCalendar from "../Pages/Dashboard/ClassCalendar";
 
 const router = createBrowserRouter([
   {
@@ -127,6 +128,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "student/calendar",
+        element: (
+          <ProtectedRoute allowedRoles={["student"]}>
+            <ClassCalendar />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "student/payments",
         element: (
           <ProtectedRoute allowedRoles={["student"]}>
@@ -181,6 +190,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["tutor"]}>
             <MessagesPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tutor/calendar",
+        element: (
+          <ProtectedRoute allowedRoles={["tutor"]}>
+            <ClassCalendar />
           </ProtectedRoute>
         ),
       },

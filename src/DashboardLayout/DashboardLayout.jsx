@@ -42,6 +42,8 @@ const icons = {
   task: "M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11",
   wallet:
     "M20 12V22H4V12 M22 7H2v5h20V7z M12 22V7 M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z",
+  calendar:
+    "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
 };
 
 // ─── Role Configs ─────────────────────────────────────────────────────────────
@@ -104,6 +106,11 @@ const roleConfig = {
         icon: "message",
         badge: true,
       },
+      {
+        to: "/dashboard/tutor/calendar",
+        label: "Class Calendar",
+        icon: "calendar",
+      },
       { type: "divider", label: "Public View" },
       { to: "/", label: "Main Home", icon: "home" },
     ],
@@ -139,6 +146,11 @@ const roleConfig = {
         label: "Messages",
         icon: "message",
         badge: true,
+      },
+      {
+        to: "/dashboard/student/calendar",
+        label: "Class Calendar",
+        icon: "calendar",
       },
       { type: "divider", label: "Account" },
       { to: "/dashboard/student/payments", label: "Payments", icon: "wallet" },
