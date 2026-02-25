@@ -189,9 +189,9 @@ const StudentDashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-gray-500 text-center py-4">
-                No activity yet
-              </p>
+              <div className="text-center py-6">
+                <p className="text-gray-400 text-sm">No activity yet</p>
+              </div>
             )}
           </div>
         </div>

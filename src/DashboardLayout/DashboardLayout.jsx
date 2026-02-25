@@ -50,10 +50,10 @@ const icons = {
 const roleConfig = {
   admin: {
     label: "Admin Panel",
-    accent: "#e53e3e",
+    accent: "#6b46c1",
     accentLight: "#fff5f5",
     accentDark: "#c53030",
-    gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #2d1b69 100%)",
     badge: "ADMIN",
     badgeColor: "#e53e3e",
     links: [
@@ -117,12 +117,12 @@ const roleConfig = {
   },
   student: {
     label: "Student Hub",
-    accent: "#2b6cb0",
-    accentLight: "#ebf8ff",
-    accentDark: "#2c5282",
-    gradient: "linear-gradient(135deg, #1a1a2e 0%, #1e3a5f 50%, #0d7377 100%)",
+    accent: "#6b46c1",
+    accentLight: "#faf5ff",
+    accentDark: "#553c9a",
+    gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d1b69 50%, #11998e 100%)",
     badge: "STUDENT",
-    badgeColor: "#2b6cb0",
+    badgeColor: "#6b46c1",
     links: [
       { to: "/dashboard/student", label: "Overview", icon: "home" },
       { type: "divider", label: "Tuition Management" },
@@ -201,7 +201,7 @@ const Sidebar = ({
               to="/"
               className="flex items-center gap-3 hover:opacity-80 transition-opacity"
             >
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white text-lg bg-[#632ee3]">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-white text-lg bg-[#6b46c1]">
                 T
               </div>
               <p className="text-white font-bold text-sm leading-none">

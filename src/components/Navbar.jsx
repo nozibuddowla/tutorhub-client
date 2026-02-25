@@ -27,7 +27,7 @@ const Navbar = () => {
     if (role === "admin") return "/dashboard/admin/settings";
     if (role === "tutor") return "/dashboard/tutor/settings";
     return "/dashboard/student/settings";
-  }
+  };
 
   const navLinks = (
     <>
@@ -36,8 +36,8 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "text-[#632ee3] font-bold"
-              : "hover:text-[#632ee3] transition-colors"
+              ? "text-[#6b46c1]font-bold"
+              : "hover:text-[#6b46c1]transition-colors"
           }
         >
           Home
@@ -48,8 +48,8 @@ const Navbar = () => {
           to="/tuitions"
           className={({ isActive }) =>
             isActive
-              ? "text-[#632ee3] font-bold"
-              : "hover:text-[#632ee3] transition-colors"
+              ? "text-[#6b46c1]font-bold"
+              : "hover:text-[#6b46c1]transition-colors"
           }
         >
           Tuitions
@@ -60,8 +60,8 @@ const Navbar = () => {
           to="/tutors"
           className={({ isActive }) =>
             isActive
-              ? "text-[#632ee3] font-bold"
-              : "hover:text-[#632ee3] transition-colors"
+              ? "text-[#6b46c1]font-bold"
+              : "hover:text-[#6b46c1]transition-colors"
           }
         >
           Tutors
@@ -72,8 +72,8 @@ const Navbar = () => {
           to="/about"
           className={({ isActive }) =>
             isActive
-              ? "text-[#632ee3] font-bold"
-              : "hover:text-[#632ee3] transition-colors"
+              ? "text-[#6b46c1]font-bold"
+              : "hover:text-[#6b46c1]transition-colors"
           }
         >
           About
@@ -84,8 +84,8 @@ const Navbar = () => {
           to="/contact"
           className={({ isActive }) =>
             isActive
-              ? "text-[#632ee3] font-bold"
-              : "hover:text-[#632ee3] transition-colors"
+              ? "text-[#6b46c1]font-bold"
+              : "hover:text-[#6b46c1]transition-colors"
           }
         >
           Contact
@@ -126,7 +126,10 @@ const Navbar = () => {
 
         {/* Logo & Website Name */}
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-linear-to-br from-[#632ee3] to-[#9f62f2] rounded-full flex items-center justify-center">
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg, #6b46c1, #11998e)" }}
+          >
             <span className="text-white font-bold text-xl">T</span>
           </div>
           <span className="font-bold text-xl hidden sm:block">TutorHub</span>
@@ -157,7 +160,7 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full ring ring-[#632ee3] ring-offset-base-100 ring-offset-2">
+                <div className="w-10 rounded-full ring ring-[#6b46c1] ring-offset-base-100 ring-offset-2">
                   <img
                     src={
                       user.photoURL ||
@@ -183,9 +186,7 @@ const Navbar = () => {
                   <Link to={getDashboardLink()}>Dashboard</Link>
                 </li>
                 <li>
-                  <Link to={getProfileLink()}>
-                    Profile
-                  </Link>
+                  <Link to={getProfileLink()}>Profile</Link>
                 </li>
                 <li>
                   <button onClick={handleLogout} className="text-red-500">
@@ -206,7 +207,10 @@ const Navbar = () => {
             </Link>
             <Link
               to="/signup"
-              className="btn bg-linear-to-br from-[#632ee3] to-[#9f62f2] text-white text-sm font-semibold border-none hover:opacity-90"
+              className="btn text-white text-sm font-semibold border-none hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #6b46c1, #11998e)",
+              }}
             >
               Register
             </Link>
