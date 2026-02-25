@@ -17,13 +17,13 @@ const NotFound = () => {
 
         {/* Error Message */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-black text-(--text-primary) mb-4">
             Oops! Page Not Found
           </h1>
           <p className="text-lg text-gray-600 mb-2">
             The page you're looking for doesn't exist or has been moved.
           </p>
-          <p className="text-gray-500">
+          <p className="text-(--text-secondary)">
             Don't worry, let's get you back on track! 🚀
           </p>
         </div>
@@ -51,7 +51,7 @@ const NotFound = () => {
           </Link>
           <button
             onClick={() => navigate(-1)}
-            className="px-8 py-4 bg-white text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-200 shadow-lg w-full sm:w-auto"
+            className="px-8 py-4 bg-(--bg-elevated) text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-200 shadow-lg w-full sm:w-auto"
           >
             ← Go Back
           </button>

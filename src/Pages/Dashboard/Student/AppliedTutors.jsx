@@ -119,9 +119,11 @@ const AppliedTutors = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-black text-gray-900">Applied Tutors</h2>
-        <p className="text-gray-500 mt-1">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <h2 className="text-2xl font-black text-(--text-primary)">
+          Applied Tutors
+        </h2>
+        <p className="text-(--text-secondary) mt-1">
           Review and manage tutor applications for your tuitions
         </p>
 
@@ -153,7 +155,7 @@ const AppliedTutors = () => {
           {applications.map((application) => (
             <div
               key={application._id}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Tutor Profile */}
@@ -169,7 +171,7 @@ const AppliedTutors = () => {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-bold text-xl text-gray-900">
+                      <h3 className="font-bold text-xl text-(--text-primary)">
                         {application.tutorName}
                       </h3>
                       <span
@@ -198,7 +200,7 @@ const AppliedTutors = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                       <div>
-                        <p className="text-gray-500 font-medium">
+                        <p className="text-(--text-secondary) font-medium">
                           Qualifications
                         </p>
                         <p className="text-gray-800">
@@ -206,7 +208,9 @@ const AppliedTutors = () => {
                         </p>
                       </div>
                       <div>
-                        <p className="text-gray-500 font-medium">Experience</p>
+                        <p className="text-(--text-secondary) font-medium">
+                          Experience
+                        </p>
                         <p className="text-gray-800">
                           {application.experience || "Not specified"}
                         </p>
@@ -218,7 +222,7 @@ const AppliedTutors = () => {
                 {/* Salary & Actions */}
                 <div className="flex flex-col items-end justify-between gap-4 lg:w-48">
                   <div className="text-right">
-                    <p className="text-sm text-gray-500 mb-1">
+                    <p className="text-sm text-(--text-secondary) mb-1">
                       Expected Salary
                     </p>
                     <p className="text-3xl font-black text-purple-600">
@@ -287,7 +291,7 @@ const AppliedTutors = () => {
               </div>
 
               {/* Applied Date */}
-              <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="mt-4 pt-4 border-t border-(--bg-border)">
                 <p className="text-xs text-gray-400">
                   Applied on:{" "}
                   {application.createdAt
@@ -306,9 +310,9 @@ const AppliedTutors = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">👨‍🏫</div>
-          <p className="text-gray-500 text-lg font-medium">
+          <p className="text-(--text-secondary) text-lg font-medium">
             No tutor applications yet
           </p>
           <p className="text-gray-400 text-sm mt-2">

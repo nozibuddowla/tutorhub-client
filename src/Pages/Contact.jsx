@@ -6,7 +6,7 @@ const contactInfo = [
     icon: "📍",
     label: "Address",
     value: "123 Education Way, Dhaka, Bangladesh",
-    color: "#632ee3",
+    color: "#6b46c1",
   },
   {
     icon: "📧",
@@ -14,12 +14,7 @@ const contactInfo = [
     value: "support@tutorhub.com",
     color: "#11998e",
   },
-  {
-    icon: "📞",
-    label: "Phone",
-    value: "+880 1234 567 890",
-    color: "#e85d04",
-  },
+  { icon: "📞", label: "Phone", value: "+880 1234 567 890", color: "#d97706" },
   {
     icon: "🕐",
     label: "Working Hours",
@@ -47,6 +42,12 @@ const faqs = [
   },
 ];
 
+// Shared input class
+const inputCls =
+  "w-full px-4 py-2.5 outline-none rounded-xl text-sm transition bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
+const labelCls =
+  "block text-sm font-semibold text-[var(--text-secondary)] mb-1.5";
+
 const Contact = () => {
   const [form, setForm] = useState({
     name: "",
@@ -57,9 +58,8 @@ const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +68,6 @@ const Contact = () => {
       return;
     }
     setSubmitting(true);
-    // Simulate submission — wire to your backend or EmailJS as needed
     await new Promise((r) => setTimeout(r, 1200));
     toast.success("Message sent! We'll get back to you within 24 hours.");
     setForm({ name: "", email: "", subject: "", message: "" });
@@ -76,10 +75,10 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ── Hero ─────────────────────────────────────────────── */}
+    <div className="min-h-screen bg-[var(--bg-surface)]">
+      {/* Hero */}
       <section className="relative overflow-hidden bg-gray-950 text-white py-24 px-4">
-        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-[#632ee3] opacity-20 blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-[#6b46c1] opacity-20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center">
           <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
@@ -87,7 +86,7 @@ const Contact = () => {
           </span>
           <h1 className="text-5xl md:text-6xl font-black mb-4">
             We're Here to{" "}
-            <span className="bg-linear-to-r from-[#9f62f2] to-[#11998e] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#9f62f2] to-[#11998e] bg-clip-text text-transparent">
               Help
             </span>
           </h1>
@@ -98,17 +97,17 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* ── Contact Cards ─────────────────────────────────────── */}
+      {/* Contact Cards */}
       <section className="max-w-5xl mx-auto px-4 mt-8 mb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {contactInfo.map((item) => (
             <div
               key={item.label}
-              className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition text-center"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition text-center"
             >
               <div
                 className="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center text-xl"
-                style={{ background: `${item.color}18` }}
+                style={{ background: `${item.color}20` }}
               >
                 {item.icon}
               </div>
@@ -118,7 +117,7 @@ const Contact = () => {
               >
                 {item.label}
               </p>
-              <p className="text-gray-700 text-sm font-semibold leading-snug">
+              <p className="text-[var(--text-secondary)] text-sm font-semibold leading-snug">
                 {item.value}
               </p>
             </div>
@@ -126,21 +125,21 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* ── Form + FAQ ────────────────────────────────────────── */}
+      {/* Form + FAQ */}
       <section className="max-w-5xl mx-auto px-4 pb-20 grid md:grid-cols-2 gap-10">
         {/* Contact Form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-          <h2 className="text-2xl font-black text-gray-900 mb-1">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] p-8">
+          <h2 className="text-2xl font-black text-[var(--text-primary)] mb-1">
             Send a Message
           </h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <p className="text-[var(--text-secondary)] text-sm mb-6">
             We typically reply within one business day.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                <label className={labelCls}>
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -149,12 +148,12 @@ const Contact = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your full name"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
+                  className={inputCls}
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                <label className={labelCls}>
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -163,21 +162,19 @@ const Contact = () => {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@email.com"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
+                  className={inputCls}
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                Subject
-              </label>
+              <label className={labelCls}>Subject</label>
               <select
                 name="subject"
                 value={form.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500 transition bg-white"
+                className={inputCls}
               >
                 <option value="">Select a topic...</option>
                 <option value="general">General Inquiry</option>
@@ -190,7 +187,7 @@ const Contact = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              <label className={labelCls}>
                 Message <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -199,7 +196,7 @@ const Contact = () => {
                 onChange={handleChange}
                 rows={5}
                 placeholder="Describe your question or issue in detail..."
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition resize-none"
+                className={`${inputCls} resize-none`}
                 required
               />
             </div>
@@ -207,7 +204,7 @@ const Contact = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3 bg-linear-to-r from-[#632ee3] to-[#9f62f2] text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 bg-gradient-to-r from-[#6b46c1] to-[#9f62f2] text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
@@ -241,10 +238,10 @@ const Contact = () => {
 
         {/* FAQ */}
         <div>
-          <h2 className="text-2xl font-black text-gray-900 mb-1">
+          <h2 className="text-2xl font-black text-[var(--text-primary)] mb-1">
             Frequently Asked
           </h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <p className="text-[var(--text-secondary)] text-sm mb-6">
             Quick answers to common questions.
           </p>
 
@@ -252,20 +249,20 @@ const Contact = () => {
             {faqs.map((faq, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
+                className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] shadow-sm overflow-hidden"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-gray-50 transition"
+                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-[var(--bg-muted)] transition"
                 >
-                  <span className="font-semibold text-gray-800 text-sm">
+                  <span className="font-semibold text-[var(--text-primary)] text-sm">
                     {faq.q}
                   </span>
                   <span
                     className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-black transition-all"
                     style={{
-                      background: openFaq === i ? "#632ee3" : "#f3f4f6",
-                      color: openFaq === i ? "white" : "#374151",
+                      background: openFaq === i ? "#6b46c1" : "var(--bg-muted)",
+                      color: openFaq === i ? "white" : "var(--text-secondary)",
                     }}
                   >
                     {openFaq === i ? "−" : "+"}
@@ -273,7 +270,7 @@ const Contact = () => {
                 </button>
                 {openFaq === i && (
                   <div className="px-6 pb-5">
-                    <p className="text-gray-500 text-sm leading-relaxed">
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                       {faq.a}
                     </p>
                   </div>
@@ -283,7 +280,7 @@ const Contact = () => {
           </div>
 
           {/* Social links */}
-          <div className="mt-8 bg-linear-to-r from-[#632ee3] to-[#11998e] rounded-2xl p-6 text-white">
+          <div className="mt-8 bg-gradient-to-r from-[#6b46c1] to-[#11998e] rounded-2xl p-6 text-white">
             <h3 className="font-bold text-lg mb-1">Follow Us</h3>
             <p className="text-white/70 text-sm mb-4">
               Stay updated with news, tips, and new features.

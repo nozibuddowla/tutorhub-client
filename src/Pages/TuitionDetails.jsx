@@ -83,7 +83,7 @@ const TuitionDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 text-lg">Tuition not found</p>
+          <p className="text-(--text-secondary) text-lg">Tuition not found</p>
         </div>
       </div>
     );
@@ -95,18 +95,18 @@ const TuitionDetails = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate("/tuitions")}
-          className="mb-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold"
+          className="mb-6 flex items-center gap-2 text-gray-600 hover:text-(--text-primary) font-semibold"
         >
           ← Back to All Tuitions
         </button>
 
         {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
           {/* Header */}
           <div className="bg-linear-to-r from-purple-600 to-blue-600 p-8 text-white">
             <div className="flex items-start justify-between">
               <div>
-                <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
+                <span className="bg-(--bg-elevated)/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
                   {tuition.subject}
                 </span>
                 <h1 className="text-3xl font-black mt-4 mb-2">
@@ -130,10 +130,10 @@ const TuitionDetails = () => {
                   <span className="text-2xl">📍</span>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-semibold">
+                  <p className="text-sm text-(--text-secondary) font-semibold">
                     Location
                   </p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-lg font-bold text-(--text-primary)">
                     {tuition.location}
                   </p>
                 </div>
@@ -144,8 +144,10 @@ const TuitionDetails = () => {
                   <span className="text-2xl">📚</span>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-semibold">Subject</p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-sm text-(--text-secondary) font-semibold">
+                    Subject
+                  </p>
+                  <p className="text-lg font-bold text-(--text-primary)">
                     {tuition.subject}
                   </p>
                 </div>
@@ -156,8 +158,10 @@ const TuitionDetails = () => {
                   <span className="text-2xl">👤</span>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-semibold">Student</p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-sm text-(--text-secondary) font-semibold">
+                    Student
+                  </p>
+                  <p className="text-lg font-bold text-(--text-primary)">
                     {tuition.studentName}
                   </p>
                 </div>
@@ -168,10 +172,10 @@ const TuitionDetails = () => {
                   <span className="text-2xl">📅</span>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-semibold">
+                  <p className="text-sm text-(--text-secondary) font-semibold">
                     Posted On
                   </p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-lg font-bold text-(--text-primary)">
                     {new Date(tuition.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
@@ -216,9 +220,9 @@ const TuitionDetails = () => {
 
       {/* Apply Modal */}
       {showApplyModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-2xl font-black text-gray-900 mb-6">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-(--bg-elevated) rounded-2xl border border-(--bg-border) shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-black text-(--text-primary) mb-6">
               Apply for Tuition
             </h2>
 
@@ -232,7 +236,9 @@ const TuitionDetails = () => {
                   type="text"
                   value={user?.displayName || ""}
                   readOnly
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-3 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
               </div>
 
@@ -245,7 +251,9 @@ const TuitionDetails = () => {
                   type="email"
                   value={user?.email || ""}
                   readOnly
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-3 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
               </div>
 
@@ -258,7 +266,9 @@ const TuitionDetails = () => {
                   type="text"
                   name="qualifications"
                   placeholder="e.g., BSc in Mathematics"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-3 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -272,7 +282,9 @@ const TuitionDetails = () => {
                   type="text"
                   name="experience"
                   placeholder="e.g., 5 years teaching experience"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-3 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -286,7 +298,9 @@ const TuitionDetails = () => {
                   type="number"
                   name="expectedSalary"
                   placeholder="e.g., 5000"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-3 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>

@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
+import useDarkMode from "../hooks/useDarkMode";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 import axios from "axios";
+import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const Icon = ({ d, size = 20 }) => (
@@ -44,6 +46,8 @@ const icons = {
     "M20 12V22H4V12 M22 7H2v5h20V7z M12 22V7 M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z",
   calendar:
     "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  sun: "M12 7a5 5 0 100 10A5 5 0 000 12 7zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42",
+  moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
 };
 
 // ─── Role Configs ─────────────────────────────────────────────────────────────
@@ -51,11 +55,11 @@ const roleConfig = {
   admin: {
     label: "Admin Panel",
     accent: "#6b46c1",
-    accentLight: "#fff5f5",
-    accentDark: "#c53030",
+    accentLight: "#faf5ff",
+    accentDark: "#553c9a",
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #2d1b69 100%)",
     badge: "ADMIN",
-    badgeColor: "#e53e3e",
+    badgeColor: "#6b46c1",
     links: [
       { to: "/dashboard/admin", label: "Overview", icon: "home" },
       { type: "divider", label: "Management" },
@@ -165,7 +169,9 @@ const roleConfig = {
   },
 };
 
-// ─── Sidebar Component ────────────────────────────────────────────────────────
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+// NOTE: Sidebar keeps its dark gradient background regardless of dark mode —
+// it already looks great and the gradient reads well in both modes.
 const Sidebar = ({
   config,
   user,
@@ -177,7 +183,6 @@ const Sidebar = ({
 }) => {
   return (
     <>
-      {/* Backdrop (mobile) */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"
@@ -216,7 +221,7 @@ const Sidebar = ({
             </button>
           </div>
 
-          {/* User Profile */}
+          {/* User profile */}
           <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 backdrop-blur-sm">
             <div className="relative">
               <img
@@ -267,8 +272,6 @@ const Sidebar = ({
                   </li>
                 );
               }
-
-              // HANDLE REGULAR LINKS
               return (
                 <li key={link.to || index}>
                   <NavLink
@@ -282,16 +285,15 @@ const Sidebar = ({
                     }
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-              ${
-                isActive && link.to.includes("dashboard")
-                  ? "text-white shadow-lg"
-                  : "text-white/50 hover:text-white hover:bg-white/5"
-              }`
+                      ${
+                        isActive && link.to.includes("dashboard")
+                          ? "text-white shadow-lg"
+                          : "text-white/50 hover:text-white hover:bg-white/5"
+                      }`
                     }
                   >
                     <Icon d={icons[link.icon]} size={18} />
                     <span className="flex-1">{link.label}</span>
-                    {/* Unread badge on Messages link */}
                     {link.badge && unreadMessages > 0 && (
                       <span className="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold shrink-0">
                         {unreadMessages > 9 ? "9+" : unreadMessages}
@@ -308,7 +310,7 @@ const Sidebar = ({
         <div className="px-4 pb-6 pt-4 border-t border-white/10">
           <button
             onClick={onLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-red-500/20 transition-all duration-200 group"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-red-500/20 transition-all duration-200"
           >
             <Icon d={icons.logout} size={18} />
             <span>Sign Out</span>
@@ -322,6 +324,7 @@ const Sidebar = ({
 // ─── Dashboard Layout ─────────────────────────────────────────────────────────
 const DashboardLayout = () => {
   const { user, logOut, role, loading } = useContext(AuthContext);
+  const { isDark, toggle } = useDarkMode();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
@@ -340,14 +343,11 @@ const DashboardLayout = () => {
       }
     };
     fetchUnread();
-    // Poll every 30 seconds for new messages
     const interval = setInterval(fetchUnread, 30000);
     return () => clearInterval(interval);
   }, [user]);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   const currentRole = role || "";
   const config = roleConfig[currentRole] || roleConfig.student;
@@ -357,14 +357,13 @@ const DashboardLayout = () => {
       await logOut();
       toast.success("Logged out successfully!");
       navigate("/login");
-    } catch (error) {
+    } catch {
       toast.error("Failed to logout");
     }
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      {/* Sidebar */}
+    <div className="flex h-screen overflow-hidden bg-[var(--bg-surface)]">
       <Sidebar
         config={config}
         user={user}
@@ -375,35 +374,50 @@ const DashboardLayout = () => {
         unreadMessages={unreadMessages}
       />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top Bar */}
-        <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between shrink-0">
+        {/* ── Top Bar ── */}
+        <header
+          className="shrink-0 px-6 py-4 flex items-center justify-between
+          bg-[var(--bg-elevated)] border-b border-[var(--bg-border)]"
+        >
           <div className="flex items-center gap-4">
-            {/* Mobile Menu Button */}
+            {/* Mobile menu button */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-gray-500 hover:text-gray-900 transition-colors"
+              className="lg:hidden text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
             >
               <Icon d={icons.menu} size={22} />
             </button>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">
+              <h1 className="text-lg font-bold text-[var(--text-primary)]">
                 {config.label}
               </h1>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-[var(--text-muted)]">
                 Welcome back, {user?.displayName?.split(" ")[0] || "User"} 👋
               </p>
             </div>
           </div>
 
-          {/* Top bar user info */}
+          {/* Right side: dark mode toggle + user info */}
           <div className="flex items-center gap-3">
+            {/* Dark mode toggle */}
+            <button
+              onClick={toggle}
+              aria-label={
+                isDark ? "Switch to light mode" : "Switch to dark mode"
+              }
+              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200
+                bg-[var(--bg-muted)] text-[var(--text-secondary)]
+                hover:bg-[var(--bg-border-strong)] hover:text-[var(--text-primary)]"
+            >
+              {isDark ? <IoSunnyOutline size={17} /> : <IoMoonOutline size={17} />}
+            </button>
+
             <div className="hidden sm:block text-right">
-              <p className="text-sm font-semibold text-gray-800">
+              <p className="text-sm font-semibold text-[var(--text-primary)]">
                 {user?.displayName || "User"}
               </p>
-              <p className="text-xs text-gray-400">{user?.email}</p>
+              <p className="text-xs text-[var(--text-muted)]">{user?.email}</p>
             </div>
             <img
               src={
@@ -411,14 +425,13 @@ const DashboardLayout = () => {
                 `https://api.dicebear.com/7.x/initials/svg?seed=${user?.displayName || "User"}`
               }
               alt="avatar"
-              className="w-9 h-9 rounded-xl object-cover ring-2"
-              style={{ ringColor: config.accent }}
+              className="w-9 h-9 rounded-xl object-cover ring-2 ring-[#6b46c1]/30"
             />
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6">
+        {/* ── Page Content ── */}
+        <main className="flex-1 overflow-y-auto p-6 bg-[var(--bg-surface)]">
           <Outlet />
         </main>
       </div>

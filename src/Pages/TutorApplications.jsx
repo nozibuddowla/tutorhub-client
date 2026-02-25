@@ -83,9 +83,11 @@ const TutorApplications = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-black text-gray-900">My Applications</h2>
-        <p className="text-gray-500 mt-1">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <h2 className="text-2xl font-black text-(--text-primary)">
+          My Applications
+        </h2>
+        <p className="text-(--text-secondary) mt-1">
           Track and manage your tuition applications
         </p>
 
@@ -120,7 +122,7 @@ const TutorApplications = () => {
           {applications.map((app) => (
             <div
               key={app._id}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 {/* Application Info */}
@@ -142,31 +144,31 @@ const TutorApplications = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">
+                  <h3 className="font-bold text-lg text-(--text-primary) mb-2">
                     Application for {app.tuitionTitle || "Tuition"}
                   </h3>
 
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <p className="text-gray-500">Qualifications</p>
+                      <p className="text-(--text-secondary)">Qualifications</p>
                       <p className="font-semibold text-gray-800">
                         {app.qualifications}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Experience</p>
+                      <p className="text-(--text-secondary)">Experience</p>
                       <p className="font-semibold text-gray-800">
                         {app.experience}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Expected Salary</p>
+                      <p className="text-(--text-secondary)">Expected Salary</p>
                       <p className="font-semibold text-gray-800">
                         ৳{app.expectedSalary}/month
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Applied On</p>
+                      <p className="text-(--text-secondary)">Applied On</p>
                       <p className="font-semibold text-gray-800">
                         {new Date(app.createdAt).toLocaleDateString()}
                       </p>
@@ -196,9 +198,9 @@ const TutorApplications = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📝</div>
-          <p className="text-gray-500 text-lg font-medium">
+          <p className="text-(--text-secondary) text-lg font-medium">
             No applications yet. Start applying for tuitions!
           </p>
         </div>
@@ -206,9 +208,11 @@ const TutorApplications = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingApp && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">Edit Application</h3>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-(--bg-elevated) rounded-2xl border border-(--bg-border) shadow-2xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold text-(--text-primary) mb-4">
+              Edit Application
+            </h3>
             <form onSubmit={handleUpdate} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold mb-2">
@@ -223,7 +227,9 @@ const TutorApplications = () => {
                       qualifications: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -240,7 +246,9 @@ const TutorApplications = () => {
                       experience: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -257,7 +265,9 @@ const TutorApplications = () => {
                       expectedSalary: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>

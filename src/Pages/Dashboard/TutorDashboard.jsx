@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,8 +16,8 @@ const StatCard = ({ label, value, icon, color, link }) => (
           Active
         </span>
       </div>
-      <p className="text-3xl font-black text-gray-900">{value}</p>
-      <p className="text-sm text-gray-500 mt-1">{label}</p>
+      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
+      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
     </div>
   </Link>
 );
@@ -141,7 +141,7 @@ const TutorDashboard = () => {
       {/* Three column layout */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Applications */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-800">Recent Applications</h3>
             <Link
@@ -180,7 +180,7 @@ const TutorDashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-gray-500 text-center py-4">
+              <p className="text-sm text-(--text-secondary) text-center py-4">
                 No applications yet
               </p>
             )}
@@ -188,7 +188,7 @@ const TutorDashboard = () => {
         </div>
 
         {/* Upcoming Sessions — NEW ── */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-800">Upcoming Classes</h3>
             <Link
@@ -212,7 +212,7 @@ const TutorDashboard = () => {
                     <p className="text-sm font-bold text-gray-800 truncate">
                       {s.subject}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-(--text-secondary)">
                       {formatSessionTime(s.startTime)}
                     </p>
                     <p className="text-xs text-purple-600 font-semibold">
@@ -224,7 +224,9 @@ const TutorDashboard = () => {
             ) : (
               <div className="text-center py-6">
                 <p className="text-3xl mb-2">🗓️</p>
-                <p className="text-sm text-gray-500">No upcoming classes</p>
+                <p className="text-sm text-(--text-secondary)">
+                  No upcoming classes
+                </p>
                 <Link
                   to="/dashboard/tutor/calendar"
                   className="text-xs text-purple-600 font-bold hover:underline mt-1 inline-block"
@@ -237,7 +239,7 @@ const TutorDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
           <div className="space-y-3">
             {[
@@ -284,7 +286,7 @@ const TutorDashboard = () => {
                   <p className="text-sm font-semibold text-gray-800">
                     {item.label}
                   </p>
-                  <p className="text-xs text-gray-500">{item.sub}</p>
+                  <p className="text-xs text-(--text-secondary)">{item.sub}</p>
                 </div>
                 <span className="text-gray-400">→</span>
               </Link>

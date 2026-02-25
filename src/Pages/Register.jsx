@@ -120,7 +120,7 @@ const Register = () => {
 
         toast.success("Registration successful! Welcome to TutorHub!");
         event.target.reset();
-        
+
         navigate(`/dashboard/${userRole}`);
       }
     } catch (error) {
@@ -198,7 +198,8 @@ const Register = () => {
                   type="text"
                   name="username"
                   placeholder="Enter your username..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-(--bg-muted) border border-(--bg-border-strong) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -214,7 +215,8 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email address..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-(--bg-muted) border border-(--bg-border-strong) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -231,7 +233,8 @@ const Register = () => {
                     type={show ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password..."
-                    className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                    className="w-full px-4 py-2 rounded-xl outline-none
+    bg-(--bg-muted) border border-(--bg-border-strong) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                   <button
@@ -284,7 +287,8 @@ const Register = () => {
                   type="tel"
                   name="phone"
                   placeholder="Enter your phone number..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-(--bg-muted) border border-(--bg-border-strong) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -300,7 +304,7 @@ const Register = () => {
                   type="file"
                   name="photoUrl"
                   accept="image/*"
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                  className="w-full px-6 py-4 rounded-xl outline-none bg-(--bg-muted) border border-(--bg-border-strong) text-(--text-primary) placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                   required
                 />
               </div>
@@ -332,7 +336,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={handleGoogleSignUp}
-                className="btn w-full py-4 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300 font-semibold text-gray-700"
+                className="btn w-full py-4 bg-(--bg-elevated) border-2 border-gray-300 rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300 font-semibold text-gray-700"
               >
                 <svg className="w-6 h-6" viewBox="0 0 24 24">
                   <path

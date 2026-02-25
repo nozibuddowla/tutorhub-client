@@ -107,10 +107,10 @@ const ScheduleModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-lg shadow-2xl">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-xl font-black text-gray-900">
+          <h3 className="text-xl font-black text-(--text-primary)">
             📅 Schedule Class
           </h3>
           <button
@@ -130,7 +130,7 @@ const ScheduleModal = ({
             <select
               value={form.tuitionId}
               onChange={(e) => setForm({ ...form, tuitionId: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-white"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-(--bg-elevated)"
               required
             >
               <option value="">Select a tuition...</option>
@@ -153,7 +153,9 @@ const ScheduleModal = ({
               value={form.date}
               min={new Date().toISOString().split("T")[0]}
               onChange={(e) => setForm({ ...form, date: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+              className="w-full px-4 py-2.5 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               required
             />
           </div>
@@ -170,7 +172,9 @@ const ScheduleModal = ({
                 onChange={(e) =>
                   setForm({ ...form, startTime: e.target.value })
                 }
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                className="w-full px-4 py-2.5 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 required
               />
             </div>
@@ -182,7 +186,9 @@ const ScheduleModal = ({
                 type="time"
                 value={form.endTime}
                 onChange={(e) => setForm({ ...form, endTime: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                className="w-full px-4 py-2.5 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 required
               />
             </div>
@@ -198,7 +204,9 @@ const ScheduleModal = ({
               placeholder="e.g. Home, Zoom, Google Meet..."
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+              className="w-full px-4 py-2.5 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             />
           </div>
 
@@ -255,8 +263,8 @@ const SessionDetailModal = ({
   const sc = statusColor[session.status] || statusColor.scheduled;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-md shadow-2xl">
         <div className="flex items-start justify-between mb-4">
           <div>
             <span
@@ -264,7 +272,7 @@ const SessionDetailModal = ({
             >
               {session.status}
             </span>
-            <h3 className="text-lg font-black text-gray-900 mt-2">
+            <h3 className="text-lg font-black text-(--text-primary) mt-2">
               {session.tuitionTitle || session.subject}
             </h3>
           </div>
@@ -283,7 +291,7 @@ const SessionDetailModal = ({
               <p className="font-semibold text-gray-800">
                 {formatDate(session.startTime)}
               </p>
-              <p className="text-gray-500">
+              <p className="text-(--text-secondary)">
                 {formatTime(session.startTime)} — {formatTime(session.endTime)}
               </p>
             </div>
@@ -299,7 +307,7 @@ const SessionDetailModal = ({
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
             <span className="text-lg">{isTutor ? "🎓" : "👨‍🏫"}</span>
             <div>
-              <p className="text-gray-500 text-xs">
+              <p className="text-(--text-secondary) text-xs">
                 {isTutor ? "Student" : "Tutor"}
               </p>
               <p className="font-semibold text-gray-800">
@@ -479,7 +487,7 @@ const ClassCalendar = () => {
           </div>
           <button
             onClick={() => setShowSchedule(true)}
-            className="px-5 py-2.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-100 transition flex items-center gap-2"
+            className="px-5 py-2.5 bg-(--bg-elevated) text-purple-700 font-bold rounded-xl hover:bg-gray-100 transition flex items-center gap-2"
           >
             + Schedule Class
           </button>
@@ -516,7 +524,7 @@ const ClassCalendar = () => {
         ].map((s) => (
           <div
             key={s.label}
-            className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100"
+            className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border)"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-xl">{s.icon}</span>
@@ -527,16 +535,18 @@ const ClassCalendar = () => {
                 {s.label}
               </span>
             </div>
-            <p className="text-3xl font-black text-gray-900">{s.value}</p>
+            <p className="text-3xl font-black text-(--text-primary)">
+              {s.value}
+            </p>
           </div>
         ))}
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Calendar */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="lg:col-span-2 bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
           {/* Calendar Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-(--bg-border)">
             <div className="flex items-center gap-3">
               <button
                 onClick={prevMonth}
@@ -544,7 +554,7 @@ const ClassCalendar = () => {
               >
                 ‹
               </button>
-              <h3 className="text-lg font-black text-gray-900">
+              <h3 className="text-lg font-black text-(--text-primary)">
                 {MONTHS[month]} {year}
               </h3>
               <button
@@ -563,7 +573,7 @@ const ClassCalendar = () => {
           </div>
 
           {/* Day labels */}
-          <div className="grid grid-cols-7 border-b border-gray-100">
+          <div className="grid grid-cols-7 border-b border-(--bg-border)">
             {DAYS.map((d) => (
               <div
                 key={d}
@@ -638,13 +648,15 @@ const ClassCalendar = () => {
         </div>
 
         {/* Upcoming Sessions sidebar */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-          <h3 className="font-black text-gray-900 mb-4">Upcoming Sessions</h3>
+        <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) p-5">
+          <h3 className="font-black text-(--text-primary) mb-4">
+            Upcoming Sessions
+          </h3>
 
           {upcoming.length === 0 ? (
             <div className="text-center py-10">
               <div className="text-4xl mb-2">🗓️</div>
-              <p className="text-gray-500 text-sm font-medium">
+              <p className="text-(--text-secondary) text-sm font-medium">
                 No upcoming sessions
               </p>
               <button
@@ -665,10 +677,10 @@ const ClassCalendar = () => {
                   <button
                     key={s._id}
                     onClick={() => setSelectedSession(s)}
-                    className="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-purple-200 hover:bg-purple-50/30 transition group"
+                    className="w-full text-left p-3 rounded-xl border border-(--bg-border) hover:border-purple-200 hover:bg-purple-50/30 transition group"
                   >
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <p className="text-sm font-bold text-gray-900 truncate">
+                      <p className="text-sm font-bold text-(--text-primary) truncate">
                         {s.tuitionTitle || s.subject}
                       </p>
                       <span
@@ -681,7 +693,7 @@ const ClassCalendar = () => {
                             : `${daysUntil}d`}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-(--text-secondary)">
                       {formatDate(s.startTime)} · {formatTime(s.startTime)}
                     </p>
                     {s.location && (

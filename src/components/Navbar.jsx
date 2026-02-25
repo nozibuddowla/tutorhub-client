@@ -2,21 +2,77 @@ import React, { useContext } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { toast } from "react-toastify";
+import { useDarkModeContext } from "../RootLayout/RootLayout";
+import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
+// ── Sun / Moon icons ──────────────────────────────────────────────────────────
+const SunIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="5" />
+    <line x1="12" y1="1" x2="12" y2="3" />
+    <line x1="12" y1="21" x2="12" y2="23" />
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+    <line x1="1" y1="12" x2="3" y2="12" />
+    <line x1="21" y1="12" x2="23" y2="12" />
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+);
+
+// ── Dark Mode Toggle Button ───────────────────────────────────────────────────
+const DarkModeToggle = ({ isDark, toggle }) => {
+  return (
+    <button
+      onClick={toggle}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200
+        bg-gray-100 text-gray-600 hover:bg-gray-200
+        dark:bg-(--bg-muted) dark:text-(--text-secondary) dark:hover:bg-(--bg-border-strong)"
+    >
+      {isDark ? <IoSunnyOutline size={18} /> : <IoMoonOutline size={18} />}
+    </button>
+  );
+};
+
+// ── Navbar ────────────────────────────────────────────────────────────────────
 const Navbar = () => {
   const { user, logOut, role } = useContext(AuthContext);
+  const { isDark, toggle } = useDarkModeContext();
 
   const handleLogout = async () => {
     try {
       await logOut();
       toast.success("Logged out successfully!");
     } catch (error) {
-      console.error("Logout error:", error);
       toast.error("Failed to logout");
     }
   };
 
-  // Get dashboard link based on role
   const getDashboardLink = () => {
     if (role === "admin") return "/dashboard/admin";
     if (role === "tutor") return "/dashboard/tutor";
@@ -29,79 +85,45 @@ const Navbar = () => {
     return "/dashboard/student/settings";
   };
 
+  const linkClass = ({ isActive }) =>
+    isActive
+      ? "text-[#6b46c1] font-bold"
+      : "text-(--text-secondary) hover:text-[#6b46c1] transition-colors";
+
   const navLinks = (
     <>
-      <li>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#6b46c1]font-bold"
-              : "hover:text-[#6b46c1]transition-colors"
-          }
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/tuitions"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#6b46c1]font-bold"
-              : "hover:text-[#6b46c1]transition-colors"
-          }
-        >
-          Tuitions
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/tutors"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#6b46c1]font-bold"
-              : "hover:text-[#6b46c1]transition-colors"
-          }
-        >
-          Tutors
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/about"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#6b46c1]font-bold"
-              : "hover:text-[#6b46c1]transition-colors"
-          }
-        >
-          About
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/contact"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#6b46c1]font-bold"
-              : "hover:text-[#6b46c1]transition-colors"
-          }
-        >
-          Contact
-        </NavLink>
-      </li>
+      {[
+        { to: "/", label: "Home" },
+        { to: "/tuitions", label: "Tuitions" },
+        { to: "/tutors", label: "Tutors" },
+        { to: "/about", label: "About" },
+        { to: "/contact", label: "Contact" },
+      ].map(({ to, label }) => (
+        <li key={to}>
+          <NavLink to={to} className={linkClass}>
+            {label}
+          </NavLink>
+        </li>
+      ))}
     </>
   );
 
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-50 shadow-md px-4 lg:px-8">
+    <div
+      className="navbar sticky top-0 z-50 px-4 lg:px-8
+      bg-(--bg-elevated) border-b border-(--bg-border)
+      shadow-sm dark:shadow-[0_1px_12px_rgba(0,0,0,0.4)"
+    >
+      {/* ── Start ── */}
       <div className="navbar-start">
-        {/* Mobile Menu Toggle */}
+        {/* Mobile hamburger */}
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost lg:hidden text-(--text-secondary)"
+          >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
@@ -115,56 +137,64 @@ const Navbar = () => {
               />
             </svg>
           </div>
-
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow-lg
+              bg-(--bg-elevated) border border-(--bg-border)"
           >
             {navLinks}
           </ul>
         </div>
 
-        {/* Logo & Website Name */}
+        {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center"
+            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
             style={{ background: "linear-gradient(135deg, #6b46c1, #11998e)" }}
           >
             <span className="text-white font-bold text-xl">T</span>
           </div>
-          <span className="font-bold text-xl hidden sm:block">TutorHub</span>
+          <span className="font-bold text-xl hidden sm:block text-(--text-primary)">
+            TutorHub
+          </span>
         </Link>
       </div>
 
-      {/* Desktop Navigation */}
+      {/* ── Center ── */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-2">{navLinks}</ul>
       </div>
 
-      {/* Auth Section */}
+      {/* ── End ── */}
       <div className="navbar-end gap-2">
+        {/* Dark mode toggle */}
+        <DarkModeToggle isDark={isDark} toggle={toggle} />
+
         {user ? (
           <>
-            {/* Dashboard Link */}
             <Link
               to={getDashboardLink()}
-              className="btn btn-ghost hidden md:flex"
+              className="btn btn-ghost hidden md:flex text-(--text-secondary)
+                hover:text-(--text-primary) hover:bg-(--bg-muted)"
             >
               Dashboard
             </Link>
 
-            {/* Profile Dropdown */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full ring ring-[#6b46c1] ring-offset-base-100 ring-offset-2">
+                <div
+                  className="w-10 rounded-full ring ring-[#6b46c1] ring-offset-2
+                  ring-offset-(--bg-elevated)"
+                >
                   <img
                     src={
                       user.photoURL ||
-                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                      "https://api.dicebear.com/7.x/initials/svg?seed=" +
+                        user.displayName
                     }
                     alt={user.displayName || "User"}
                   />
@@ -172,24 +202,38 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow-lg
+                  bg-(--bg-elevated) border border-(--bg-border)"
               >
-                <li className="menu-title">
-                  <span className="text-sm font-bold">
+                <li className="menu-title px-4 py-2">
+                  <span className="text-sm font-bold text-(--text-primary)">
                     {user.displayName || "User"}
                   </span>
-                  <span className="text-xs text-gray-500 capitalize">
+                  <span className="text-xs text-(--text-muted) capitalize block">
                     {role || "Student"}
                   </span>
                 </li>
                 <li className="md:hidden">
-                  <Link to={getDashboardLink()}>Dashboard</Link>
+                  <Link
+                    to={getDashboardLink()}
+                    className="text-(--text-secondary) hover:text-(--text-primary)"
+                  >
+                    Dashboard
+                  </Link>
                 </li>
                 <li>
-                  <Link to={getProfileLink()}>Profile</Link>
+                  <Link
+                    to={getProfileLink()}
+                    className="text-(--text-secondary) hover:text-(--text-primary)"
+                  >
+                    Profile
+                  </Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="text-red-500">
+                  <button
+                    onClick={handleLogout}
+                    className="text-red-500 hover:text-red-600"
+                  >
                     Logout
                   </button>
                 </li>
@@ -198,10 +242,11 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            {/* Login & Register Buttons */}
             <Link
               to="/login"
-              className="btn btn-ghost text-sm font-semibold hidden sm:flex"
+              className="btn btn-ghost text-sm font-semibold hidden sm:flex
+                text-(--text-secondary) hover:text-(--text-primary)
+                hover:bg-(--bg-muted)"
             >
               Login
             </Link>

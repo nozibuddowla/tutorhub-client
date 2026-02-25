@@ -117,7 +117,7 @@ const HowItWorks = () => {
           >
             SIMPLE PROCESS
           </motion.span>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-black text-(--text-primary) mb-4">
             How The Platform{" "}
             <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-purple-600">
               Works
@@ -156,7 +156,7 @@ const HowItWorks = () => {
               <motion.div
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-gray-100"
+                className="relative bg-(--bg-elevated) rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-shadow border border-(--bg-border)"
               >
                 {/* Number Badge */}
                 <motion.div
@@ -184,7 +184,7 @@ const HowItWorks = () => {
                 </motion.div>
 
                 {/* Content */}
-                <h3 className="font-black text-2xl mb-3 text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all">
+                <h3 className="font-black text-2xl mb-3 text-(--text-primary) group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all">
                   {step.title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">{step.desc}</p>

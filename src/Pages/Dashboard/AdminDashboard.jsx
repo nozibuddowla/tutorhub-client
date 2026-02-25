@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 
 const StatCard = ({ label, value, icon, color, change, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,8 +16,8 @@ const StatCard = ({ label, value, icon, color, change, link }) => (
           {change}
         </span>
       </div>
-      <p className="text-3xl font-black text-gray-900">{value}</p>
-      <p className="text-sm text-gray-500 mt-1">{label}</p>
+      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
+      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
     </div>
   </Link>
 );
@@ -140,7 +140,7 @@ const AdminDashboard = () => {
       {/* Two Column Layout */}
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Recent Users */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-800">Recent Registrations</h3>
             <Link
@@ -176,7 +176,7 @@ const AdminDashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-gray-500 text-center py-4">
+              <p className="text-sm text-(--text-secondary) text-center py-4">
                 No users found
               </p>
             )}
@@ -184,7 +184,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
           <div className="space-y-3">
             <Link
@@ -198,7 +198,7 @@ const AdminDashboard = () => {
                 <p className="text-sm font-semibold text-gray-800">
                   Manage Users
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-(--text-secondary)">
                   View, edit, or delete users
                 </p>
               </div>
@@ -218,7 +218,9 @@ const AdminDashboard = () => {
                 <p className="text-sm font-semibold text-gray-800">
                   Manage Tuitions
                 </p>
-                <p className="text-xs text-gray-500">Approve or reject posts</p>
+                <p className="text-xs text-(--text-secondary)">
+                  Approve or reject posts
+                </p>
               </div>
               <span className="text-gray-400 group-hover:text-blue-600">→</span>
             </Link>
@@ -234,7 +236,9 @@ const AdminDashboard = () => {
                 <p className="text-sm font-semibold text-gray-800">
                   View Reports
                 </p>
-                <p className="text-xs text-gray-500">Analytics and earnings</p>
+                <p className="text-xs text-(--text-secondary)">
+                  Analytics and earnings
+                </p>
               </div>
               <span className="text-gray-400 group-hover:text-green-600">
                 →

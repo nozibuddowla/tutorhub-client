@@ -6,7 +6,7 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,8 +16,8 @@ const StatCard = ({ label, value, icon, color, link }) => (
           Active
         </span>
       </div>
-      <p className="text-3xl font-black text-gray-900">{value}</p>
-      <p className="text-sm text-gray-500 mt-1">{label}</p>
+      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
+      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
     </div>
   </Link>
 );
@@ -170,7 +170,7 @@ const StudentDashboard = () => {
 
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Activity */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <h3 className="font-bold text-gray-800 mb-4">Recent Activity</h3>
           <div className="space-y-3">
             {recentActivity.length > 0 ? (
@@ -197,7 +197,7 @@ const StudentDashboard = () => {
         </div>
 
         {/* Upcoming Sessions — NEW */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-800">Upcoming Classes</h3>
             <Link
@@ -221,7 +221,7 @@ const StudentDashboard = () => {
                     <p className="text-sm font-bold text-gray-800 truncate">
                       {s.subject}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-(--text-secondary)">
                       {formatSessionTime(s.startTime)}
                     </p>
                     <p className="text-xs text-blue-600 font-semibold">
@@ -233,7 +233,9 @@ const StudentDashboard = () => {
             ) : (
               <div className="text-center py-6">
                 <p className="text-3xl mb-2">🗓️</p>
-                <p className="text-sm text-gray-500">No upcoming classes</p>
+                <p className="text-sm text-(--text-secondary)">
+                  No upcoming classes
+                </p>
                 <Link
                   to="/dashboard/student/calendar"
                   className="text-xs text-blue-600 font-bold hover:underline mt-1 inline-block"
@@ -246,7 +248,7 @@ const StudentDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
           <div className="space-y-3">
             {[
@@ -291,7 +293,7 @@ const StudentDashboard = () => {
                   <p className="text-sm font-semibold text-gray-800">
                     {item.label}
                   </p>
-                  <p className="text-xs text-gray-500">{item.sub}</p>
+                  <p className="text-xs text-(--text-secondary)">{item.sub}</p>
                 </div>
                 <span className="text-gray-400">→</span>
               </Link>

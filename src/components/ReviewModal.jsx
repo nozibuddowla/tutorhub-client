@@ -39,10 +39,10 @@ const ReviewModal = ({ payment, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-md shadow-2xl">
         <h2 className="text-xl font-bold mb-2">Rate {payment.tutorName}</h2>
-        <p className="text-gray-500 text-sm mb-4">
+        <p className="text-(--text-secondary) text-sm mb-4">
           Sharing your experience helps other students.
         </p>
 

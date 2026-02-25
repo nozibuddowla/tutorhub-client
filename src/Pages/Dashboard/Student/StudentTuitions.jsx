@@ -104,9 +104,11 @@ const StudentTuitions = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-black text-gray-900">My Tuitions</h2>
-        <p className="text-gray-500 mt-1">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <h2 className="text-2xl font-black text-(--text-primary)">
+          My Tuitions
+        </h2>
+        <p className="text-(--text-secondary) mt-1">
           Manage your posted tuition requests
         </p>
 
@@ -136,7 +138,7 @@ const StudentTuitions = () => {
           {tuitions.map((tuition) => (
             <div
               key={tuition._id}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 {/* Tuition Info */}
@@ -158,25 +160,25 @@ const StudentTuitions = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-gray-900 mb-3">
+                  <h3 className="font-bold text-lg text-(--text-primary) mb-3">
                     {tuition.description || "Tuition Request"}
                   </h3>
 
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                     <div>
-                      <p className="text-gray-500">Location</p>
+                      <p className="text-(--text-secondary)">Location</p>
                       <p className="font-semibold text-gray-800">
                         {tuition.location}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Salary</p>
+                      <p className="text-(--text-secondary)">Salary</p>
                       <p className="font-semibold text-gray-800">
                         ৳{tuition.salary}/month
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Posted On</p>
+                      <p className="text-(--text-secondary)">Posted On</p>
                       <p className="font-semibold text-gray-800">
                         {tuition.createdAt
                           ? new Date(tuition.createdAt).toLocaleDateString()
@@ -206,9 +208,9 @@ const StudentTuitions = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📚</div>
-          <p className="text-gray-500 text-lg font-medium">
+          <p className="text-(--text-secondary) text-lg font-medium">
             No tuitions posted yet
           </p>
           <p className="text-gray-400 text-sm mt-2">
@@ -219,9 +221,9 @@ const StudentTuitions = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingTuition && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4">Edit Tuition</h3>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-(--bg-elevated) rounded-2xl p-6 border border-(--bg-border) shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h3 className="text-xl font-bold text-(--text-primary) mb-4">Edit Tuition</h3>
             <form onSubmit={handleUpdate} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -237,7 +239,9 @@ const StudentTuitions = () => {
                         subject: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                    className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -254,7 +258,9 @@ const StudentTuitions = () => {
                         salary: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                    className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -272,7 +278,9 @@ const StudentTuitions = () => {
                       location: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-4 py-2 rounded-xl outline-none
+    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
+    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>

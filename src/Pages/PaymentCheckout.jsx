@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -11,7 +11,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 
-// Load Stripe (Replace with your Stripe Publishable Key)
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = () => {
@@ -20,65 +19,46 @@ const CheckoutForm = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
 
-  // Get application data from location state or sessionStorage
   const application =
     location.state?.application ||
     JSON.parse(sessionStorage.getItem("pendingApplication") || "{}");
-
   const amount = application.expectedSalary || 0;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
-
+    if (!stripe || !elements) return;
     setProcessing(true);
-
     try {
-      // Create payment intent on server
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/create-payment-intent`,
-        {
-          amount: amount,
-          currency: "bdt",
-        },
+        { amount, currency: "bdt" },
         { withCredentials: true },
       );
-
-      const clientSecret = data.clientSecret;
-
-      // Confirm card payment
       const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
+        data.clientSecret,
         {
           payment_method: {
             card: elements.getElement(CardElement),
             billing_details: {
               name: user?.displayName || "Anonymous",
-              email: user?.email || "anonymous@email.com",
+              email: user?.email,
             },
           },
         },
       );
-
       if (error) {
         toast.error(error.message);
         setProcessing(false);
         return;
       }
-
       if (paymentIntent.status === "succeeded") {
-        // Save payment to database
         await axios.post(
           `${import.meta.env.VITE_API_URL}/payments`,
           {
-            amount: amount,
+            amount,
             transactionId: paymentIntent.id,
             status: "success",
             studentName: user?.displayName,
@@ -93,76 +73,56 @@ const CheckoutForm = () => {
           },
           { withCredentials: true },
         );
-
-        // Approve the application
         await axios.patch(
           `${import.meta.env.VITE_API_URL}/applications/${application._id}/approve`,
           {},
           { withCredentials: true },
         );
-
-        // Clear sessionStorage
         sessionStorage.removeItem("pendingApplication");
-
         setSucceeded(true);
         setProcessing(false);
-
         toast.success("Payment successful! Tutor hired.");
-
-        setTimeout(() => {
-          navigate("/dashboard/student/applied-tutors");
-        }, 2000);
+        setTimeout(() => navigate("/dashboard/student/applied-tutors"), 2000);
       }
-    } catch (err) {
-      console.error("Payment error:", err);
+    } catch {
       toast.error("Payment failed. Please try again.");
       setProcessing(false);
     }
   };
 
-  const cardStyle = {
-    style: {
-      base: {
-        color: "#32325d",
-        fontFamily: "Arial, sans-serif",
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4",
-        },
-      },
-      invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
-      },
-    },
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h2 className="text-2xl font-black text-gray-900">
+    <div className="min-h-screen bg-[var(--bg-surface)] py-12 px-4">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h2 className="text-2xl font-black text-[var(--text-primary)]">
             Complete Payment
           </h2>
-          <p className="text-gray-500 mt-1">Secure payment powered by Stripe</p>
+          <p className="text-[var(--text-secondary)] mt-1">
+            Secure payment powered by Stripe
+          </p>
         </div>
 
-        {/* Payment Summary */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-6">
-          <h3 className="font-bold text-lg mb-4">Payment Summary</h3>
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h3 className="font-bold text-lg text-[var(--text-primary)] mb-4">
+            Payment Summary
+          </h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">Tutor</span>
-              <span className="font-semibold">{application.tutorName}</span>
+              <span className="text-[var(--text-secondary)]">Tutor</span>
+              <span className="font-semibold text-[var(--text-primary)]">
+                {application.tutorName}
+              </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Tuition</span>
-              <span className="font-semibold">{application.tuitionTitle}</span>
+              <span className="text-[var(--text-secondary)]">Tuition</span>
+              <span className="font-semibold text-[var(--text-primary)]">
+                {application.tuitionTitle}
+              </span>
             </div>
-            <div className="flex justify-between pt-3 border-t">
-              <span className="text-lg font-bold">Total Amount</span>
+            <div className="flex justify-between pt-3 border-t border-[var(--bg-border)]">
+              <span className="text-lg font-bold text-[var(--text-primary)]">
+                Total Amount
+              </span>
               <span className="text-2xl font-black text-purple-600">
                 ৳{amount.toLocaleString()}
               </span>
@@ -170,25 +130,36 @@ const CheckoutForm = () => {
           </div>
         </div>
 
-        {/* Payment Form */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                 Card Details
               </label>
-              <div className="p-4 border border-gray-200 rounded-xl">
-                <CardElement options={cardStyle} />
+              <div className="p-4 border border-[var(--bg-border-strong)] rounded-xl bg-[var(--bg-muted)]">
+                <CardElement
+                  options={{
+                    style: {
+                      base: {
+                        color: "#a8a5c0",
+                        fontFamily: "Arial, sans-serif",
+                        fontSmoothing: "antialiased",
+                        fontSize: "16px",
+                        "::placeholder": { color: "#6b6880" },
+                      },
+                      invalid: { color: "#fa755a", iconColor: "#fa755a" },
+                    },
+                  }}
+                />
               </div>
             </div>
-
             <button
               type="submit"
               disabled={processing || !stripe || succeeded}
               className={`w-full py-4 rounded-xl font-bold text-white transition-all ${
                 processing || !stripe || succeeded
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-linear-to-r from-purple-600 to-blue-600 hover:opacity-90"
+                  : "bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90"
               }`}
             >
               {processing
@@ -198,13 +169,11 @@ const CheckoutForm = () => {
                   : `Pay ৳${amount.toLocaleString()}`}
             </button>
           </form>
-
-          {/* Test Card Info */}
-          <div className="mt-6 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-            <p className="text-sm font-semibold text-yellow-800 mb-2">
+          <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700/50">
+            <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
               Test Card (Development Mode):
             </p>
-            <p className="text-xs text-yellow-700">
+            <p className="text-xs text-yellow-700 dark:text-yellow-400">
               Card: 4242 4242 4242 4242 | Exp: Any future date | CVC: Any 3
               digits
             </p>
@@ -215,12 +184,10 @@ const CheckoutForm = () => {
   );
 };
 
-const PaymentCheckout = () => {
-  return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm />
-    </Elements>
-  );
-};
+const PaymentCheckout = () => (
+  <Elements stripe={stripePromise}>
+    <CheckoutForm />
+  </Elements>
+);
 
 export default PaymentCheckout;

@@ -30,9 +30,7 @@ const TutorProfile = () => {
 
   useEffect(() => {
     // Fetch tutor by ID from users collection
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/tutors/${id}`)
-      .catch(() => null);
+    axios.get(`${import.meta.env.VITE_API_URL}/tutors/${id}`).catch(() => null);
 
     // We'll fetch all tutors and find the one by ID
     axios
@@ -54,7 +52,9 @@ const TutorProfile = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">😕</div>
-          <p className="text-gray-500 text-xl font-semibold">Tutor not found</p>
+          <p className="text-(--text-secondary) text-xl font-semibold">
+            Tutor not found
+          </p>
           <Link
             to="/tutors"
             className="mt-4 inline-block text-purple-600 font-semibold hover:underline"
@@ -73,7 +73,7 @@ const TutorProfile = () => {
 
       <div className="max-w-4xl mx-auto px-4 -mt-20 pb-16">
         {/* Profile Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+        <div className="bg-(--bg-elevated) rounded-2xl shadow-lg p-8 mb-6">
           <div className="flex flex-col sm:flex-row items-start gap-6">
             <img
               src={
@@ -88,14 +88,14 @@ const TutorProfile = () => {
             />
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className="text-3xl font-black text-gray-900">
+                <h1 className="text-3xl font-black text-(--text-primary)">
                   {tutor.name}
                 </h1>
                 <span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
                   TUTOR
                 </span>
               </div>
-              <p className="text-gray-500 mb-3">{tutor.email}</p>
+              <p className="text-(--text-secondary) mb-3">{tutor.email}</p>
               <div className="flex items-center gap-3">
                 <StarRating rating={tutor.averageRating} />
                 <span className="font-bold text-gray-800">
@@ -118,12 +118,12 @@ const TutorProfile = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-100">
+          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-(--bg-border)">
             <div className="text-center">
               <p className="text-2xl font-black text-purple-600">
                 {tutor.reviewCount || 0}
               </p>
-              <p className="text-sm text-gray-500 mt-1">Reviews</p>
+              <p className="text-sm text-(--text-secondary) mt-1">Reviews</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-black text-teal-600">
@@ -131,27 +131,31 @@ const TutorProfile = () => {
                   ? parseFloat(tutor.averageRating).toFixed(1)
                   : "—"}
               </p>
-              <p className="text-sm text-gray-500 mt-1">Avg Rating</p>
+              <p className="text-sm text-(--text-secondary) mt-1">Avg Rating</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-black text-indigo-600">Active</p>
-              <p className="text-sm text-gray-500 mt-1">Status</p>
+              <p className="text-sm text-(--text-secondary) mt-1">Status</p>
             </div>
           </div>
         </div>
 
         {/* About */}
         {tutor.bio && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900 mb-3">About</h2>
+          <div className="bg-(--bg-elevated) rounded-2xl shadow-sm p-6 mb-6 border border-(--bg-border)">
+            <h2 className="text-lg font-bold text-(--text-primary) mb-3">
+              About
+            </h2>
             <p className="text-gray-600 leading-relaxed">{tutor.bio}</p>
           </div>
         )}
 
         {/* Subjects */}
         {tutor.subjects && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900 mb-3">Subjects</h2>
+          <div className="bg-(--bg-elevated) rounded-2xl shadow-sm p-6 mb-6 border border-(--bg-border)">
+            <h2 className="text-lg font-bold text-(--text-primary) mb-3">
+              Subjects
+            </h2>
             <div className="flex flex-wrap gap-2">
               {(Array.isArray(tutor.subjects)
                 ? tutor.subjects

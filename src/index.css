@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
+  themes:
+    light --default,
+    dark;
 }
 
 :root {
@@ -10,4 +12,78 @@
   --color-secondary: #11998e;
   --color-secondary-dark: #0d7377;
   --color-neutral: #1a1a2e;
+}
+
+:root {
+  --bg-base: #ffffff;
+  --bg-surface: #f9fafb;
+  --bg-elevated: #ffffff;
+  --bg-border: #f3f4f6;
+  --bg-border-strong: #e5e7eb;
+  --bg-muted: #f3f4f6;
+
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+}
+
+.dark {
+  --bg-base: #0f0f13;
+  --bg-surface: #18181f;
+  --bg-elevated: #1f1f2a;
+  --bg-border: #2a2a38;
+  --bg-border-strong: #3a3a4e;
+  --bg-muted: #252533;
+
+  --text-primary: #f1f0f5;
+  --text-secondary: #a8a5c0;
+  --text-muted: #6b6880;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.dark .navbar {
+  background-color: var(--bg-elevated) !important;
+  border-bottom: 1px solid var(--bg-border);
+}
+
+.dark .dropdown-content,
+.dark .menu {
+  background-color: var(--bg-elevated) !important;
+  border: 1px solid var(--bg-border);
+  color: var(--text-primary) !important;
+}
+
+.dark .btn-ghost {
+  color: var(--text-primary);
+}
+
+.dark .btn-ghost:hover {
+  background-color: var(--bg-muted);
+}
+
+.dark .shadow-md {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+.animate-spin,
+.animate-pulse,
+.animate-bounce,
+[class*="transition-"],
+[class*="duration-"] {
+  transition-property: inherit;
 }

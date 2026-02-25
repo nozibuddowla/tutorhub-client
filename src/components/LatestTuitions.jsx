@@ -20,71 +20,94 @@ const LatestTuitions = () => {
         setLoading(false);
       }
     };
-
     fetchTuitions();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
-    <section className="max-w-7xl mx-auto py-20 px-4">
-      <div className="flex justify-between items-end mb-10">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Latest Tuition Posts
-          </h2>
-          <p className="text-gray-500 mt-2">
-            New opportunities posted recently
-          </p>
+    <section className="py-20 px-4 bg-[var(--bg-base)]">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-end mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-[var(--text-primary)]">
+              Latest Tuition Posts
+            </h2>
+            <p className="text-[var(--text-secondary)] mt-2">
+              New opportunities posted recently
+            </p>
+          </div>
+          <Link
+            to="/tuitions"
+            className="text-purple-600 font-semibold hover:underline"
+          >
+            View All →
+          </Link>
         </div>
-        <Link
-          to="/tuitions"
-          className="text-indigo-600 font-semibold hover:underline"
-        >
-          View All →
-        </Link>
-      </div>
 
-      {tuitions.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tuitions.map((post) => (
-            <Link
-              key={post._id}
-              to={`/tuitions/${post._id}`}
-              className="group border border-gray-100 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all block"
-            >
-              <span className="bg-indigo-50 text-indigo-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                {post.subject}
-              </span>
-              <h3 className="font-bold text-xl mt-4 text-gray-800 group-hover:text-indigo-600 transition-colors">
-                Looking for {post.subject} Tutor
-              </h3>
-              <p className="text-gray-500 mt-2 flex items-center gap-2">
-                📍 {post.location}
-              </p>
-              <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-50">
-                <p className="text-2xl font-black text-gray-900">
-                  {post.salary}{" "}
-                  <span className="text-sm font-normal text-gray-400">
-                    BDT/mo
-                  </span>
-                </p>
-                <span className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm group-hover:bg-indigo-600 transition">
-                  View Details
+        {tuitions.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tuitions.map((post) => (
+              <Link
+                key={post._id}
+                to={`/tuitions/${post._id}`}
+                className="group bg-[var(--bg-elevated)] border border-[var(--bg-border)]
+                  p-8 rounded-3xl shadow-sm hover:shadow-xl hover:border-purple-300
+                  dark:hover:border-purple-700 transition-all block"
+              >
+                <span
+                  className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300
+                  text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                >
+                  {post.subject}
                 </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className="col-span-full py-12 text-center bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-          <p className="text-gray-400 text-lg">
-            No tuitions posted yet. Check back later!
-          </p>
-        </div>
-      )}
+
+                <h3
+                  className="font-bold text-xl mt-4 text-[var(--text-primary)]
+                  group-hover:text-purple-600 transition-colors"
+                >
+                  Looking for {post.subject} Tutor
+                </h3>
+
+                <p className="text-[var(--text-secondary)] mt-2 flex items-center gap-2">
+                  📍 {post.location}
+                </p>
+
+                <div
+                  className="flex justify-between items-center mt-6 pt-6
+                  border-t border-[var(--bg-border)]"
+                >
+                  <p className="text-2xl font-black text-[var(--text-primary)]">
+                    {post.salary}{" "}
+                    <span className="text-sm font-normal text-[var(--text-muted)]">
+                      BDT/mo
+                    </span>
+                  </p>
+                  {/* ✅ View Details button: dark navy in light, muted in dark */}
+                  <span
+                    className="bg-[var(--color-neutral)] dark:bg-[var(--bg-muted)]
+                    text-white dark:text-[var(--text-primary)]
+                    px-4 py-2 rounded-xl text-sm font-semibold
+                    group-hover:bg-purple-600 dark:group-hover:bg-purple-600
+                    dark:group-hover:text-white transition"
+                  >
+                    View Details
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div
+            className="py-12 text-center bg-[var(--bg-surface)] rounded-3xl
+            border-2 border-dashed border-[var(--bg-border-strong)]"
+          >
+            <p className="text-[var(--text-muted)] text-lg">
+              No tuitions posted yet. Check back later!
+            </p>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

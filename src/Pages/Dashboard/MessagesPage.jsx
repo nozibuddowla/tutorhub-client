@@ -53,8 +53,8 @@ const ConversationList = ({
 }) => {
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-gray-100">
-        <h2 className="text-lg font-black text-gray-900">Messages</h2>
+      <div className="p-4 border-b border-(--bg-border)">
+        <h2 className="text-lg font-black text-(--text-primary)">Messages</h2>
         <p className="text-xs text-gray-400 mt-0.5">
           {conversations.length} conversation
           {conversations.length !== 1 ? "s" : ""}
@@ -69,7 +69,7 @@ const ConversationList = ({
         ) : conversations.length === 0 ? (
           <div className="text-center py-16 px-4">
             <div className="text-5xl mb-3">💬</div>
-            <p className="text-gray-500 font-medium text-sm">
+            <p className="text-(--text-secondary) font-medium text-sm">
               No conversations yet
             </p>
             <p className="text-gray-400 text-xs mt-1">
@@ -98,7 +98,7 @@ const ConversationList = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-0.5">
                     <p
-                      className={`text-sm font-semibold truncate ${isSelected ? "text-purple-700" : "text-gray-900"}`}
+                      className={`text-sm font-semibold truncate ${isSelected ? "text-purple-700" : "text-(--text-primary)"}`}
                     >
                       {otherName}
                     </p>
@@ -107,7 +107,7 @@ const ConversationList = ({
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs text-gray-500 truncate">
+                    <p className="text-xs text-(--text-secondary) truncate">
                       {conv.lastMessage ||
                         conv.tuitionTitle ||
                         "No messages yet"}
@@ -220,10 +220,10 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-3 bg-white">
+      <div className="px-5 py-4 border-b border-(--bg-border) flex items-center gap-3 bg-(--bg-elevated)">
         <Avatar src={otherPhoto} name={otherName} size={10} online />
         <div className="flex-1">
-          <p className="font-bold text-gray-900">{otherName}</p>
+          <p className="font-bold text-(--text-primary)">{otherName}</p>
           <p className="text-xs text-gray-400">
             📚 {conversation.tuitionTitle}
           </p>
@@ -242,7 +242,9 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="text-5xl mb-3">👋</div>
-            <p className="text-gray-500 font-medium">Start the conversation!</p>
+            <p className="text-(--text-secondary) font-medium">
+              Start the conversation!
+            </p>
             <p className="text-gray-400 text-sm mt-1">
               Say hello to {otherName}
             </p>
@@ -279,7 +281,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
                     className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                       isMine
                         ? "bg-linear-to-br from-purple-600 to-purple-700 text-white rounded-br-md"
-                        : "bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-md"
+                        : "bg-(--bg-elevated) text-gray-800 shadow-sm border border-(--bg-border) rounded-bl-md"
                     }`}
                   >
                     {msg.text}
@@ -299,7 +301,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-gray-100 bg-white flex items-end gap-3">
+      <div className="px-4 py-3 border-t border-(--bg-border) bg-(--bg-elevated) flex items-end gap-3">
         <textarea
           ref={inputRef}
           value={text}
@@ -359,10 +361,10 @@ const MessagesPage = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex">
+    <div className="h-[calc(100vh-8rem)] bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden flex">
       {/* Sidebar — Conversation List */}
       <div
-        className={`w-full md:w-80 border-r border-gray-100 flex-shrink-0 flex flex-col ${
+        className={`w-full md:w-80 border-r border-(--bg-border) flex-shrink-0 flex flex-col ${
           mobileShowChat ? "hidden md:flex" : "flex"
         }`}
       >
@@ -401,10 +403,10 @@ const MessagesPage = () => {
             <div className="w-20 h-20 bg-purple-50 rounded-3xl flex items-center justify-center text-4xl mb-4">
               💬
             </div>
-            <h3 className="text-xl font-black text-gray-900 mb-2">
+            <h3 className="text-xl font-black text-(--text-primary) mb-2">
               Your Messages
             </h3>
-            <p className="text-gray-500 text-sm max-w-xs">
+            <p className="text-(--text-secondary) text-sm max-w-xs">
               Select a conversation to start chatting, or open a message from
               your tuition cards.
             </p>

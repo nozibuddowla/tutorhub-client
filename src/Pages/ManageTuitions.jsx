@@ -76,11 +76,11 @@ const ManageTuitions = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h2 className="text-2xl font-black text-gray-900">
+      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <h2 className="text-2xl font-black text-(--text-primary)">
           Tuition Management
         </h2>
-        <p className="text-gray-500 mt-1">
+        <p className="text-(--text-secondary) mt-1">
           Review, approve, or reject tuition posts
         </p>
 
@@ -132,7 +132,7 @@ const ManageTuitions = () => {
           {filteredTuitions.map((tuition) => (
             <div
               key={tuition._id}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 {/* Tuition Info */}
@@ -154,31 +154,31 @@ const ManageTuitions = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">
+                  <h3 className="font-bold text-lg text-(--text-primary) mb-2">
                     Looking for {tuition.subject} Tutor
                   </h3>
 
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <p className="text-gray-500">Location</p>
+                      <p className="text-(--text-secondary)">Location</p>
                       <p className="font-semibold text-gray-800">
                         {tuition.location}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Salary</p>
+                      <p className="text-(--text-secondary)">Salary</p>
                       <p className="font-semibold text-gray-800">
                         ৳{tuition.salary}/month
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Posted By</p>
+                      <p className="text-(--text-secondary)">Posted By</p>
                       <p className="font-semibold text-gray-800">
                         {tuition.postedBy?.name || "N/A"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Posted On</p>
+                      <p className="text-(--text-secondary)">Posted On</p>
                       <p className="font-semibold text-gray-800">
                         {tuition.createdAt
                           ? new Date(tuition.createdAt).toLocaleDateString()
@@ -223,9 +223,9 @@ const ManageTuitions = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📚</div>
-          <p className="text-gray-500 text-lg font-medium">
+          <p className="text-(--text-secondary) text-lg font-medium">
             No {filter === "all" ? "" : filter} tuitions found
           </p>
         </div>

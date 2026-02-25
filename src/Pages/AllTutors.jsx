@@ -8,11 +8,7 @@ const StarRating = ({ rating }) => (
     {[1, 2, 3, 4, 5].map((star) => (
       <svg
         key={star}
-        className={`w-3.5 h-3.5 ${
-          star <= Math.round(parseFloat(rating || 0))
-            ? "text-yellow-400"
-            : "text-gray-200"
-        }`}
+        className={`w-3.5 h-3.5 ${star <= Math.round(parseFloat(rating || 0)) ? "text-yellow-400" : "text-[var(--bg-border-strong)]"}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -23,7 +19,7 @@ const StarRating = ({ rating }) => (
 );
 
 const TutorCard = ({ tutor }) => (
-  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all group">
+  <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-lg transition-all group">
     <div className="flex items-start gap-4 mb-4">
       <div className="relative shrink-0">
         <img
@@ -32,21 +28,23 @@ const TutorCard = ({ tutor }) => (
             `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
           }
           alt={tutor.name}
-          className="w-16 h-16 rounded-2xl object-cover border-2 border-gray-100"
+          className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--bg-border)]"
           onError={(e) => {
             e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
           }}
         />
-        <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white" />
+        <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-[var(--bg-elevated)]" />
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-bold text-gray-900 text-lg leading-tight truncate">
+        <h3 className="font-bold text-[var(--text-primary)] text-lg leading-tight truncate">
           {tutor.name}
         </h3>
-        <p className="text-sm text-gray-500 truncate">{tutor.email}</p>
+        <p className="text-sm text-[var(--text-secondary)] truncate">
+          {tutor.email}
+        </p>
         <div className="flex items-center gap-2 mt-1">
           <StarRating rating={tutor.averageRating} />
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-[var(--text-secondary)]">
             {tutor.averageRating
               ? `${parseFloat(tutor.averageRating).toFixed(1)} (${tutor.reviewCount || 0})`
               : "No reviews"}
@@ -54,7 +52,6 @@ const TutorCard = ({ tutor }) => (
         </div>
       </div>
     </div>
-
     {tutor.subjects && (
       <div className="flex flex-wrap gap-2 mb-4">
         {(Array.isArray(tutor.subjects) ? tutor.subjects : [tutor.subjects])
@@ -62,15 +59,14 @@ const TutorCard = ({ tutor }) => (
           .map((s, i) => (
             <span
               key={i}
-              className="bg-purple-50 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full"
+              className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full"
             >
               {s}
             </span>
           ))}
       </div>
     )}
-
-    <div className="flex gap-2 pt-4 border-t border-gray-100">
+    <div className="flex gap-2 pt-4 border-t border-[var(--bg-border)]">
       <Link
         to={`/tutors/${tutor._id}`}
         className="flex-1 text-center py-2.5 bg-gradient-to-r from-purple-600 to-teal-600 text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity"
@@ -79,7 +75,7 @@ const TutorCard = ({ tutor }) => (
       </Link>
       <Link
         to="/tuitions"
-        className="px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 transition-colors"
+        className="px-4 py-2.5 bg-[var(--bg-muted)] text-[var(--text-secondary)] rounded-xl text-sm font-semibold hover:bg-[var(--bg-border-strong)] transition-colors"
       >
         Browse
       </Link>
@@ -106,15 +102,12 @@ const AllTutors = () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/tutors/all`,
-        {
-          params: { search, page, limit },
-        },
+        { params: { search, page, limit } },
       );
       setTutors(res.data.tutors || []);
       setTotal(res.data.total || 0);
       setTotalPages(res.data.totalPages || 0);
     } catch {
-      // fallback to old endpoint if /tutors/all not yet deployed
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/tutors`);
       setTutors(res.data || []);
       setTotal(res.data.length || 0);
@@ -128,16 +121,16 @@ const AllTutors = () => {
     setSearch(searchInput);
     setPage(1);
   };
-
   const handleReset = () => {
     setSearchInput("");
     setSearch("");
     setPage(1);
   };
+  const pgBtn =
+    "px-4 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition";
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Banner */}
+    <div className="min-h-screen bg-[var(--bg-surface)]">
       <div className="bg-gradient-to-r from-purple-600 to-teal-600 py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-black text-white mb-3">
@@ -148,7 +141,7 @@ const AllTutors = () => {
           </p>
           <form onSubmit={handleSearch} className="max-w-md mx-auto flex gap-2">
             <div className="relative flex-1">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60">
                 🔍
               </span>
               <input
@@ -156,7 +149,7 @@ const AllTutors = () => {
                 placeholder="Search by name or subject..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 rounded-xl text-gray-800 bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
+                className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/15 backdrop-blur border border-white/25 text-white placeholder:text-white/60 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/40 transition"
               />
             </div>
             <button
@@ -168,11 +161,9 @@ const AllTutors = () => {
           </form>
         </div>
       </div>
-
-      {/* Grid */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800">
+          <h2 className="text-xl font-bold text-[var(--text-primary)]">
             {loading ? "Loading..." : `${total} Tutors Available`}
           </h2>
           {search && (
@@ -184,7 +175,6 @@ const AllTutors = () => {
             </button>
           )}
         </div>
-
         {loading ? (
           <Loading />
         ) : tutors.length > 0 ? (
@@ -194,56 +184,45 @@ const AllTutors = () => {
                 <TutorCard key={tutor._id} tutor={tutor} />
               ))}
             </div>
-
             {totalPages > 1 && (
               <>
                 <div className="mt-10 flex justify-center items-center gap-2 flex-wrap">
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-600 font-semibold hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    className={pgBtn}
                   >
                     ← Prev
                   </button>
                   {[...Array(totalPages).keys()].map((num) => {
-                    const pageNum = num + 1;
-                    if (
-                      pageNum === 1 ||
-                      pageNum === totalPages ||
-                      Math.abs(pageNum - page) <= 1
-                    ) {
+                    const n = num + 1;
+                    if (n === 1 || n === totalPages || Math.abs(n - page) <= 1)
                       return (
                         <button
-                          key={pageNum}
-                          onClick={() => setPage(pageNum)}
-                          className={`w-10 h-10 rounded-xl font-bold transition ${
-                            page === pageNum
-                              ? "bg-purple-600 text-white shadow-lg"
-                              : "bg-white text-gray-600 border border-gray-200 hover:bg-purple-50"
-                          }`}
+                          key={n}
+                          onClick={() => setPage(n)}
+                          className={`w-10 h-10 rounded-xl font-bold transition ${page === n ? "bg-purple-600 text-white shadow-lg" : "bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--bg-border-strong)] hover:bg-[var(--bg-muted)]"}`}
                         >
-                          {pageNum}
+                          {n}
                         </button>
                       );
-                    }
-                    if (Math.abs(pageNum - page) === 2) {
+                    if (Math.abs(n - page) === 2)
                       return (
-                        <span key={pageNum} className="text-gray-400">
+                        <span key={n} className="text-[var(--text-muted)]">
                           ...
                         </span>
                       );
-                    }
                     return null;
                   })}
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-gray-600 font-semibold hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    className={pgBtn}
                   >
                     Next →
                   </button>
                 </div>
-                <p className="text-center text-sm text-gray-400 mt-3">
+                <p className="text-center text-sm text-[var(--text-muted)] mt-3">
                   Page {page} of {totalPages} · {total} total tutors
                 </p>
               </>
@@ -252,7 +231,9 @@ const AllTutors = () => {
         ) : (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">👨‍🏫</div>
-            <p className="text-gray-500 text-lg font-medium">No tutors found</p>
+            <p className="text-[var(--text-secondary)] text-lg font-medium">
+              No tutors found
+            </p>
             {search && (
               <button
                 onClick={handleReset}
@@ -267,5 +248,4 @@ const AllTutors = () => {
     </div>
   );
 };
-
 export default AllTutors;

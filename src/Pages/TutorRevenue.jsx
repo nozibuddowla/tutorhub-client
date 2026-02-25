@@ -55,28 +55,28 @@ const TutorRevenue = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">
               💵
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Earnings</p>
-              <p className="text-3xl font-black text-gray-900">
+              <p className="text-sm text-(--text-secondary)">Total Earnings</p>
+              <p className="text-3xl font-black text-(--text-primary)">
                 ৳{totalEarnings.toLocaleString()}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">
               📅
             </div>
             <div>
-              <p className="text-sm text-gray-500">This Month</p>
-              <p className="text-3xl font-black text-gray-900">
+              <p className="text-sm text-(--text-secondary)">This Month</p>
+              <p className="text-3xl font-black text-(--text-primary)">
                 ৳{thisMonth.toLocaleString()}
               </p>
             </div>
@@ -85,9 +85,9 @@ const TutorRevenue = () => {
       </div>
 
       {/* Transaction History */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 border-b border-gray-100">
-          <h3 className="text-xl font-bold text-gray-900">
+      <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
+        <div className="p-6 border-b border-(--bg-border)">
+          <h3 className="text-xl font-bold text-(--text-primary)">
             Transaction History
           </h3>
         </div>
@@ -95,27 +95,27 @@ const TutorRevenue = () => {
         {payments.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-100">
+              <thead className="bg-(--bg-surface) border-b border-(--bg-border)">
                 <tr>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
+                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
                     Date
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
+                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
                     Tuition
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
+                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
                     Amount
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-gray-600">
+                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-(--bg-border)">
                 {payments.map((payment) => (
                   <tr
                     key={payment._id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="hover:bg-(--bg-surface) transition-colors"
                   >
                     <td className="py-4 px-6">
                       <p className="text-sm text-gray-700">
@@ -130,15 +130,15 @@ const TutorRevenue = () => {
                       </p>
                     </td>
                     <td className="py-4 px-6">
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-(--text-primary)">
                         {payment.tuitionTitle || "Tuition Payment"}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-(--text-secondary)">
                         {payment.studentName || "N/A"}
                       </p>
                     </td>
                     <td className="py-4 px-6">
-                      <p className="text-sm font-bold text-gray-900">
+                      <p className="text-sm font-bold text-(--text-primary)">
                         ৳{payment.amount?.toLocaleString() || 0}
                       </p>
                     </td>
@@ -155,7 +155,7 @@ const TutorRevenue = () => {
         ) : (
           <div className="p-12 text-center">
             <div className="text-6xl mb-4">💳</div>
-            <p className="text-gray-500 text-lg font-medium">
+            <p className="text-(--text-secondary) text-lg font-medium">
               No transactions yet
             </p>
           </div>
