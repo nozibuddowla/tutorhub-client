@@ -237,7 +237,7 @@ const StudentTuitions = () => {
                         subject: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -254,7 +254,7 @@ const StudentTuitions = () => {
                         salary: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -272,7 +272,7 @@ const StudentTuitions = () => {
                       location: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -289,7 +289,7 @@ const StudentTuitions = () => {
                       description: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
                   required
                 ></textarea>
               </div>

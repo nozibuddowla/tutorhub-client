@@ -210,7 +210,7 @@ const TuitionDetails = () => {
             )}
           </div>
 
-          <TutorReviews  />
+          <TutorReviews />
         </div>
       </div>
 
@@ -232,7 +232,7 @@ const TuitionDetails = () => {
                   type="text"
                   value={user?.displayName || ""}
                   readOnly
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
               </div>
 
@@ -245,7 +245,7 @@ const TuitionDetails = () => {
                   type="email"
                   value={user?.email || ""}
                   readOnly
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
               </div>
 
@@ -258,7 +258,7 @@ const TuitionDetails = () => {
                   type="text"
                   name="qualifications"
                   placeholder="e.g., BSc in Mathematics"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -272,7 +272,7 @@ const TuitionDetails = () => {
                   type="text"
                   name="experience"
                   placeholder="e.g., 5 years teaching experience"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -286,7 +286,7 @@ const TuitionDetails = () => {
                   type="number"
                   name="expectedSalary"
                   placeholder="e.g., 5000"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>

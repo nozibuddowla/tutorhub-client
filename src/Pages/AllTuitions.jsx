@@ -97,7 +97,7 @@ return (
           <input
             type="text"
             placeholder="Search by subject or location..."
-            className="flex-1 px-5 py-3 rounded-xl text-gray-800 outline-none focus:ring-2 focus:ring-purple-300"
+            className="flex-1 px-5 py-3 rounded-xl text-gray-800 outline-none focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -120,7 +120,7 @@ return (
             Subject:
           </label>
           <select
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-purple-400"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             value={subject}
             onChange={(e) => {
               setSubject(e.target.value);
@@ -143,7 +143,7 @@ return (
           <input
             type="text"
             placeholder="e.g. Dhaka"
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-400 w-32"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 w-32"
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -156,7 +156,7 @@ return (
         <div className="flex items-center gap-2">
           <label className="text-sm font-semibold text-gray-600">Sort:</label>
           <select
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-purple-400"
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             value={sort}
             onChange={(e) => {
               setSort(e.target.value);

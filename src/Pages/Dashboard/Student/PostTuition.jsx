@@ -55,7 +55,7 @@ const PostTuition = () => {
               name="subject"
               type="text"
               required
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               placeholder="Ex: Mathematics"
             />
           </div>
@@ -67,7 +67,7 @@ const PostTuition = () => {
               name="salary"
               type="number"
               required
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               placeholder="Ex: 5000"
             />
           </div>
@@ -80,7 +80,7 @@ const PostTuition = () => {
             name="location"
             type="text"
             required
-            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             placeholder="Ex: Mirpur, Dhaka"
           />
         </div>
@@ -92,13 +92,13 @@ const PostTuition = () => {
             name="description"
             rows="4"
             required
-            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
             placeholder="Detail your requirements..."
           ></textarea>
         </div>
         <button
           type="submit"
-          className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-200"
+          className="w-full py-4 bg-linear-to-r from-purple-600 to-teal-600 text-white font-bold rounded-xl hover:opacity-90 transition-colors shadow-lg shadow-purple-200"
         >
           Publish Post
         </button>

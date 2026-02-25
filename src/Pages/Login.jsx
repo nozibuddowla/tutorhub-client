@@ -138,7 +138,7 @@ const Login = () => {
                   name="email"
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="Enter your username or email address..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                   required
                 />
               </div>
@@ -155,7 +155,7 @@ const Login = () => {
                     type={show ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password..."
-                    className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                    className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                     required
                   />
                   <button
@@ -173,7 +173,7 @@ const Login = () => {
                 <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 border-gray-300 rounded focus:ring-0 accent-[#C89446]"
+                    className="w-4 h-4 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 accent-[#C89446]"
                   />
                   <span className="text-sm">Remember me</span>
                 </label>

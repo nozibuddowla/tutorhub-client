@@ -100,12 +100,12 @@ const ProfileSettings = () => {
                 user?.photoURL ||
                 `https://api.dicebear.com/7.x/initials/svg?seed=${user?.displayName}`
               }
-              className="w-32 h-32 rounded-3xl object-cover ring-4 ring-blue-50 mx-auto"
+              className="w-32 h-32 rounded-3xl object-cover ring-4 ring-purple-50 mx-auto"
               alt="Profile"
             />
             <label
               htmlFor="photo-upload"
-              className="mt-4 inline-block text-sm font-bold text-blue-600 hover:underline cursor-pointer"
+              className="mt-4 inline-block text-sm font-bold text-purple-600 hover:underline cursor-pointer"
             >
               Change Photo
             </label>
@@ -135,7 +135,7 @@ const ProfileSettings = () => {
                   name="name"
                   type="text"
                   defaultValue={user?.displayName}
-                  className="w-full mt-1 p-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full mt-1 p-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -147,7 +147,7 @@ const ProfileSettings = () => {
                   type="email"
                   value={user?.email}
                   disabled
-                  className="w-full mt-1 p-3 bg-gray-200 border border-gray-100 rounded-xl cursor-not-allowed"
+                  className="w-full mt-1 p-3 bg-gray-200 border border-gray-100 rounded-xl cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
               </div>
             </div>

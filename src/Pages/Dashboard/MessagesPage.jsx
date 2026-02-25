@@ -307,7 +307,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
           onKeyDown={handleKeyDown}
           placeholder={`Message ${otherName}...`}
           rows={1}
-          className="flex-1 resize-none px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition max-h-32"
+          className="flex-1 resize-none px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition max-h-32"
           style={{ minHeight: "42px" }}
         />
         <button

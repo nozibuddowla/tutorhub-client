@@ -75,7 +75,7 @@ const ReviewModal = ({ payment, onClose }) => {
             </label>
             <textarea
               required
-              className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               rows="4"
               placeholder="How was the teaching style?"
               onChange={(e) => setComment(e.target.value)}

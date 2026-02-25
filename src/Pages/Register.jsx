@@ -198,7 +198,7 @@ const Register = () => {
                   type="text"
                   name="username"
                   placeholder="Enter your username..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                   required
                 />
               </div>
@@ -214,7 +214,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email address..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                   required
                 />
               </div>
@@ -231,7 +231,7 @@ const Register = () => {
                     type={show ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password..."
-                    className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                    className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                     required
                   />
                   <button
@@ -264,7 +264,7 @@ const Register = () => {
                 </label>
                 <select
                   name="role"
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                   required
                 >
                   <option value="">Select your role...</option>
@@ -284,7 +284,7 @@ const Register = () => {
                   type="tel"
                   name="phone"
                   placeholder="Enter your phone number..."
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
                   required
                 />
               </div>
@@ -300,7 +300,7 @@ const Register = () => {
                   type="file"
                   name="photoUrl"
                   accept="image/*"
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:ring-2 focus:ring-gray-200 outline-none transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                   required
                 />
               </div>

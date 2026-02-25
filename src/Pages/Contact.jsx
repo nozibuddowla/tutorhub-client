@@ -149,7 +149,7 @@ const Contact = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your full name"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#632ee3]/40 focus:border-[#632ee3] transition"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
                   required
                 />
               </div>
@@ -163,7 +163,7 @@ const Contact = () => {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@email.com"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#632ee3]/40 focus:border-[#632ee3] transition"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition"
                   required
                 />
               </div>
@@ -177,7 +177,7 @@ const Contact = () => {
                 name="subject"
                 value={form.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#632ee3]/40 focus:border-[#632ee3] transition bg-white"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500 transition bg-white"
               >
                 <option value="">Select a topic...</option>
                 <option value="general">General Inquiry</option>
@@ -199,7 +199,7 @@ const Contact = () => {
                 onChange={handleChange}
                 rows={5}
                 placeholder="Describe your question or issue in detail..."
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#632ee3]/40 focus:border-[#632ee3] transition resize-none"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition resize-none"
                 required
               />
             </div>
