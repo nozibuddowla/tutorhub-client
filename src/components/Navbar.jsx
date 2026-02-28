@@ -111,7 +111,7 @@ const Navbar = () => {
   return (
     <div
       className="navbar sticky top-0 z-50 px-4 lg:px-8
-      bg-(--bg-elevated) border-b border-(--bg-border)
+      bg-[var(--bg-elevated)] border-b border-[var(--bg-border)]
       shadow-sm dark:shadow-[0_1px_12px_rgba(0,0,0,0.4)"
     >
       {/* ── Start ── */}
@@ -140,7 +140,7 @@ const Navbar = () => {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow-lg
-              bg-(--bg-elevated) border border-(--bg-border)"
+              bg-[var(--bg-elevated)] border border-[var(--bg-border)]"
           >
             {navLinks}
           </ul>
@@ -154,7 +154,7 @@ const Navbar = () => {
           >
             <span className="text-white font-bold text-xl">T</span>
           </div>
-          <span className="font-bold text-xl hidden sm:block text-(--text-primary)">
+          <span className="font-bold text-xl hidden sm:block text-[var(--text-primary)]">
             TutorHub
           </span>
         </Link>
@@ -175,7 +175,7 @@ const Navbar = () => {
             <Link
               to={getDashboardLink()}
               className="btn btn-ghost hidden md:flex text-(--text-secondary)
-                hover:text-(--text-primary) hover:bg-(--bg-muted)"
+                hover:text-[var(--text-primary)] hover:bg-(--bg-muted)"
             >
               Dashboard
             </Link>
@@ -203,10 +203,10 @@ const Navbar = () => {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow-lg
-                  bg-(--bg-elevated) border border-(--bg-border)"
+                  bg-[var(--bg-elevated)] border border-[var(--bg-border)]"
               >
                 <li className="menu-title px-4 py-2">
-                  <span className="text-sm font-bold text-(--text-primary)">
+                  <span className="text-sm font-bold text-[var(--text-primary)]">
                     {user.displayName || "User"}
                   </span>
                   <span className="text-xs text-(--text-muted) capitalize block">
@@ -216,7 +216,7 @@ const Navbar = () => {
                 <li className="md:hidden">
                   <Link
                     to={getDashboardLink()}
-                    className="text-(--text-secondary) hover:text-(--text-primary)"
+                    className="text-(--text-secondary) hover:text-[var(--text-primary)]"
                   >
                     Dashboard
                   </Link>
@@ -224,7 +224,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to={getProfileLink()}
-                    className="text-(--text-secondary) hover:text-(--text-primary)"
+                    className="text-(--text-secondary) hover:text-[var(--text-primary)]"
                   >
                     Profile
                   </Link>
@@ -245,7 +245,7 @@ const Navbar = () => {
             <Link
               to="/login"
               className="btn btn-ghost text-sm font-semibold hidden sm:flex
-                text-(--text-secondary) hover:text-(--text-primary)
+                text-(--text-secondary) hover:text-[var(--text-primary)]
                 hover:bg-(--bg-muted)"
             >
               Login

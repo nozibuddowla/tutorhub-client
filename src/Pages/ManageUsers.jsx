@@ -190,7 +190,7 @@ const ManageUsers = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(user._id)}
-                        className="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors text-sm font-semibold"
+                        className="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 transition-colors text-sm font-semibold"
                       >
                         Delete
                       </button>

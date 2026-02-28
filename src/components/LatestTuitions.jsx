@@ -56,7 +56,7 @@ const LatestTuitions = () => {
                   dark:hover:border-purple-700 transition-all block"
               >
                 <span
-                  className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300
+                  className="bg-purple-100 dark:bg-purple-900/40 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 dark:text-purple-300
                   text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
                 >
                   {post.subject}

@@ -12,7 +12,7 @@ const StarRating = ({ rating }) => (
         className={`w-5 h-5 ${
           star <= Math.round(parseFloat(rating || 0))
             ? "text-yellow-400"
-            : "text-gray-200"
+            : "text-[var(--bg-border-strong)]"
         }`}
         fill="currentColor"
         viewBox="0 0 20 20"
@@ -67,13 +67,13 @@ const TutorProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--bg-base)]">
       {/* Banner */}
       <div className="bg-linear-to-r from-purple-600 to-teal-600 h-40" />
 
       <div className="max-w-4xl mx-auto px-4 -mt-20 pb-16">
         {/* Profile Card */}
-        <div className="bg-(--bg-elevated) rounded-2xl shadow-lg p-8 mb-6">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-lg p-8 mb-6">
           <div className="flex flex-col sm:flex-row items-start gap-6">
             <img
               src={
@@ -81,29 +81,29 @@ const TutorProfile = () => {
                 `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
               }
               alt={tutor.name}
-              className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-md shrink-0"
+              className="w-24 h-24 rounded-2xl object-cover border-4 border-[var(--bg-elevated)] shadow-md shrink-0"
               onError={(e) => {
                 e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
               }}
             />
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className="text-3xl font-black text-(--text-primary)">
+                <h1 className="text-3xl font-black text-[var(--text-primary)]">
                   {tutor.name}
                 </h1>
-                <span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-green-100 dark:bg-green-900/40 dark:bg-green-900/40 text-green-700 dark:text-green-300dark:text-green-300 text-xs font-bold px-3 py-1 rounded-full">
                   TUTOR
                 </span>
               </div>
               <p className="text-(--text-secondary) mb-3">{tutor.email}</p>
               <div className="flex items-center gap-3">
                 <StarRating rating={tutor.averageRating} />
-                <span className="font-bold text-gray-800">
+                <span className="font-boldtext-[var(--text-primary)]">
                   {tutor.averageRating
                     ? parseFloat(tutor.averageRating).toFixed(1)
                     : "0.0"}
                 </span>
-                <span className="text-gray-400 text-sm">
+                <span className="text-[var(--text-muted)] text-sm">
                   ({tutor.reviewCount || 0} reviews)
                 </span>
               </div>
@@ -118,7 +118,7 @@ const TutorProfile = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-(--bg-border)">
+          <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-[var(--bg-border)]">
             <div className="text-center">
               <p className="text-2xl font-black text-purple-600">
                 {tutor.reviewCount || 0}
@@ -142,18 +142,20 @@ const TutorProfile = () => {
 
         {/* About */}
         {tutor.bio && (
-          <div className="bg-(--bg-elevated) rounded-2xl shadow-sm p-6 mb-6 border border-(--bg-border)">
-            <h2 className="text-lg font-bold text-(--text-primary) mb-3">
+          <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm p-6 mb-6 border border-[var(--bg-border)]">
+            <h2 className="text-lg font-bold text-[var(--text-primary)] mb-3">
               About
             </h2>
-            <p className="text-gray-600 leading-relaxed">{tutor.bio}</p>
+            <p className="text-[var(--text-secondary)] leading-relaxed">
+              {tutor.bio}
+            </p>
           </div>
         )}
 
         {/* Subjects */}
         {tutor.subjects && (
-          <div className="bg-(--bg-elevated) rounded-2xl shadow-sm p-6 mb-6 border border-(--bg-border)">
-            <h2 className="text-lg font-bold text-(--text-primary) mb-3">
+          <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm p-6 mb-6 border border-[var(--bg-border)]">
+            <h2 className="text-lg font-bold text-[var(--text-primary)] mb-3">
               Subjects
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -163,7 +165,7 @@ const TutorProfile = () => {
               ).map((s, i) => (
                 <span
                   key={i}
-                  className="bg-purple-50 text-purple-700 font-semibold px-4 py-2 rounded-xl text-sm"
+                  className="bg-purple-100 dark:bg-purple-900/40 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 dark:text-purple-300 font-semibold px-4 py-2 rounded-xl text-sm"
                 >
                   {s}
                 </span>

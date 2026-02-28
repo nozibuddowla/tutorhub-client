@@ -95,18 +95,18 @@ const TuitionDetails = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate("/tuitions")}
-          className="mb-6 flex items-center gap-2 text-gray-600 hover:text-(--text-primary) font-semibold"
+          className="mb-6 flex items-center gap-2 text-gray-600 hover:text-[var(--text-primary)] font-semibold"
         >
           ← Back to All Tuitions
         </button>
 
         {/* Main Card */}
-        <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
           {/* Header */}
           <div className="bg-linear-to-r from-purple-600 to-blue-600 p-8 text-white">
             <div className="flex items-start justify-between">
               <div>
-                <span className="bg-(--bg-elevated)/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
+                <span className="bg-[var(--bg-elevated)]/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
                   {tuition.subject}
                 </span>
                 <h1 className="text-3xl font-black mt-4 mb-2">
@@ -126,14 +126,14 @@ const TuitionDetails = () => {
           <div className="p-8">
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center shrink-0">
                   <span className="text-2xl">📍</span>
                 </div>
                 <div>
                   <p className="text-sm text-(--text-secondary) font-semibold">
                     Location
                   </p>
-                  <p className="text-lg font-bold text-(--text-primary)">
+                  <p className="text-lg font-bold text-[var(--text-primary)]">
                     {tuition.location}
                   </p>
                 </div>
@@ -147,21 +147,21 @@ const TuitionDetails = () => {
                   <p className="text-sm text-(--text-secondary) font-semibold">
                     Subject
                   </p>
-                  <p className="text-lg font-bold text-(--text-primary)">
+                  <p className="text-lg font-bold text-[var(--text-primary)]">
                     {tuition.subject}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center shrink-0">
                   <span className="text-2xl">👤</span>
                 </div>
                 <div>
                   <p className="text-sm text-(--text-secondary) font-semibold">
                     Student
                   </p>
-                  <p className="text-lg font-bold text-(--text-primary)">
+                  <p className="text-lg font-bold text-[var(--text-primary)]">
                     {tuition.studentName}
                   </p>
                 </div>
@@ -175,7 +175,7 @@ const TuitionDetails = () => {
                   <p className="text-sm text-(--text-secondary) font-semibold">
                     Posted On
                   </p>
-                  <p className="text-lg font-bold text-(--text-primary)">
+                  <p className="text-lg font-bold text-[var(--text-primary)]">
                     {new Date(tuition.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
@@ -221,15 +221,15 @@ const TuitionDetails = () => {
       {/* Apply Modal */}
       {showApplyModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-(--bg-elevated) rounded-2xl border border-(--bg-border) shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-2xl font-black text-(--text-primary) mb-6">
+          <div className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-black text-[var(--text-primary)] mb-6">
               Apply for Tuition
             </h2>
 
             <form onSubmit={handleApplySubmit} className="space-y-4">
               {/* Name (Read-only) */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Name
                 </label>
                 <input
@@ -244,7 +244,7 @@ const TuitionDetails = () => {
 
               {/* Email (Read-only) */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Email
                 </label>
                 <input
@@ -259,7 +259,7 @@ const TuitionDetails = () => {
 
               {/* Qualifications */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Qualifications *
                 </label>
                 <input
@@ -275,7 +275,7 @@ const TuitionDetails = () => {
 
               {/* Experience */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Experience *
                 </label>
                 <input
@@ -291,7 +291,7 @@ const TuitionDetails = () => {
 
               {/* Expected Salary */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Expected Salary (BDT/month) *
                 </label>
                 <input
@@ -322,7 +322,7 @@ const TuitionDetails = () => {
                   type="button"
                   onClick={() => setShowApplyModal(false)}
                   disabled={applying}
-                  className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-colors"
+                  className="flex-1 py-3 bg-gray-100 text-[var(--text-secondary)] rounded-xl font-bold hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>

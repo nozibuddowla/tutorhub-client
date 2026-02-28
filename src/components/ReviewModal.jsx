@@ -40,7 +40,7 @@ const ReviewModal = ({ payment, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
         <h2 className="text-xl font-bold mb-2">Rate {payment.tutorName}</h2>
         <p className="text-(--text-secondary) text-sm mb-4">
           Sharing your experience helps other students.
@@ -48,7 +48,7 @@ const ReviewModal = ({ payment, onClose }) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
               Rating (1-5)
             </label>
             <div className="flex gap-2">
@@ -60,7 +60,7 @@ const ReviewModal = ({ payment, onClose }) => {
                   className={`w-10 h-10 rounded-lg font-bold transition-all ${
                     rating >= num
                       ? "bg-yellow-400 text-white"
-                      : "bg-gray-100 text-gray-400"
+                      : "bg-gray-100 text-[var(--text-muted)]"
                   }`}
                 >
                   {num}★
@@ -70,7 +70,7 @@ const ReviewModal = ({ payment, onClose }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-1">
               Your Comment
             </label>
             <textarea
@@ -86,7 +86,7 @@ const ReviewModal = ({ payment, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold"
+              className="flex-1 py-2 bg-gray-100 text-[var(--text-secondary)] rounded-lg font-semibold"
             >
               Cancel
             </button>

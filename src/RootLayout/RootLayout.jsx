@@ -13,10 +13,10 @@ export const useDarkModeContext = () => useContext(DarkModeContext);
 
 const RootLayout = () => {
   const darkMode = useDarkMode();
-  
+
   return (
     <DarkModeContext.Provider value={darkMode}>
-      <div className="flex flex-col min-h-screen bg-(--bg-base) text-(--text-primary)">
+      <div className="flex flex-col min-h-screen bg-(--bg-base) text-[var(--text-primary)]">
         <header>
           <Navbar />
         </header>

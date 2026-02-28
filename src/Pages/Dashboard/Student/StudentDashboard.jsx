@@ -6,7 +6,7 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,7 +16,7 @@ const StatCard = ({ label, value, icon, color, link }) => (
           Active
         </span>
       </div>
-      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
+      <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
       <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
     </div>
   </Link>
@@ -170,8 +170,10 @@ const StudentDashboard = () => {
 
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Activity */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-          <h3 className="font-bold text-gray-800 mb-4">Recent Activity</h3>
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h3 className="font-bold text-[var(--text-primary)] mb-4">
+            Recent Activity
+          </h3>
           <div className="space-y-3">
             {recentActivity.length > 0 ? (
               recentActivity.map((item, i) => (
@@ -180,29 +182,33 @@ const StudentDashboard = () => {
                     className="w-2 h-2 rounded-full shrink-0"
                     style={{ background: item.dot }}
                   />
-                  <span className="text-sm text-gray-700 flex-1">
+                  <span className="text-sm text-[var(--text-secondary)] flex-1">
                     {item.text}
                   </span>
-                  <span className="text-xs text-gray-400 shrink-0">
+                  <span className="text-xs text-[var(--text-muted)] shrink-0">
                     {timeAgo(item.time)}
                   </span>
                 </div>
               ))
             ) : (
               <div className="text-center py-6">
-                <p className="text-gray-400 text-sm">No activity yet</p>
+                <p className="text-[var(--text-muted)] text-sm">
+                  No activity yet
+                </p>
               </div>
             )}
           </div>
         </div>
 
         {/* Upcoming Sessions — NEW */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-gray-800">Upcoming Classes</h3>
+            <h3 className="font-bold text-[var(--text-primary)]">
+              Upcoming Classes
+            </h3>
             <Link
               to="/dashboard/student/calendar"
-              className="text-sm text-blue-600 font-semibold hover:underline"
+              className="text-sm text-blue-500 dark:text-blue-400 font-semibold hover:underline"
             >
               Calendar →
             </Link>
@@ -212,19 +218,19 @@ const StudentDashboard = () => {
               upcomingSessions.map((s) => (
                 <div
                   key={s._id}
-                  className="flex items-start gap-3 p-3 bg-blue-50 rounded-xl"
+                  className="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl"
                 >
                   <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white text-sm font-black shrink-0">
                     {new Date(s.startTime).getDate()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-gray-800 truncate">
+                    <p className="text-sm font-bold text-[var(--text-primary)] truncate">
                       {s.subject}
                     </p>
                     <p className="text-xs text-(--text-secondary)">
                       {formatSessionTime(s.startTime)}
                     </p>
-                    <p className="text-xs text-blue-600 font-semibold">
+                    <p className="text-xs text-blue-500 dark:text-blue-400 font-semibold">
                       {s.tutorName}
                     </p>
                   </div>
@@ -238,7 +244,7 @@ const StudentDashboard = () => {
                 </p>
                 <Link
                   to="/dashboard/student/calendar"
-                  className="text-xs text-blue-600 font-bold hover:underline mt-1 inline-block"
+                  className="text-xs text-blue-500 dark:text-blue-400 font-bold hover:underline mt-1 inline-block"
                 >
                   View calendar →
                 </Link>
@@ -248,8 +254,10 @@ const StudentDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-          <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h3 className="font-bold text-[var(--text-primary)] mb-4">
+            Quick Actions
+          </h3>
           <div className="space-y-3">
             {[
               {
@@ -284,18 +292,18 @@ const StudentDashboard = () => {
               <Link
                 key={item.to}
                 to={item.to}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--bg-surface)] transition-colors group"
               >
-                <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center group-hover:bg-gray-200">
+                <div className="w-10 h-10 bg-[var(--bg-muted)] rounded-xl flex items-center justify-center group-hover:bg-[var(--bg-border-strong)]">
                   <span className="text-lg">{item.icon}</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-800">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">
                     {item.label}
                   </p>
                   <p className="text-xs text-(--text-secondary)">{item.sub}</p>
                 </div>
-                <span className="text-gray-400">→</span>
+                <span className="text-[var(--text-muted)]">→</span>
               </Link>
             ))}
           </div>

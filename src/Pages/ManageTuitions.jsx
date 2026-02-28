@@ -76,8 +76,8 @@ const ManageTuitions = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-        <h2 className="text-2xl font-black text-(--text-primary)">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+        <h2 className="text-2xl font-black text-[var(--text-primary)]">
           Tuition Management
         </h2>
         <p className="text-(--text-secondary) mt-1">
@@ -91,8 +91,8 @@ const ManageTuitions = () => {
               Total: {stats.total}
             </p>
           </div>
-          <div className="bg-yellow-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-yellow-600 font-semibold">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending: {stats.pending}
             </p>
           </div>
@@ -132,21 +132,21 @@ const ManageTuitions = () => {
           {filteredTuitions.map((tuition) => (
             <div
               key={tuition._id}
-              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 {/* Tuition Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                    <span className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
                       {tuition.subject}
                     </span>
                     <span
                       className={`text-xs font-bold px-3 py-1 rounded-full capitalize ${
                         tuition.status === "approved"
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-green-100 dark:bg-green-900/40 text-green-700"
                           : tuition.status === "rejected"
-                            ? "bg-red-100 text-red-700"
+                            ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
                             : "bg-yellow-100 text-yellow-700"
                       }`}
                     >
@@ -154,32 +154,32 @@ const ManageTuitions = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-(--text-primary) mb-2">
+                  <h3 className="font-bold text-lg text-[var(--text-primary)] mb-2">
                     Looking for {tuition.subject} Tutor
                   </h3>
 
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
                       <p className="text-(--text-secondary)">Location</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.location}
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Salary</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         ৳{tuition.salary}/month
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Posted By</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.postedBy?.name || "N/A"}
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Posted On</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.createdAt
                           ? new Date(tuition.createdAt).toLocaleDateString()
                           : "N/A"}
@@ -208,13 +208,13 @@ const ManageTuitions = () => {
                   )}
 
                 {tuition.status === "approved" && (
-                  <div className="px-6 py-3 bg-green-50 text-green-700 rounded-xl font-semibold">
+                  <div className="px-6 py-3 bg-green-50 text-green-700 dark:text-green-300rounded-xl font-semibold">
                     ✓ Approved
                   </div>
                 )}
 
                 {tuition.status === "rejected" && (
-                  <div className="px-6 py-3 bg-red-50 text-red-700 rounded-xl font-semibold">
+                  <div className="px-6 py-3 bg-red-50 text-red-700 dark:text-red-300 rounded-xl font-semibold">
                     ✕ Rejected
                   </div>
                 )}
@@ -223,7 +223,7 @@ const ManageTuitions = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📚</div>
           <p className="text-(--text-secondary) text-lg font-medium">
             No {filter === "all" ? "" : filter} tuitions found

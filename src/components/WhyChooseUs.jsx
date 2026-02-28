@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
             ))}
           </div>
         </div>
-        <div className="bg-(--bg-elevated)/5 p-10 rounded-4xl border border-white/10 backdrop-blur-sm">
+        <div className="bg-[var(--bg-elevated)]/5 p-10 rounded-4xl border border-white/10 backdrop-blur-sm">
           <p className="italic text-xl leading-relaxed opacity-90">
             "This platform helped me find a Calculus tutor in under 24 hours.
             The dashboard is incredibly intuitive and made tracking my child's

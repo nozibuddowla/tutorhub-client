@@ -17,7 +17,7 @@ const NotFound = () => {
 
         {/* Error Message */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-black text-(--text-primary) mb-4">
+          <h1 className="text-4xl md:text-5xl font-black text-[var(--text-primary)] mb-4">
             Oops! Page Not Found
           </h1>
           <p className="text-lg text-gray-600 mb-2">
@@ -51,7 +51,7 @@ const NotFound = () => {
           </Link>
           <button
             onClick={() => navigate(-1)}
-            className="px-8 py-4 bg-(--bg-elevated) text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-200 shadow-lg w-full sm:w-auto"
+            className="px-8 py-4 bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-bold rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-200 shadow-lg w-full sm:w-auto"
           >
             ← Go Back
           </button>
@@ -65,7 +65,7 @@ const NotFound = () => {
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               to="/tuitions"
-              className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors"
+              className="px-4 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg font-semibold hover:bg-purple-200 transition-colors"
             >
               Browse Tuitions
             </Link>
@@ -77,7 +77,7 @@ const NotFound = () => {
             </Link>
             <Link
               to="/signup"
-              className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold hover:bg-green-200 transition-colors"
+              className="px-4 py-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300rounded-lg font-semibold hover:bg-green-200 transition-colors"
             >
               Sign Up
             </Link>

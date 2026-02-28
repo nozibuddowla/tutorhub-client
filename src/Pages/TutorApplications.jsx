@@ -83,8 +83,8 @@ const TutorApplications = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-        <h2 className="text-2xl font-black text-(--text-primary)">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+        <h2 className="text-2xl font-black text-[var(--text-primary)]">
           My Applications
         </h2>
         <p className="text-(--text-secondary) mt-1">
@@ -98,8 +98,8 @@ const TutorApplications = () => {
               Total: {stats.total}
             </p>
           </div>
-          <div className="bg-yellow-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-yellow-600 font-semibold">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending: {stats.pending}
             </p>
           </div>
@@ -122,21 +122,21 @@ const TutorApplications = () => {
           {applications.map((app) => (
             <div
               key={app._id}
-              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 {/* Application Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                    <span className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
                       {app.subject || "N/A"}
                     </span>
                     <span
                       className={`text-xs font-bold px-3 py-1 rounded-full capitalize ${
                         app.status === "approved"
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-green-100 dark:bg-green-900/40 text-green-700"
                           : app.status === "rejected"
-                            ? "bg-red-100 text-red-700"
+                            ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
                             : "bg-yellow-100 text-yellow-700"
                       }`}
                     >
@@ -144,32 +144,32 @@ const TutorApplications = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-(--text-primary) mb-2">
+                  <h3 className="font-bold text-lg text-[var(--text-primary)] mb-2">
                     Application for {app.tuitionTitle || "Tuition"}
                   </h3>
 
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
                       <p className="text-(--text-secondary)">Qualifications</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {app.qualifications}
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Experience</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {app.experience}
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Expected Salary</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         ৳{app.expectedSalary}/month
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Applied On</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {new Date(app.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -198,7 +198,7 @@ const TutorApplications = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📝</div>
           <p className="text-(--text-secondary) text-lg font-medium">
             No applications yet. Start applying for tuitions!
@@ -209,8 +209,8 @@ const TutorApplications = () => {
       {/* Edit Modal */}
       {showEditModal && editingApp && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-(--bg-elevated) rounded-2xl border border-(--bg-border) shadow-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-(--text-primary) mb-4">
+          <div className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] shadow-2xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">
               Edit Application
             </h3>
             <form onSubmit={handleUpdate} className="space-y-4">
@@ -281,7 +281,7 @@ const TutorApplications = () => {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg font-semibold"
+                  className="flex-1 bg-gray-100 text-[var(--text-secondary)] py-2 rounded-lg font-semibold"
                 >
                   Cancel
                 </button>

@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 
 const StatCard = ({ label, value, icon, color, change, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,8 +16,8 @@ const StatCard = ({ label, value, icon, color, change, link }) => (
           {change}
         </span>
       </div>
-      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
-      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
+      <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
+      <p className="text-sm text-[var(--text-secondary)] mt-1">{label}</p>
     </div>
   </Link>
 );
@@ -39,23 +39,17 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      // Fetch users
-      const usersRes = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/users`,
-        { withCredentials: true },
-      );
-
-      // Fetch tuitions
-      const tuitionsRes = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/tuitions`,
-        { withCredentials: true },
-      );
-
-      // Fetch payments
-      const paymentsRes = await axios.get(
-        `${import.meta.env.VITE_API_URL}/admin/payments`,
-        { withCredentials: true },
-      );
+      const [usersRes, tuitionsRes, paymentsRes] = await Promise.all([
+        axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, {
+          withCredentials: true,
+        }),
+        axios.get(`${import.meta.env.VITE_API_URL}/admin/tuitions`, {
+          withCredentials: true,
+        }),
+        axios.get(`${import.meta.env.VITE_API_URL}/admin/payments`, {
+          withCredentials: true,
+        }),
+      ]);
 
       const users = usersRes.data;
       const tuitions = tuitionsRes.data;
@@ -70,13 +64,11 @@ const AdminDashboard = () => {
         totalEarnings: payments.reduce((sum, p) => sum + (p.amount || 0), 0),
       });
 
-      // Get 5 most recent users
       setRecentUsers(
         users
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 5),
       );
-
       setLoading(false);
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
@@ -84,9 +76,7 @@ const AdminDashboard = () => {
     }
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -140,12 +130,14 @@ const AdminDashboard = () => {
       {/* Two Column Layout */}
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Recent Users */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-gray-800">Recent Registrations</h3>
+            <h3 className="font-bold text-[var(--text-primary)]">
+              Recent Registrations
+            </h3>
             <Link
               to="/dashboard/admin/users"
-              className="text-sm text-purple-600 font-semibold hover:underline"
+              className="text-sm text-purple-500 dark:text-purple-400 font-semibold hover:underline"
             >
               View All →
             </Link>
@@ -163,12 +155,14 @@ const AdminDashboard = () => {
                     className="w-8 h-8 rounded-xl object-cover"
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-gray-800">
+                    <p className="text-sm font-semibold text-[var(--text-primary)]">
                       {u.name}
                     </p>
-                    <p className="text-xs text-gray-400 capitalize">{u.role}</p>
+                    <p className="text-xs text-[var(--text-muted)] capitalize">
+                      {u.role}
+                    </p>
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-[var(--text-muted)]">
                     {u.createdAt
                       ? new Date(u.createdAt).toLocaleDateString()
                       : "N/A"}
@@ -176,71 +170,74 @@ const AdminDashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-sm text-(--text-secondary) text-center py-4">
+              <p className="text-sm text-[var(--text-secondary)] text-center py-4">
                 No users found
               </p>
             )}
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-          <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h3 className="font-bold text-[var(--text-primary)] mb-4">
+            Quick Actions
+          </h3>
           <div className="space-y-3">
             <Link
               to="/dashboard/admin/users"
-              className="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 transition-colors group"
+              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-purple-50 dark:hover:bg-purple-900/20"
             >
-              <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-purple-100 dark:bg-purple-900/40 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60">
                 <span className="text-lg">👥</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800">
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
                   Manage Users
                 </p>
-                <p className="text-xs text-(--text-secondary)">
+                <p className="text-xs text-[var(--text-secondary)]">
                   View, edit, or delete users
                 </p>
               </div>
-              <span className="text-gray-400 group-hover:text-purple-600">
+              <span className="text-[var(--text-muted)] group-hover:text-purple-500 transition-colors">
                 →
               </span>
             </Link>
 
             <Link
               to="/dashboard/admin/tuitions"
-              className="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors group"
+              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-blue-50 dark:hover:bg-blue-900/20"
             >
-              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-blue-100 dark:bg-blue-900/40 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60">
                 <span className="text-lg">📚</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800">
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
                   Manage Tuitions
                 </p>
-                <p className="text-xs text-(--text-secondary)">
+                <p className="text-xs text-[var(--text-secondary)]">
                   Approve or reject posts
                 </p>
               </div>
-              <span className="text-gray-400 group-hover:text-blue-600">→</span>
+              <span className="text-[var(--text-muted)] group-hover:text-blue-500 transition-colors">
+                →
+              </span>
             </Link>
 
             <Link
               to="/dashboard/admin/reports"
-              className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-colors group"
+              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-green-50 dark:hover:bg-green-900/20"
             >
-              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-green-100 dark:bg-green-900/40 group-hover:bg-green-200 dark:group-hover:bg-green-900/60">
                 <span className="text-lg">📊</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800">
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
                   View Reports
                 </p>
-                <p className="text-xs text-(--text-secondary)">
+                <p className="text-xs text-[var(--text-secondary)]">
                   Analytics and earnings
                 </p>
               </div>
-              <span className="text-gray-400 group-hover:text-green-600">
+              <span className="text-[var(--text-muted)] group-hover:text-green-500 transition-colors">
                 →
               </span>
             </Link>

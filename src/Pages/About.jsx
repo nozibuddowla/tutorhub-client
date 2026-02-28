@@ -57,7 +57,7 @@ const values = [
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-(--bg-elevated)">
+    <div className="min-h-screen bg-[var(--bg-elevated)]">
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gray-950 text-white py-28 px-4">
         {/* Decorative blobs */}
@@ -65,7 +65,7 @@ const About = () => {
         <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto text-center">
-          <span className="inline-block bg-(--bg-elevated)/10 border border-white/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
+          <span className="inline-block bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
             Our Story
           </span>
           <h1 className="text-5xl md:text-6xl font-black leading-tight mb-6">
@@ -82,15 +82,15 @@ const About = () => {
       </section>
 
       {/* ── Stats ────────────────────────────────────────────── */}
-      <section className="bg-gray-50 py-16 px-4">
+      <section className="bg-[var(--bg-surface)] py-16 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="bg-(--bg-elevated) rounded-2xl p-6 text-center shadow-sm border border-(--bg-border) hover:shadow-md transition"
+              className="bg-[var(--bg-base)]rounded-2xl p-6 text-center shadow-sm border border-[var(--bg-border)]hover:shadow-md transition"
             >
               <div className="text-3xl mb-2">{s.icon}</div>
-              <p className="text-3xl font-black text-(--text-primary)">
+              <p className="text-3xl font-black text-[var(--text-primary)]">
                 {s.value}
               </p>
               <p className="text-sm text-(--text-secondary) mt-1">{s.label}</p>
@@ -105,7 +105,7 @@ const About = () => {
           {/* Left: visual */}
           <div className="relative">
             <div className="bg-gradient-to-br from-[#632ee3] to-[#11998e] rounded-3xl p-1 shadow-2xl">
-              <div className="bg-(--bg-elevated) rounded-[22px] p-8 space-y-4">
+              <div className="bg-[var(--bg-base)]rounded-[22px] p-8 space-y-4">
                 {[
                   {
                     label: "Student posts tuition request",
@@ -131,7 +131,9 @@ const About = () => {
                     >
                       {item.step}
                     </span>
-                    <p className="font-semibold text-gray-800">{item.label}</p>
+                    <p className="font-semibold text-[var(--text-primary)]">
+                      {item.label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -147,16 +149,16 @@ const About = () => {
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
               Our Mission
             </span>
-            <h2 className="text-4xl font-black text-(--text-primary) mt-3 mb-6 leading-tight">
+            <h2 className="text-4xl font-black text-[var(--text-primary)] mt-3 mb-6 leading-tight">
               Making Quality Education Accessible for All
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
               Finding a reliable tutor in Bangladesh has always been a
               word-of-mouth affair — risky, inconsistent, and unfair. TutorHub
               changes that by bringing students, tutors, and administrators onto
               one transparent, accountable platform.
             </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
+            <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
               Students post their tuition requirements; qualified tutors apply;
               payments are tracked digitally. Everyone wins — and education
               improves.
@@ -172,13 +174,13 @@ const About = () => {
       </section>
 
       {/* ── Values ───────────────────────────────────────────── */}
-      <section className="bg-gray-50 py-20 px-4">
+      <section className="bg-[var(--bg-surface)]py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
               What We Stand For
             </span>
-            <h2 className="text-4xl font-black text-(--text-primary) mt-2">
+            <h2 className="text-4xl font-black text-[var(--text-primary)] mt-2">
               Our Core Values
             </h2>
           </div>
@@ -186,11 +188,11 @@ const About = () => {
             {values.map((v) => (
               <div
                 key={v.title}
-                className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) flex gap-5 hover:shadow-md transition"
+                className="bg-[var(--bg-base)]rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]flex gap-5 hover:shadow-md transition"
               >
                 <span className="text-3xl shrink-0">{v.icon}</span>
                 <div>
-                  <h3 className="font-bold text-(--text-primary) text-lg mb-1">
+                  <h3 className="font-bold text-[var(--text-primary)] text-lg mb-1">
                     {v.title}
                   </h3>
                   <p className="text-(--text-secondary) text-sm leading-relaxed">
@@ -210,7 +212,7 @@ const About = () => {
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
               The People Behind TutorHub
             </span>
-            <h2 className="text-4xl font-black text-(--text-primary) mt-2">
+            <h2 className="text-4xl font-black text-[var(--text-primary)] mt-2">
               Meet the Team
             </h2>
           </div>
@@ -218,7 +220,7 @@ const About = () => {
             {team.map((member) => (
               <div
                 key={member.name}
-                className="bg-(--bg-elevated) rounded-2xl p-8 text-center shadow-sm border border-(--bg-border) hover:shadow-lg transition group"
+                className="bg-[var(--bg-base)]rounded-2xl p-8 text-center shadow-sm border border-[var(--bg-border)]hover:shadow-lg transition group"
               >
                 <div
                   className="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-2xl font-black group-hover:scale-105 transition-transform"
@@ -226,7 +228,7 @@ const About = () => {
                 >
                   {member.avatar}
                 </div>
-                <h3 className="font-bold text-(--text-primary) text-lg">
+                <h3 className="font-bold text-[var(--text-primary)] text-lg">
                   {member.name}
                 </h3>
                 <p
@@ -255,13 +257,13 @@ const About = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/signup"
-              className="px-8 py-3.5 bg-(--bg-elevated) text-[#632ee3] font-bold rounded-xl hover:bg-gray-100 transition"
+              className="px-8 py-3.5 bg-white text-[#632ee3] hover:bg-white/90 font-bold rounded-xl hover:bg-gray-100 transition"
             >
               Get Started Free
             </Link>
             <Link
               to="/tutors"
-              className="px-8 py-3.5 bg-(--bg-elevated)/10 border border-white/30 text-white font-bold rounded-xl hover:bg-(--bg-elevated)/20 transition"
+              className="px-8 py-3.5 bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/30 text-white font-bold rounded-xl hover:bg-[var(--bg-elevated)]/20 transition"
             >
               Browse Tutors
             </Link>

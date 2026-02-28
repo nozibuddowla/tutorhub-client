@@ -46,13 +46,13 @@ const LatestTutors = () => {
       >
         <span className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-purple-500 to-cyan-500 text-white text-sm font-bold rounded-full mb-4">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-(--bg-elevated) opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-(--bg-elevated)"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--bg-elevated)] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--bg-elevated)]"></span>
           </span>
           VERIFIED PROFESSIONALS
         </span>
 
-        <h2 className="text-4xl md:text-5xl font-black text-(--text-primary) mb-4">
+        <h2 className="text-4xl md:text-5xl font-black text-[var(--text-primary)] mb-4">
           Meet Our{" "}
           <span className="bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-cyan-600">
             Expert Tutors
@@ -77,7 +77,7 @@ const LatestTutors = () => {
               className="group relative"
             >
               <Link to={`/tutors/${tutor._id}`} className="block">
-                <div className="relative bg-(--bg-elevated) rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-(--bg-border) cursor-pointer">
+                <div className="relative bg-[var(--bg-elevated)] rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-[var(--bg-border)] cursor-pointer">
                   {/* Avatar */}
                   <div className="relative mb-4">
                     <img
@@ -97,7 +97,7 @@ const LatestTutors = () => {
 
                   {/* Info */}
                   <div className="text-center">
-                    <h3 className="font-bold text-base text-(--text-primary) group-hover:text-purple-600 transition-all mb-1">
+                    <h3 className="font-bold text-base text-[var(--text-primary)] group-hover:text-purple-600 transition-all mb-1">
                       {tutor.name}
                     </h3>
                     <p className="text-xs font-bold text-purple-600 uppercase tracking-wider flex items-center justify-center gap-1">

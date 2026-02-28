@@ -59,7 +59,7 @@ const TutorCard = ({ tutor }) => (
           .map((s, i) => (
             <span
               key={i}
-              className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full"
+              className="bg-purple-100 dark:bg-purple-900/40 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 dark:text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full"
             >
               {s}
             </span>
@@ -154,7 +154,7 @@ const AllTutors = () => {
             </div>
             <button
               type="submit"
-              className="px-5 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition shadow-lg"
+              className="px-5 py-3.5 bg-white text-purple-700 dark:text-purple-300 font-bold rounded-xl hover:bg-purple-50 transition shadow-lg"
             >
               Search
             </button>

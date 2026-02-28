@@ -38,7 +38,7 @@ const Avatar = ({ src, name, size = 10, online = false }) => (
       }}
     />
     {online && (
-      <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+      <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-[var(--bg-elevated)]" />
     )}
   </div>
 );
@@ -53,9 +53,11 @@ const ConversationList = ({
 }) => {
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-(--bg-border)">
-        <h2 className="text-lg font-black text-(--text-primary)">Messages</h2>
-        <p className="text-xs text-gray-400 mt-0.5">
+      <div className="p-4 border-b border-[var(--bg-border)]">
+        <h2 className="text-lg font-black text-[var(--text-primary)]">
+          Messages
+        </h2>
+        <p className="text-xs text-[var(--text-muted)] mt-0.5">
           {conversations.length} conversation
           {conversations.length !== 1 ? "s" : ""}
         </p>
@@ -72,7 +74,7 @@ const ConversationList = ({
             <p className="text-(--text-secondary) font-medium text-sm">
               No conversations yet
             </p>
-            <p className="text-gray-400 text-xs mt-1">
+            <p className="text-[var(--text-muted)] text-xs mt-1">
               Start chatting from your tuition cards
             </p>
           </div>
@@ -90,19 +92,19 @@ const ConversationList = ({
                 onClick={() => onSelect(conv)}
                 className={`w-full text-left px-4 py-3.5 flex items-center gap-3 border-b border-gray-50 transition-colors ${
                   isSelected
-                    ? "bg-purple-50 border-l-4 border-l-purple-600"
-                    : "hover:bg-gray-50"
+                    ? "bg-purple-50 dark:bg-purple-900/30 border-l-4 border-l-purple-600"
+                    : "hover:bg-[var(--bg-surface)]"
                 }`}
               >
                 <Avatar src={otherPhoto} name={otherName} size={10} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-0.5">
                     <p
-                      className={`text-sm font-semibold truncate ${isSelected ? "text-purple-700" : "text-(--text-primary)"}`}
+                      className={`text-sm font-semibold truncate ${isSelected ? "text-purple-700 dark:text-purple-300" : "text-[var(--text-primary)]"}`}
                     >
                       {otherName}
                     </p>
-                    <span className="text-xs text-gray-400 shrink-0 ml-2">
+                    <span className="text-xs text-[var(--text-muted)] shrink-0 ml-2">
                       {conv.lastMessageAt ? formatTime(conv.lastMessageAt) : ""}
                     </span>
                   </div>
@@ -118,7 +120,7 @@ const ConversationList = ({
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-400 truncate mt-0.5">
+                  <p className="text-xs text-[var(--text-muted)] truncate mt-0.5">
                     📚 {conv.tuitionTitle}
                   </p>
                 </div>
@@ -220,21 +222,21 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-(--bg-border) flex items-center gap-3 bg-(--bg-elevated)">
+      <div className="px-5 py-4 border-b border-[var(--bg-border)] flex items-center gap-3 bg-[var(--bg-elevated)]">
         <Avatar src={otherPhoto} name={otherName} size={10} online />
         <div className="flex-1">
-          <p className="font-bold text-(--text-primary)">{otherName}</p>
-          <p className="text-xs text-gray-400">
+          <p className="font-bold text-[var(--text-primary)]">{otherName}</p>
+          <p className="text-xs text-[var(--text-muted)]">
             📚 {conversation.tuitionTitle}
           </p>
         </div>
-        <span className="text-xs bg-green-100 text-green-700 font-semibold px-2.5 py-1 rounded-full">
+        <span className="text-xs bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300font-semibold px-2.5 py-1 rounded-full">
           Online
         </span>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-[var(--bg-surface)]">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
@@ -245,7 +247,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
             <p className="text-(--text-secondary) font-medium">
               Start the conversation!
             </p>
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-[var(--text-muted)] text-sm mt-1">
               Say hello to {otherName}
             </p>
           </div>
@@ -281,12 +283,12 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
                     className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                       isMine
                         ? "bg-linear-to-br from-purple-600 to-purple-700 text-white rounded-br-md"
-                        : "bg-(--bg-elevated) text-gray-800 shadow-sm border border-(--bg-border) rounded-bl-md"
+                        : "bg-[var(--bg-elevated)] text-[var(--text-primary)] shadow-sm border border-[var(--bg-border)] rounded-bl-md"
                     }`}
                   >
                     {msg.text}
                   </div>
-                  <span className="text-xs text-gray-400 px-1">
+                  <span className="text-xs text-[var(--text-muted)] px-1">
                     {formatTime(msg.createdAt)}
                     {isMine && (
                       <span className="ml-1">{msg.read ? "✓✓" : "✓"}</span>
@@ -301,7 +303,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-(--bg-border) bg-(--bg-elevated) flex items-end gap-3">
+      <div className="px-4 py-3 border-t border-[var(--bg-border)] bg-[var(--bg-elevated)] flex items-end gap-3">
         <textarea
           ref={inputRef}
           value={text}
@@ -309,7 +311,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
           onKeyDown={handleKeyDown}
           placeholder={`Message ${otherName}...`}
           rows={1}
-          className="flex-1 resize-none px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition max-h-32"
+          className="flex-1 resize-none px-4 py-2.5 bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition max-h-32"
           style={{ minHeight: "42px" }}
         />
         <button
@@ -361,10 +363,10 @@ const MessagesPage = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-8rem)] bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden flex">
+    <div className="h-[calc(100vh-8rem)] bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden flex">
       {/* Sidebar — Conversation List */}
       <div
-        className={`w-full md:w-80 border-r border-(--bg-border) flex-shrink-0 flex flex-col ${
+        className={`w-full md:w-80 border-r border-[var(--bg-border)] flex-shrink-0 flex flex-col ${
           mobileShowChat ? "hidden md:flex" : "flex"
         }`}
       >
@@ -400,10 +402,10 @@ const MessagesPage = () => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-center px-8">
-            <div className="w-20 h-20 bg-purple-50 rounded-3xl flex items-center justify-center text-4xl mb-4">
+            <div className="w-20 h-20 bg-purple-50 dark:bg-purple-900/30 rounded-3xl flex items-center justify-center text-4xl mb-4">
               💬
             </div>
-            <h3 className="text-xl font-black text-(--text-primary) mb-2">
+            <h3 className="text-xl font-black text-[var(--text-primary)] mb-2">
               Your Messages
             </h3>
             <p className="text-(--text-secondary) text-sm max-w-xs">

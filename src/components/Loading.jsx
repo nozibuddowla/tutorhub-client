@@ -2,7 +2,7 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="fixed inset-0 bg-(--bg-elevated) z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-[var(--bg-elevated)] z-50 flex items-center justify-center">
       <div className="text-center">
         {/* Spinner */}
         <div className="relative w-24 h-24 mx-auto mb-8">

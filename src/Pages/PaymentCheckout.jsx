@@ -169,11 +169,11 @@ const CheckoutForm = () => {
                   : `Pay ৳${amount.toLocaleString()}`}
             </button>
           </form>
-          <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700/50">
+          <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/30 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700/50">
             <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
               Test Card (Development Mode):
             </p>
-            <p className="text-xs text-yellow-700 dark:text-yellow-400">
+            <p className="text-xs text-yellow-700 text-yellow-600 dark:text-yellow-400">
               Card: 4242 4242 4242 4242 | Exp: Any future date | CVC: Any 3
               digits
             </p>

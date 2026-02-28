@@ -32,9 +32,21 @@ const isSameDay = (a, b) => {
 };
 
 const statusColor = {
-  scheduled: { bg: "bg-purple-100", text: "text-purple-700", dot: "#6b46c1" },
-  completed: { bg: "bg-green-100", text: "text-green-700", dot: "#38a169" },
-  cancelled: { bg: "bg-red-100", text: "text-red-700", dot: "#e53e3e" },
+  scheduled: {
+    bg: "bg-purple-100 dark:bg-purple-900/40",
+    text: "text-purple-700 dark:text-purple-300",
+    dot: "#6b46c1",
+  },
+  completed: {
+    bg: "bg-green-100 dark:bg-green-900/40",
+    text: "text-green-700",
+    dot: "#38a169",
+  },
+  cancelled: {
+    bg: "bg-red-100 dark:bg-red-900/40",
+    text: "text-red-700 dark:text-red-300",
+    dot: "#e53e3e",
+  },
 };
 
 const formatTime = (d) =>
@@ -108,9 +120,9 @@ const ScheduleModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-lg shadow-2xl">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 w-full max-w-lg shadow-2xl">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-xl font-black text-(--text-primary)">
+          <h3 className="text-xl font-black text-[var(--text-primary)]">
             📅 Schedule Class
           </h3>
           <button
@@ -124,13 +136,13 @@ const ScheduleModal = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Tuition select */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
               Tuition <span className="text-red-500">*</span>
             </label>
             <select
               value={form.tuitionId}
               onChange={(e) => setForm({ ...form, tuitionId: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-(--bg-elevated)"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-[var(--bg-elevated)]"
               required
             >
               <option value="">Select a tuition...</option>
@@ -145,7 +157,7 @@ const ScheduleModal = ({
 
           {/* Date */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
               Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -163,7 +175,7 @@ const ScheduleModal = ({
           {/* Start + End time */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
                 Start Time <span className="text-red-500">*</span>
               </label>
               <input
@@ -179,7 +191,7 @@ const ScheduleModal = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
                 End Time <span className="text-red-500">*</span>
               </label>
               <input
@@ -196,7 +208,7 @@ const ScheduleModal = ({
 
           {/* Location */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
               Location / Platform
             </label>
             <input
@@ -212,7 +224,7 @@ const ScheduleModal = ({
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-1.5">
               Notes
             </label>
             <textarea
@@ -240,7 +252,7 @@ const ScheduleModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition"
+              className="px-6 py-3 bg-gray-100 text-[var(--text-secondary)] font-bold rounded-xl hover:bg-gray-200 transition"
             >
               Cancel
             </button>
@@ -264,7 +276,7 @@ const SessionDetailModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
         <div className="flex items-start justify-between mb-4">
           <div>
             <span
@@ -272,7 +284,7 @@ const SessionDetailModal = ({
             >
               {session.status}
             </span>
-            <h3 className="text-lg font-black text-(--text-primary) mt-2">
+            <h3 className="text-lg font-black text-[var(--text-primary)] mt-2">
               {session.tuitionTitle || session.subject}
             </h3>
           </div>
@@ -288,7 +300,7 @@ const SessionDetailModal = ({
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
             <span className="text-lg">📅</span>
             <div>
-              <p className="font-semibold text-gray-800">
+              <p className="font-semibold text-[var(--text-primary)]">
                 {formatDate(session.startTime)}
               </p>
               <p className="text-(--text-secondary)">
@@ -300,7 +312,9 @@ const SessionDetailModal = ({
           {session.location && (
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
               <span className="text-lg">📍</span>
-              <p className="font-semibold text-gray-800">{session.location}</p>
+              <p className="font-semibold text-[var(--text-primary)]">
+                {session.location}
+              </p>
             </div>
           )}
 
@@ -310,7 +324,7 @@ const SessionDetailModal = ({
               <p className="text-(--text-secondary) text-xs">
                 {isTutor ? "Student" : "Tutor"}
               </p>
-              <p className="font-semibold text-gray-800">
+              <p className="font-semibold text-[var(--text-primary)]">
                 {isTutor ? session.studentName : session.tutorName}
               </p>
             </div>
@@ -319,7 +333,7 @@ const SessionDetailModal = ({
           {session.notes && (
             <div className="bg-purple-50 rounded-xl p-3">
               <p className="text-xs font-bold text-purple-600 mb-1">NOTES</p>
-              <p className="text-gray-700">{session.notes}</p>
+              <p className="text-[var(--text-secondary)]">{session.notes}</p>
             </div>
           )}
         </div>
@@ -340,7 +354,7 @@ const SessionDetailModal = ({
                 onStatusChange(session._id, "cancelled");
                 onClose();
               }}
-              className="flex-1 py-2.5 bg-red-100 text-red-600 font-bold rounded-xl hover:bg-red-200 transition text-sm"
+              className="flex-1 py-2.5 bg-red-100 dark:bg-red-900/40 text-red-600 font-bold rounded-xl hover:bg-red-200 transition text-sm"
             >
               Cancel
             </button>
@@ -487,7 +501,7 @@ const ClassCalendar = () => {
           </div>
           <button
             onClick={() => setShowSchedule(true)}
-            className="px-5 py-2.5 bg-(--bg-elevated) text-purple-700 font-bold rounded-xl hover:bg-gray-100 transition flex items-center gap-2"
+            className="px-5 py-2.5 bg-[var(--bg-elevated)] text-purple-700 dark:text-purple-300 font-bold rounded-xl hover:bg-gray-100 transition flex items-center gap-2"
           >
             + Schedule Class
           </button>
@@ -524,7 +538,7 @@ const ClassCalendar = () => {
         ].map((s) => (
           <div
             key={s.label}
-            className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border)"
+            className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)]"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-xl">{s.icon}</span>
@@ -535,7 +549,7 @@ const ClassCalendar = () => {
                 {s.label}
               </span>
             </div>
-            <p className="text-3xl font-black text-(--text-primary)">
+            <p className="text-3xl font-black text-[var(--text-primary)]">
               {s.value}
             </p>
           </div>
@@ -544,9 +558,9 @@ const ClassCalendar = () => {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Calendar */}
-        <div className="lg:col-span-2 bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
+        <div className="lg:col-span-2 bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
           {/* Calendar Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-(--bg-border)">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--bg-border)]">
             <div className="flex items-center gap-3">
               <button
                 onClick={prevMonth}
@@ -554,7 +568,7 @@ const ClassCalendar = () => {
               >
                 ‹
               </button>
-              <h3 className="text-lg font-black text-(--text-primary)">
+              <h3 className="text-lg font-black text-[var(--text-primary)]">
                 {MONTHS[month]} {year}
               </h3>
               <button
@@ -573,11 +587,11 @@ const ClassCalendar = () => {
           </div>
 
           {/* Day labels */}
-          <div className="grid grid-cols-7 border-b border-(--bg-border)">
+          <div className="grid grid-cols-7 border-b border-[var(--bg-border)]">
             {DAYS.map((d) => (
               <div
                 key={d}
-                className="text-center text-xs font-bold text-gray-400 py-3"
+                className="text-center text-xs font-bold text-[var(--text-muted)] py-3"
               >
                 {d}
               </div>
@@ -615,8 +629,8 @@ const ClassCalendar = () => {
                       isToday
                         ? "bg-purple-600 text-white"
                         : isPast
-                          ? "text-gray-400"
-                          : "text-gray-700 hover:bg-gray-100"
+                          ? "text-[var(--text-muted)]"
+                          : "text-[var(--text-secondary)] hover:bg-gray-100"
                     }`}
                   >
                     {day}
@@ -636,7 +650,7 @@ const ClassCalendar = () => {
                       );
                     })}
                     {daySessions.length > 2 && (
-                      <p className="text-xs text-gray-400 px-1">
+                      <p className="text-xs text-[var(--text-muted)] px-1">
                         +{daySessions.length - 2} more
                       </p>
                     )}
@@ -648,8 +662,8 @@ const ClassCalendar = () => {
         </div>
 
         {/* Upcoming Sessions sidebar */}
-        <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) p-5">
-          <h3 className="font-black text-(--text-primary) mb-4">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] p-5">
+          <h3 className="font-black text-[var(--text-primary)] mb-4">
             Upcoming Sessions
           </h3>
 
@@ -677,10 +691,10 @@ const ClassCalendar = () => {
                   <button
                     key={s._id}
                     onClick={() => setSelectedSession(s)}
-                    className="w-full text-left p-3 rounded-xl border border-(--bg-border) hover:border-purple-200 hover:bg-purple-50/30 transition group"
+                    className="w-full text-left p-3 rounded-xl border border-[var(--bg-border)] hover:border-purple-200 hover:bg-purple-50/30 transition group"
                   >
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <p className="text-sm font-bold text-(--text-primary) truncate">
+                      <p className="text-sm font-bold text-[var(--text-primary)] truncate">
                         {s.tuitionTitle || s.subject}
                       </p>
                       <span
@@ -697,7 +711,7 @@ const ClassCalendar = () => {
                       {formatDate(s.startTime)} · {formatTime(s.startTime)}
                     </p>
                     {s.location && (
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-[var(--text-muted)] mt-0.5">
                         📍 {s.location}
                       </p>
                     )}
@@ -710,7 +724,7 @@ const ClassCalendar = () => {
           {/* All sessions list */}
           {sessions.length > 0 && (
             <div className="mt-6">
-              <h4 className="font-bold text-gray-700 text-sm mb-3">
+              <h4 className="font-bold text-[var(--text-secondary)] text-sm mb-3">
                 All Sessions
               </h4>
               <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
@@ -729,10 +743,10 @@ const ClassCalendar = () => {
                           style={{ background: sc.dot }}
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-gray-800 truncate">
+                          <p className="text-xs font-semibold text-[var(--text-primary)] truncate">
                             {s.subject}
                           </p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-[var(--text-muted)]">
                             {formatDate(s.startTime)}
                           </p>
                         </div>

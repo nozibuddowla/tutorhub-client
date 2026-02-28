@@ -102,7 +102,7 @@ const AllTuitions = () => {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition shrink-0"
+              className="px-6 py-3 bg-white text-purple-700 dark:text-purple-300 font-bold rounded-xl hover:bg-purple-50 transition shrink-0"
             >
               🔍 Search
             </button>
@@ -177,7 +177,7 @@ const AllTuitions = () => {
             </span>
             <button
               onClick={handleReset}
-              className="text-sm text-red-500 hover:text-red-700 font-semibold underline"
+              className="text-sm text-red-500 hover:text-red-700 dark:text-red-300 font-semibold underline"
             >
               Reset
             </button>
@@ -213,7 +213,7 @@ const AllTuitions = () => {
                 className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <span className="bg-purple-100 dark:bg-purple-900/40 text-[var(--text-primary)] text-xs font-bold px-3 py-1 rounded-full uppercase">
+                  <span className="bg-purple-100 dark:bg-purple-900/40 dark:bg-purple-900/40 text-[var(--text-primary)] text-xs font-bold px-3 py-1 rounded-full uppercase">
                     {tuition.subject}
                   </span>
                   <div className="text-right">

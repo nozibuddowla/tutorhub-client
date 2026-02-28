@@ -55,28 +55,28 @@ const TutorRevenue = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center text-2xl">
               💵
             </div>
             <div>
               <p className="text-sm text-(--text-secondary)">Total Earnings</p>
-              <p className="text-3xl font-black text-(--text-primary)">
+              <p className="text-3xl font-black text-[var(--text-primary)]">
                 ৳{totalEarnings.toLocaleString()}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">
+            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center text-2xl">
               📅
             </div>
             <div>
               <p className="text-sm text-(--text-secondary)">This Month</p>
-              <p className="text-3xl font-black text-(--text-primary)">
+              <p className="text-3xl font-black text-[var(--text-primary)]">
                 ৳{thisMonth.toLocaleString()}
               </p>
             </div>
@@ -85,9 +85,9 @@ const TutorRevenue = () => {
       </div>
 
       {/* Transaction History */}
-      <div className="bg-(--bg-elevated) rounded-2xl shadow-sm border border-(--bg-border) overflow-hidden">
-        <div className="p-6 border-b border-(--bg-border)">
-          <h3 className="text-xl font-bold text-(--text-primary)">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
+        <div className="p-6 border-b border-[var(--bg-border)]">
+          <h3 className="text-xl font-bold text-[var(--text-primary)]">
             Transaction History
           </h3>
         </div>
@@ -95,7 +95,7 @@ const TutorRevenue = () => {
         {payments.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-(--bg-surface) border-b border-(--bg-border)">
+              <thead className="bg-(--bg-surface) border-b border-[var(--bg-border)]">
                 <tr>
                   <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
                     Date
@@ -118,7 +118,7 @@ const TutorRevenue = () => {
                     className="hover:bg-(--bg-surface) transition-colors"
                   >
                     <td className="py-4 px-6">
-                      <p className="text-sm text-gray-700">
+                      <p className="text-sm text-[var(--text-secondary)]">
                         {new Date(payment.createdAt).toLocaleDateString(
                           "en-US",
                           {
@@ -130,7 +130,7 @@ const TutorRevenue = () => {
                       </p>
                     </td>
                     <td className="py-4 px-6">
-                      <p className="font-semibold text-(--text-primary)">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {payment.tuitionTitle || "Tuition Payment"}
                       </p>
                       <p className="text-xs text-(--text-secondary)">
@@ -138,12 +138,12 @@ const TutorRevenue = () => {
                       </p>
                     </td>
                     <td className="py-4 px-6">
-                      <p className="text-sm font-bold text-(--text-primary)">
+                      <p className="text-sm font-bold text-[var(--text-primary)]">
                         ৳{payment.amount?.toLocaleString() || 0}
                       </p>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 dark:bg-green-900/40 text-green-700">
                         {payment.status || "success"}
                       </span>
                     </td>

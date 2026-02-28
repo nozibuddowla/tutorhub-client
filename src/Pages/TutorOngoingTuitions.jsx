@@ -75,14 +75,14 @@ const TutorOngoingTuitions = () => {
           {tuitions.map((tuition) => (
             <div
               key={tuition._id}
-              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-shadow"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+                  <span className="bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300text-xs font-bold px-3 py-1 rounded-full">
                     APPROVED
                   </span>
-                  <h3 className="font-bold text-xl text-(--text-primary) mt-3">
+                  <h3 className="font-bold text-xl text-[var(--text-primary)] mt-3">
                     {tuition.tuitionTitle || tuition.subject}
                   </h3>
                 </div>
@@ -97,25 +97,25 @@ const TutorOngoingTuitions = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
                   <p className="text-(--text-secondary)">Student</p>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-[var(--text-primary)]">
                     {tuition.studentName || "N/A"}
                   </p>
                 </div>
                 <div>
                   <p className="text-(--text-secondary)">Subject</p>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-[var(--text-primary)]">
                     {tuition.subject}
                   </p>
                 </div>
                 <div>
                   <p className="text-(--text-secondary)">Location</p>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-[var(--text-primary)]">
                     {tuition.location || "N/A"}
                   </p>
                 </div>
                 <div>
                   <p className="text-(--text-secondary)">Started</p>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-[var(--text-primary)]">
                     {new Date(
                       tuition.approvedAt || tuition.createdAt,
                     ).toLocaleDateString()}
@@ -123,10 +123,10 @@ const TutorOngoingTuitions = () => {
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-(--bg-border) flex gap-3">
+              <div className="mt-4 pt-4 border-t border-[var(--bg-border)] flex gap-3">
                 <Link
                   to={`/tuitions/${tuition.tuitionId}`}
-                  className="flex-1 px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
+                  className="flex-1 px-4 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
                 >
                   View Details
                 </Link>
@@ -134,7 +134,7 @@ const TutorOngoingTuitions = () => {
                 <button
                   onClick={() => handleContactStudent(tuition)}
                   disabled={messaging === tuition._id}
-                  className="flex-1 px-4 py-2 bg-teal-100 text-teal-700 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="flex-1 px-4 py-2 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {messaging === tuition._id ? (
                     <span className="w-4 h-4 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
@@ -148,12 +148,12 @@ const TutorOngoingTuitions = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📖</div>
           <p className="text-(--text-secondary) text-lg font-medium">
             No ongoing tuitions yet
           </p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-[var(--text-muted)] text-sm mt-2">
             Start applying for tuitions to see them here
           </p>
         </div>

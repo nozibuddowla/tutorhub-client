@@ -119,8 +119,8 @@ const AppliedTutors = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-        <h2 className="text-2xl font-black text-(--text-primary)">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+        <h2 className="text-2xl font-black text-[var(--text-primary)]">
           Applied Tutors
         </h2>
         <p className="text-(--text-secondary) mt-1">
@@ -134,8 +134,8 @@ const AppliedTutors = () => {
               Total: {applications.length}
             </p>
           </div>
-          <div className="bg-yellow-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-yellow-600 font-semibold">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending:{" "}
               {applications.filter((a) => a.status === "pending").length}
             </p>
@@ -155,7 +155,7 @@ const AppliedTutors = () => {
           {applications.map((application) => (
             <div
               key={application._id}
-              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Tutor Profile */}
@@ -171,15 +171,15 @@ const AppliedTutors = () => {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-bold text-xl text-(--text-primary)">
+                      <h3 className="font-bold text-xl text-[var(--text-primary)]">
                         {application.tutorName}
                       </h3>
                       <span
                         className={`text-xs font-bold px-3 py-1 rounded-full capitalize ${
                           application.status === "approved"
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-green-100 dark:bg-green-900/40 text-green-700"
                             : application.status === "rejected"
-                              ? "bg-red-100 text-red-700"
+                              ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
                               : "bg-yellow-100 text-yellow-700"
                         }`}
                       >
@@ -192,7 +192,7 @@ const AppliedTutors = () => {
                     </p>
 
                     <div className="bg-purple-50 px-3 py-2 rounded-lg inline-block mb-3">
-                      <p className="text-sm font-semibold text-purple-700">
+                      <p className="text-sm font-semibold text-purple-700 dark:text-purple-300">
                         Applied for:{" "}
                         {application.tuitionTitle || application.subject}
                       </p>
@@ -203,7 +203,7 @@ const AppliedTutors = () => {
                         <p className="text-(--text-secondary) font-medium">
                           Qualifications
                         </p>
-                        <p className="text-gray-800">
+                        <p className="text-[var(--text-primary)]">
                           {application.qualifications || "Not specified"}
                         </p>
                       </div>
@@ -211,7 +211,7 @@ const AppliedTutors = () => {
                         <p className="text-(--text-secondary) font-medium">
                           Experience
                         </p>
-                        <p className="text-gray-800">
+                        <p className="text-[var(--text-primary)]">
                           {application.experience || "Not specified"}
                         </p>
                       </div>
@@ -228,7 +228,7 @@ const AppliedTutors = () => {
                     <p className="text-3xl font-black text-purple-600">
                       ৳{application.expectedSalary}
                     </p>
-                    <p className="text-xs text-gray-400">/month</p>
+                    <p className="text-xs text-[var(--text-muted)]">/month</p>
                   </div>
 
                   {application.status === "pending" && (
@@ -263,14 +263,14 @@ const AppliedTutors = () => {
 
                   {application.status === "approved" && (
                     <div className="flex flex-col gap-2 w-full">
-                      <div className="w-full px-4 py-2 bg-green-100 text-green-700 rounded-xl text-center font-semibold text-sm">
+                      <div className="w-full px-4 py-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300rounded-xl text-center font-semibold text-sm">
                         ✓ Hired
                       </div>
                       {/* Message button still visible after approval */}
                       <button
                         onClick={() => handleMessage(application)}
                         disabled={messaging === application._id}
-                        className="w-full px-4 py-2 bg-purple-100 text-purple-700 rounded-xl font-semibold text-sm hover:bg-purple-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                        className="w-full px-4 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-xl font-semibold text-sm hover:bg-purple-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
                       >
                         {messaging === application._id ? (
                           <span className="w-3 h-3 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
@@ -283,7 +283,7 @@ const AppliedTutors = () => {
                   )}
 
                   {application.status === "rejected" && (
-                    <div className="w-full px-4 py-2 bg-red-100 text-red-700 rounded-xl text-center font-semibold text-sm">
+                    <div className="w-full px-4 py-2 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-xl text-center font-semibold text-sm">
                       ✗ Declined
                     </div>
                   )}
@@ -291,8 +291,8 @@ const AppliedTutors = () => {
               </div>
 
               {/* Applied Date */}
-              <div className="mt-4 pt-4 border-t border-(--bg-border)">
-                <p className="text-xs text-gray-400">
+              <div className="mt-4 pt-4 border-t border-[var(--bg-border)]">
+                <p className="text-xs text-[var(--text-muted)]">
                   Applied on:{" "}
                   {application.createdAt
                     ? new Date(application.createdAt).toLocaleDateString(
@@ -310,12 +310,12 @@ const AppliedTutors = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">👨‍🏫</div>
           <p className="text-(--text-secondary) text-lg font-medium">
             No tutor applications yet
           </p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-[var(--text-muted)] text-sm mt-2">
             Tutors will appear here when they apply for your tuitions
           </p>
         </div>

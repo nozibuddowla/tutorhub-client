@@ -254,7 +254,13 @@ const Hero = () => {
       </motion.div>
 
       {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-gray-50 to-transparent" />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, var(--bg-base) 0%, transparent 100%)",
+        }}
+      />
     </section>
   );
 };

@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-(--bg-elevated) rounded-2xl p-5 shadow-sm border border-(--bg-border) hover:shadow-md transition-all cursor-pointer">
+    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -16,7 +16,7 @@ const StatCard = ({ label, value, icon, color, link }) => (
           Active
         </span>
       </div>
-      <p className="text-3xl font-black text-(--text-primary)">{value}</p>
+      <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
       <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
     </div>
   </Link>
@@ -30,6 +30,45 @@ const formatSessionTime = (d) =>
   }) +
   " · " +
   new Date(d).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+const quickActions = [
+  {
+    to: "/dashboard/tutor/applications",
+    icon: "📝",
+    label: "My Applications",
+    sub: "Track your applications",
+    rowHover: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
+    iconBg: "bg-purple-100  dark:bg-purple-900/40",
+    iconHover: "group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60",
+  },
+  {
+    to: "/dashboard/tutor/ongoing",
+    icon: "📚",
+    label: "Ongoing Tuitions",
+    sub: "View active tuitions",
+    rowHover: "hover:bg-green-50  dark:hover:bg-green-900/20",
+    iconBg: "bg-green-100   dark:bg-green-900/40",
+    iconHover: "group-hover:bg-green-200  dark:group-hover:bg-green-900/60",
+  },
+  {
+    to: "/dashboard/tutor/calendar",
+    icon: "📅",
+    label: "Class Calendar",
+    sub: "Schedule & track sessions",
+    rowHover: "hover:bg-blue-50   dark:hover:bg-blue-900/20",
+    iconBg: "bg-blue-100    dark:bg-blue-900/40",
+    iconHover: "group-hover:bg-blue-200   dark:group-hover:bg-blue-900/60",
+  },
+  {
+    to: "/dashboard/tutor/revenue",
+    icon: "💰",
+    label: "Revenue History",
+    sub: "Track earnings",
+    rowHover: "hover:bg-yellow-50  dark:hover:bg-yellow-900/20",
+    iconBg: "bg-yellow-100  dark:bg-yellow-900/40",
+    iconHover: "group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/60",
+  },
+];
 
 const TutorDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -141,9 +180,11 @@ const TutorDashboard = () => {
       {/* Three column layout */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Applications */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-gray-800">Recent Applications</h3>
+            <h3 className="font-bold text-[var(--text-primary)]">
+              Recent Applications
+            </h3>
             <Link
               to="/dashboard/tutor/applications"
               className="text-sm text-purple-600 font-semibold hover:underline"
@@ -167,14 +208,14 @@ const TutorDashboard = () => {
                     }}
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-gray-700">
+                    <p className="text-sm font-semibold text-[var(--text-secondary)]">
                       {app.tuitionTitle || app.subject}
                     </p>
-                    <p className="text-xs text-gray-400 capitalize">
+                    <p className="text-xs text-[var(--text-muted)] capitalize">
                       {app.status}
                     </p>
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-[var(--text-muted)]">
                     {new Date(app.createdAt).toLocaleDateString()}
                   </span>
                 </div>
@@ -188,9 +229,11 @@ const TutorDashboard = () => {
         </div>
 
         {/* Upcoming Sessions — NEW ── */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-gray-800">Upcoming Classes</h3>
+            <h3 className="font-bold text-[var(--text-primary)]">
+              Upcoming Classes
+            </h3>
             <Link
               to="/dashboard/tutor/calendar"
               className="text-sm text-purple-600 font-semibold hover:underline"
@@ -209,7 +252,7 @@ const TutorDashboard = () => {
                     {new Date(s.startTime).getDate()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-gray-800 truncate">
+                    <p className="text-sm font-bold text-[var(--text-primary)] truncate">
                       {s.subject}
                     </p>
                     <p className="text-xs text-(--text-secondary)">
@@ -239,39 +282,12 @@ const TutorDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-          <h3 className="font-bold text-gray-800 mb-4">Quick Actions</h3>
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+          <h3 className="font-bold text-[var(--text-primary)] mb-4">
+            Quick Actions
+          </h3>
           <div className="space-y-3">
-            {[
-              {
-                to: "/dashboard/tutor/applications",
-                icon: "📝",
-                label: "My Applications",
-                sub: "Track your applications",
-                hover: "purple",
-              },
-              {
-                to: "/dashboard/tutor/ongoing",
-                icon: "📚",
-                label: "Ongoing Tuitions",
-                sub: "View active tuitions",
-                hover: "green",
-              },
-              {
-                to: "/dashboard/tutor/calendar",
-                icon: "📅",
-                label: "Class Calendar",
-                sub: "Schedule & track sessions",
-                hover: "blue",
-              },
-              {
-                to: "/dashboard/tutor/revenue",
-                icon: "💰",
-                label: "Revenue History",
-                sub: "Track earnings",
-                hover: "yellow",
-              },
-            ].map((item) => (
+            {quickActions.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -283,12 +299,12 @@ const TutorDashboard = () => {
                   <span className="text-lg">{item.icon}</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-800">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">
                     {item.label}
                   </p>
                   <p className="text-xs text-(--text-secondary)">{item.sub}</p>
                 </div>
-                <span className="text-gray-400">→</span>
+                <span className="text-[var(--text-muted)]">→</span>
               </Link>
             ))}
           </div>

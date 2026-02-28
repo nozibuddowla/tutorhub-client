@@ -104,8 +104,8 @@ const StudentTuitions = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border)">
-        <h2 className="text-2xl font-black text-(--text-primary)">
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
+        <h2 className="text-2xl font-black text-[var(--text-primary)]">
           My Tuitions
         </h2>
         <p className="text-(--text-secondary) mt-1">
@@ -119,8 +119,8 @@ const StudentTuitions = () => {
               Total: {tuitions.length}
             </p>
           </div>
-          <div className="bg-yellow-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-yellow-600 font-semibold">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending: {tuitions.filter((t) => t.status === "pending").length}
             </p>
           </div>
@@ -138,21 +138,21 @@ const StudentTuitions = () => {
           {tuitions.map((tuition) => (
             <div
               key={tuition._id}
-              className="bg-(--bg-elevated) rounded-2xl p-6 shadow-sm border border-(--bg-border) hover:shadow-md transition-shadow"
+              className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 {/* Tuition Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                    <span className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
                       {tuition.subject}
                     </span>
                     <span
                       className={`text-xs font-bold px-3 py-1 rounded-full capitalize ${
                         tuition.status === "approved"
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-green-100 dark:bg-green-900/40 text-green-700"
                           : tuition.status === "rejected"
-                            ? "bg-red-100 text-red-700"
+                            ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
                             : "bg-yellow-100 text-yellow-700"
                       }`}
                     >
@@ -160,26 +160,26 @@ const StudentTuitions = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-lg text-(--text-primary) mb-3">
+                  <h3 className="font-bold text-lg text-[var(--text-primary)] mb-3">
                     {tuition.description || "Tuition Request"}
                   </h3>
 
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                     <div>
                       <p className="text-(--text-secondary)">Location</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.location}
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Salary</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         ৳{tuition.salary}/month
                       </p>
                     </div>
                     <div>
                       <p className="text-(--text-secondary)">Posted On</p>
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.createdAt
                           ? new Date(tuition.createdAt).toLocaleDateString()
                           : "N/A"}
@@ -208,12 +208,12 @@ const StudentTuitions = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-(--bg-elevated) rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📚</div>
           <p className="text-(--text-secondary) text-lg font-medium">
             No tuitions posted yet
           </p>
-          <p className="text-gray-400 text-sm mt-2">
+          <p className="text-[var(--text-muted)] text-sm mt-2">
             Create your first tuition post to find tutors
           </p>
         </div>
@@ -222,8 +222,10 @@ const StudentTuitions = () => {
       {/* Edit Modal */}
       {showEditModal && editingTuition && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-(--bg-elevated) rounded-2xl p-6 border border-(--bg-border) shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold text-(--text-primary) mb-4">Edit Tuition</h3>
+          <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 border border-[var(--bg-border)] shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">
+              Edit Tuition
+            </h3>
             <form onSubmit={handleUpdate} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -311,7 +313,7 @@ const StudentTuitions = () => {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-[var(--text-secondary)] py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
