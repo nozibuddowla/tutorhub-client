@@ -116,9 +116,9 @@ const LatestTutors = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+        <div className="text-center py-20 bg-[var(--bg-surface)] border-[var(--bg-border-strong)] rounded-3xl border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">👨‍🏫</div>
-          <p className="text-(--text-secondary) text-lg font-medium">
+          <p className="text-[var(--text-secondary)] text-lg font-medium">
             No tutors available yet. Check back soon!
           </p>
         </div>
