@@ -86,22 +86,22 @@ const ManageTuitions = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-gray-50 px-4 py-2 rounded-xl">
+          <div className="bg-gray-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-gray-600 font-semibold">
               Total: {stats.total}
             </p>
           </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending: {stats.pending}
             </p>
           </div>
-          <div className="bg-green-50 px-4 py-2 rounded-xl">
+          <div className="bg-green-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-green-600 font-semibold">
               Approved: {stats.approved}
             </p>
           </div>
-          <div className="bg-red-50 px-4 py-2 rounded-xl">
+          <div className="bg-red-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-red-600 font-semibold">
               Rejected: {stats.rejected}
             </p>
@@ -114,7 +114,7 @@ const ManageTuitions = () => {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg font-semibold text-sm capitalize transition-colors ${
+              className={`px-2 py-2 rounded-lg font-semibold text-sm capitalize transition-colors ${
                 filter === f
                   ? "bg-purple-600 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"

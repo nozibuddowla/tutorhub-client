@@ -91,7 +91,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-surface)] py-12 px-4">
+    <div className="min-h-screen bg-[var(--bg-surface)] py-12 px-2">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <h2 className="text-2xl font-black text-[var(--text-primary)]">

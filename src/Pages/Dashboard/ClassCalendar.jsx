@@ -142,7 +142,7 @@ const ScheduleModal = ({
             <select
               value={form.tuitionId}
               onChange={(e) => setForm({ ...form, tuitionId: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-[var(--bg-elevated)]"
+              className="w-full px-2 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 bg-[var(--bg-elevated)]"
               required
             >
               <option value="">Select a tuition...</option>
@@ -165,7 +165,7 @@ const ScheduleModal = ({
               value={form.date}
               min={new Date().toISOString().split("T")[0]}
               onChange={(e) => setForm({ ...form, date: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl outline-none
+              className="w-full px-2 py-2.5 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
               required
@@ -184,7 +184,7 @@ const ScheduleModal = ({
                 onChange={(e) =>
                   setForm({ ...form, startTime: e.target.value })
                 }
-                className="w-full px-4 py-2.5 rounded-xl outline-none
+                className="w-full px-2 py-2.5 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 required
@@ -198,7 +198,7 @@ const ScheduleModal = ({
                 type="time"
                 value={form.endTime}
                 onChange={(e) => setForm({ ...form, endTime: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl outline-none
+                className="w-full px-2 py-2.5 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 required
@@ -216,7 +216,7 @@ const ScheduleModal = ({
               placeholder="e.g. Home, Zoom, Google Meet..."
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl outline-none
+              className="w-full px-2 py-2.5 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
             />
@@ -232,7 +232,7 @@ const ScheduleModal = ({
               placeholder="Any notes for this session..."
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
+              className="w-full px-2 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
             />
           </div>
 
@@ -363,7 +363,7 @@ const SessionDetailModal = ({
                 onDelete(session._id);
                 onClose();
               }}
-              className="px-4 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition text-sm"
+              className="px-2 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition text-sm"
             >
               🗑
             </button>

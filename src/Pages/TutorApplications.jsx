@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "../components/Loading";
+import { Button, Input, Badge, Modal } from "../components/ui";
 
 const TutorApplications = () => {
   const { user } = useContext(AuthContext);
@@ -93,26 +94,16 @@ const TutorApplications = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-gray-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-gray-600 font-semibold">
-              Total: {stats.total}
-            </p>
-          </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
-            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
-              Pending: {stats.pending}
-            </p>
-          </div>
-          <div className="bg-green-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-green-600 font-semibold">
-              Approved: {stats.approved}
-            </p>
-          </div>
-          <div className="bg-red-50 px-4 py-2 rounded-xl">
-            <p className="text-sm text-red-600 font-semibold">
-              Rejected: {stats.rejected}
-            </p>
-          </div>
+          <Badge variant="gray">Total: {stats.total}</Badge>
+          <Badge variant="yellow" dot>
+            Pending: {stats.pending}
+          </Badge>
+          <Badge variant="green" dot>
+            Approved: {stats.approved}
+          </Badge>
+          <Badge variant="red" dot>
+            Rejected: {stats.rejected}
+          </Badge>
         </div>
       </div>
 
@@ -128,20 +119,20 @@ const TutorApplications = () => {
                 {/* Application Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
-                      {app.subject || "N/A"}
-                    </span>
-                    <span
-                      className={`text-xs font-bold px-3 py-1 rounded-full capitalize ${
+                    <Badge variant="purple">{app.subject || "N/A"}</Badge>
+
+                    <Badge
+                      variant={
                         app.status === "approved"
-                          ? "bg-green-100 dark:bg-green-900/40 text-green-700"
+                          ? "green"
                           : app.status === "rejected"
-                            ? "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300"
-                            : "bg-yellow-100 text-yellow-700"
-                      }`}
+                            ? "red"
+                            : "yellow"
+                      }
+                      dot
                     >
                       {app.status}
-                    </span>
+                    </Badge>
                   </div>
 
                   <h3 className="font-bold text-lg text-[var(--text-primary)] mb-2">
@@ -179,18 +170,20 @@ const TutorApplications = () => {
                 {/* Actions */}
                 {app.status === "pending" && (
                   <div className="flex gap-3">
-                    <button
+                    <Button
                       onClick={() => handleEdit(app)}
-                      className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+                      variant="secondary"
+                      size="sm"
                     >
                       Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => handleDelete(app._id)}
-                      className="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                      variant="danger"
+                      size="sm"
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>
@@ -208,87 +201,50 @@ const TutorApplications = () => {
 
       {/* Edit Modal */}
       {showEditModal && editingApp && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] shadow-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">
-              Edit Application
-            </h3>
-            <form onSubmit={handleUpdate} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold mb-2">
-                  Qualifications
-                </label>
-                <input
-                  type="text"
-                  value={editingApp.qualifications}
-                  onChange={(e) =>
-                    setEditingApp({
-                      ...editingApp,
-                      qualifications: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">
-                  Experience
-                </label>
-                <input
-                  type="text"
-                  value={editingApp.experience}
-                  onChange={(e) =>
-                    setEditingApp({
-                      ...editingApp,
-                      experience: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">
-                  Expected Salary
-                </label>
-                <input
-                  type="number"
-                  value={editingApp.expectedSalary}
-                  onChange={(e) =>
-                    setEditingApp({
-                      ...editingApp,
-                      expectedSalary: e.target.value,
-                    })
-                  }
-                  className="w-full px-4 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-linear-to-r from-purple-600 to-blue-600 text-white py-2 rounded-lg font-semibold"
-                >
-                  Save Changes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowEditModal(false)}
-                  className="flex-1 bg-gray-100 text-[var(--text-secondary)] py-2 rounded-lg font-semibold"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+        <Modal
+          open={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          title="Edit Application"
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setShowEditModal(false)}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleUpdate}>
+                Save Changes
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <Input
+              label="Qualifications"
+              value={editingApp?.qualifications}
+              onChange={(e) =>
+                setEditingApp({ ...editingApp, qualifications: e.target.value })
+              }
+              required
+            />
+            <Input
+              label="Experience"
+              value={editingApp?.experience}
+              onChange={(e) =>
+                setEditingApp({ ...editingApp, experience: e.target.value })
+              }
+              required
+            />
+            <Input
+              label="Expected Salary"
+              type="number"
+              icon="৳"
+              value={editingApp?.expectedSalary}
+              onChange={(e) =>
+                setEditingApp({ ...editingApp, expectedSalary: e.target.value })
+              }
+              required
+            />
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

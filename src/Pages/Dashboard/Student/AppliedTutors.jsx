@@ -129,18 +129,18 @@ const AppliedTutors = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-blue-50 px-4 py-2 rounded-xl">
+          <div className="bg-blue-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-blue-600 font-semibold">
               Total: {applications.length}
             </p>
           </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending:{" "}
               {applications.filter((a) => a.status === "pending").length}
             </p>
           </div>
-          <div className="bg-green-50 px-4 py-2 rounded-xl">
+          <div className="bg-green-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-green-600 font-semibold">
               Approved:{" "}
               {applications.filter((a) => a.status === "approved").length}
@@ -263,14 +263,14 @@ const AppliedTutors = () => {
 
                   {application.status === "approved" && (
                     <div className="flex flex-col gap-2 w-full">
-                      <div className="w-full px-4 py-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300rounded-xl text-center font-semibold text-sm">
+                      <div className="w-full px-2 py-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300rounded-xl text-center font-semibold text-sm">
                         ✓ Hired
                       </div>
                       {/* Message button still visible after approval */}
                       <button
                         onClick={() => handleMessage(application)}
                         disabled={messaging === application._id}
-                        className="w-full px-4 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-xl font-semibold text-sm hover:bg-purple-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                        className="w-full px-2 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-xl font-semibold text-sm hover:bg-purple-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
                       >
                         {messaging === application._id ? (
                           <span className="w-3 h-3 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
@@ -283,7 +283,7 @@ const AppliedTutors = () => {
                   )}
 
                   {application.status === "rejected" && (
-                    <div className="w-full px-4 py-2 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-xl text-center font-semibold text-sm">
+                    <div className="w-full px-2 py-2 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-xl text-center font-semibold text-sm">
                       ✗ Declined
                     </div>
                   )}

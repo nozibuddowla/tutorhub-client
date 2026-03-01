@@ -7,7 +7,6 @@ import MyContainer from "../components/MyContainer";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 
-
 const Login = () => {
   const { setUser, signIn, signInWithGoogle, setRole } =
     useContext(AuthContext);
@@ -86,7 +85,7 @@ const Login = () => {
   return (
     <div className="py-20 bg-[var(--bg-base)]">
       <MyContainer>
-        <div className="max-w-150 mx-auto px-4">
+        <div className="max-w-150 mx-auto px-2">
           <div className="hero-content flex-col">
             <h1 className="text-4xl 2xl:text-5xl font-bold font-serif mb-10 text-[var(--text-primary)]">
               Login

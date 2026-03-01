@@ -91,7 +91,7 @@ const TuitionDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-2">
         {/* Back Button */}
         <button
           onClick={() => navigate("/tuitions")}
@@ -236,7 +236,7 @@ const TuitionDetails = () => {
                   type="text"
                   value={user?.displayName || ""}
                   readOnly
-                  className="w-full px-4 py-3 rounded-xl outline-none
+                  className="w-full px-2 py-3 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
@@ -251,7 +251,7 @@ const TuitionDetails = () => {
                   type="email"
                   value={user?.email || ""}
                   readOnly
-                  className="w-full px-4 py-3 rounded-xl outline-none
+                  className="w-full px-2 py-3 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                 />
@@ -266,7 +266,7 @@ const TuitionDetails = () => {
                   type="text"
                   name="qualifications"
                   placeholder="e.g., BSc in Mathematics"
-                  className="w-full px-4 py-3 rounded-xl outline-none
+                  className="w-full px-2 py-3 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
@@ -282,7 +282,7 @@ const TuitionDetails = () => {
                   type="text"
                   name="experience"
                   placeholder="e.g., 5 years teaching experience"
-                  className="w-full px-4 py-3 rounded-xl outline-none
+                  className="w-full px-2 py-3 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
@@ -298,7 +298,7 @@ const TuitionDetails = () => {
                   type="number"
                   name="expectedSalary"
                   placeholder="e.g., 5000"
-                  className="w-full px-4 py-3 rounded-xl outline-none
+                  className="w-full px-2 py-3 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required

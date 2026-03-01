@@ -69,7 +69,7 @@ const ConversationList = ({
             <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : conversations.length === 0 ? (
-          <div className="text-center py-16 px-4">
+          <div className="text-center py-16 px-2">
             <div className="text-5xl mb-3">💬</div>
             <p className="text-(--text-secondary) font-medium text-sm">
               No conversations yet
@@ -90,7 +90,7 @@ const ConversationList = ({
               <button
                 key={conv._id}
                 onClick={() => onSelect(conv)}
-                className={`w-full text-left px-4 py-3.5 flex items-center gap-3 border-b border-gray-50 transition-colors ${
+                className={`w-full text-left px-2 py-3.5 flex items-center gap-3 border-b border-gray-50 transition-colors ${
                   isSelected
                     ? "bg-purple-50 dark:bg-purple-900/30 border-l-4 border-l-purple-600"
                     : "hover:bg-[var(--bg-surface)]"
@@ -280,7 +280,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
                   className={`max-w-[70%] ${isMine ? "items-end" : "items-start"} flex flex-col gap-1`}
                 >
                   <div
-                    className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    className={`px-2 py-2.5 rounded-2xl text-sm leading-relaxed ${
                       isMine
                         ? "bg-linear-to-br from-purple-600 to-purple-700 text-white rounded-br-md"
                         : "bg-[var(--bg-elevated)] text-[var(--text-primary)] shadow-sm border border-[var(--bg-border)] rounded-bl-md"
@@ -303,7 +303,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-[var(--bg-border)] bg-[var(--bg-elevated)] flex items-end gap-3">
+      <div className="px-2 py-3 border-t border-[var(--bg-border)] bg-[var(--bg-elevated)] flex items-end gap-3">
         <textarea
           ref={inputRef}
           value={text}
@@ -311,7 +311,7 @@ const ChatWindow = ({ conversation, currentUser, role }) => {
           onKeyDown={handleKeyDown}
           placeholder={`Message ${otherName}...`}
           rows={1}
-          className="flex-1 resize-none px-4 py-2.5 bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition max-h-32"
+          className="flex-1 resize-none px-2 py-2.5 bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition max-h-32"
           style={{ minHeight: "42px" }}
         />
         <button
@@ -386,7 +386,7 @@ const MessagesPage = () => {
         {selected ? (
           <>
             {/* Mobile back button */}
-            <div className="md:hidden px-4 pt-3">
+            <div className="md:hidden px-2 pt-3">
               <button
                 onClick={() => setMobileShowChat(false)}
                 className="text-sm text-purple-600 font-semibold flex items-center gap-1"

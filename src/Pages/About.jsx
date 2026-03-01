@@ -59,13 +59,13 @@ const About = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-elevated)]">
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gray-950 text-white py-28 px-4">
+      <section className="relative overflow-hidden bg-gray-950 text-white py-28 px-2">
         {/* Decorative blobs */}
         <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#632ee3] opacity-20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto text-center">
-          <span className="inline-block bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
+          <span className="inline-block bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/20 text-sm font-semibold px-2 py-1.5 rounded-full mb-6 tracking-wider uppercase">
             Our Story
           </span>
           <h1 className="text-5xl md:text-6xl font-black leading-tight mb-6">
@@ -82,7 +82,7 @@ const About = () => {
       </section>
 
       {/* ── Stats ────────────────────────────────────────────── */}
-      <section className="bg-[var(--bg-surface)] py-16 px-4">
+      <section className="bg-[var(--bg-surface)] py-16 px-2">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div
@@ -100,7 +100,7 @@ const About = () => {
       </section>
 
       {/* ── Mission ──────────────────────────────────────────── */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-2">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           {/* Left: visual */}
           <div className="relative">
@@ -139,7 +139,7 @@ const About = () => {
               </div>
             </div>
             {/* floating badge */}
-            <div className="absolute -bottom-4 -right-4 bg-[#632ee3] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+            <div className="absolute -bottom-4 -right-4 bg-[#632ee3] text-white px-2 py-2 rounded-full text-sm font-bold shadow-lg">
               Trusted by 2000+ students ✓
             </div>
           </div>
@@ -174,7 +174,7 @@ const About = () => {
       </section>
 
       {/* ── Values ───────────────────────────────────────────── */}
-      <section className="bg-[var(--bg-surface)]py-20 px-4">
+      <section className="bg-[var(--bg-surface)]py-20 px-2">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
@@ -206,7 +206,7 @@ const About = () => {
       </section>
 
       {/* ── Team ─────────────────────────────────────────────── */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-2">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
@@ -247,7 +247,7 @@ const About = () => {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="py-20 px-4 bg-gradient-to-r from-[#632ee3] to-[#11998e]">
+      <section className="py-20 px-2 bg-gradient-to-r from-[#632ee3] to-[#11998e]">
         <div className="max-w-3xl mx-auto text-center text-white">
           <h2 className="text-4xl font-black mb-4">Ready to Start Learning?</h2>
           <p className="text-white/80 text-lg mb-8">

@@ -114,17 +114,17 @@ const StudentTuitions = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-blue-50 px-4 py-2 rounded-xl">
+          <div className="bg-blue-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-blue-600 font-semibold">
               Total: {tuitions.length}
             </p>
           </div>
-          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-yellow-600 dark:text-yellow-400 font-semibold">
               Pending: {tuitions.filter((t) => t.status === "pending").length}
             </p>
           </div>
-          <div className="bg-green-50 px-4 py-2 rounded-xl">
+          <div className="bg-green-50 px-2 py-2 rounded-xl">
             <p className="text-sm text-green-600 font-semibold">
               Approved: {tuitions.filter((t) => t.status === "approved").length}
             </p>
@@ -241,7 +241,7 @@ const StudentTuitions = () => {
                         subject: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 rounded-xl outline-none
+                    className="w-full px-2 py-2 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
@@ -260,7 +260,7 @@ const StudentTuitions = () => {
                         salary: e.target.value,
                       })
                     }
-                    className="w-full px-4 py-2 rounded-xl outline-none
+                    className="w-full px-2 py-2 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
@@ -280,7 +280,7 @@ const StudentTuitions = () => {
                       location: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 rounded-xl outline-none
+                  className="w-full px-2 py-2 rounded-xl outline-none
     bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
     text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
@@ -299,7 +299,7 @@ const StudentTuitions = () => {
                       description: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
+                  className="w-full px-2 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
                   required
                 ></textarea>
               </div>

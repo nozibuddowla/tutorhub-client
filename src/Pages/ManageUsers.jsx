@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 
 const inputCls =
-  "w-full px-4 py-2 rounded-xl outline-none bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
+  "w-full px-2 py-2 rounded-xl outline-none bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -90,17 +90,17 @@ const ManageUsers = () => {
           Manage all users, roles, and account information
         </p>
         <div className="mt-4 flex gap-4">
-          <div className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-blue-50 dark:bg-blue-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold">
               Total Users: {users.length}
             </p>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-purple-50 dark:bg-purple-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-purple-600 dark:text-purple-400 font-semibold">
               Tutors: {users.filter((u) => u.role === "tutor").length}
             </p>
           </div>
-          <div className="bg-green-50 dark:bg-green-900/30 px-4 py-2 rounded-xl">
+          <div className="bg-green-50 dark:bg-green-900/30 px-2 py-2 rounded-xl">
             <p className="text-sm text-green-600 dark:text-green-400 font-semibold">
               Students: {users.filter((u) => u.role === "student").length}
             </p>

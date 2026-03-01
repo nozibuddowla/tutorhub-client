@@ -101,7 +101,7 @@ const HowItWorks = () => {
         />
       </div>
 
-      <div ref={ref} className="relative max-w-7xl mx-auto px-4">
+      <div ref={ref} className="relative max-w-7xl mx-auto px-2">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -113,7 +113,7 @@ const HowItWorks = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5 }}
-            className="inline-block px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white text-sm font-bold rounded-full mb-4"
+            className="inline-block px-2 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white text-sm font-bold rounded-full mb-4"
           >
             SIMPLE PROCESS
           </motion.span>

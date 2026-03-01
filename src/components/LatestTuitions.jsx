@@ -26,7 +26,7 @@ const LatestTuitions = () => {
   if (loading) return <Loading />;
 
   return (
-    <section className="py-20 px-4 bg-[var(--bg-base)]">
+    <section className="py-20 px-2 bg-[var(--bg-base)]">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-10">
           <div>
@@ -87,7 +87,7 @@ const LatestTuitions = () => {
                   <span
                     className="bg-[var(--color-neutral)] dark:bg-[var(--bg-muted)]
                     text-white dark:text-[var(--text-primary)]
-                    px-4 py-2 rounded-xl text-sm font-semibold
+                    px-2 py-2 rounded-xl text-sm font-semibold
                     group-hover:bg-purple-600 dark:group-hover:bg-purple-600
                     dark:group-hover:text-white transition"
                   >

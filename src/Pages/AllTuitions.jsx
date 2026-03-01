@@ -74,7 +74,7 @@ const AllTuitions = () => {
   ];
 
   const inputCls =
-    "w-full px-4 py-2 rounded-xl outline-none bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
+    "w-full px-2 py-2 rounded-xl outline-none bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
   const selectCls =
     "rounded-lg px-3 py-2 text-sm outline-none bg-[var(--bg-elevated)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
 
@@ -83,7 +83,7 @@ const AllTuitions = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-purple-700 to-blue-600 py-12 px-4">
+      <div className="bg-gradient-to-r from-purple-700 to-blue-600 py-12 px-2">
         <div className="max-w-7xl mx-auto text-center text-white">
           <h1 className="text-4xl font-black mb-2">Find Your Perfect Tutor</h1>
           <p className="text-white/80 mb-6">
@@ -96,7 +96,7 @@ const AllTuitions = () => {
             <input
               type="text"
               placeholder="Search by subject or location..."
-              className="w-full px-4 py-3 rounded-xl outline-none bg-white/15 backdrop-blur border border-white/25 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/40 focus:border-white/50"
+              className="w-full px-2 py-3 rounded-xl outline-none bg-white/15 backdrop-blur border border-white/25 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/40 focus:border-white/50"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -110,7 +110,7 @@ const AllTuitions = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-2 py-8">
         {/* Filter Bar */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-4 shadow-sm border border-[var(--bg-border)] mb-4 flex flex-wrap gap-3 items-center">
           <div className="flex items-center gap-2">
@@ -193,7 +193,7 @@ const AllTuitions = () => {
                 setSubject(s);
                 setPage(1);
               }}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${
+              className={`px-2 py-1.5 rounded-full text-sm font-semibold transition ${
                 subject === s
                   ? "bg-purple-600 text-white shadow"
                   : "bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--bg-border-strong)] hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600"
@@ -283,7 +283,7 @@ const AllTuitions = () => {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="px-2 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition"
               >
                 ← Prev
               </button>
@@ -319,7 +319,7 @@ const AllTuitions = () => {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-4 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="px-2 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition"
               >
                 Next →
               </button>

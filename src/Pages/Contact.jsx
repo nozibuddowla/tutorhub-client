@@ -44,7 +44,7 @@ const faqs = [
 
 // Shared input class
 const inputCls =
-  "w-full px-4 py-2.5 outline-none rounded-xl text-sm transition bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
+  "w-full px-2 py-2.5 outline-none rounded-xl text-sm transition bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
 const labelCls =
   "block text-sm font-semibold text-[var(--text-secondary)] mb-1.5";
 
@@ -77,11 +77,11 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gray-950 text-white py-24 px-4">
+      <section className="relative overflow-hidden bg-gray-950 text-white py-24 px-2">
         <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-[#6b46c1] opacity-20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center">
-          <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
+          <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-2 py-1.5 rounded-full mb-6 tracking-wider uppercase">
             Get in Touch
           </span>
           <h1 className="text-5xl md:text-6xl font-black mb-4">
@@ -98,7 +98,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Cards */}
-      <section className="max-w-5xl mx-auto px-4 mt-8 mb-12">
+      <section className="max-w-5xl mx-auto px-2 mt-8 mb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {contactInfo.map((item) => (
             <div
@@ -126,7 +126,7 @@ const Contact = () => {
       </section>
 
       {/* Form + FAQ */}
-      <section className="max-w-5xl mx-auto px-4 pb-20 grid md:grid-cols-2 gap-10">
+      <section className="max-w-5xl mx-auto px-2 pb-20 grid md:grid-cols-2 gap-10">
         {/* Contact Form */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] p-8">
           <h2 className="text-2xl font-black text-[var(--text-primary)] mb-1">
@@ -290,7 +290,7 @@ const Contact = () => {
                 <a
                   key={s}
                   href="#"
-                  className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-bold hover:bg-white/20 transition"
+                  className="px-2 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-bold hover:bg-white/20 transition"
                 >
                   {s}
                 </a>

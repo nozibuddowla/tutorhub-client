@@ -257,7 +257,7 @@ const Sidebar = ({
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6 overflow-y-auto">
+        <nav className="flex-1 px-2 py-6 overflow-y-auto">
           <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-3 px-2">
             Navigation
           </p>
@@ -307,7 +307,7 @@ const Sidebar = ({
         </nav>
 
         {/* Footer */}
-        <div className="px-4 pb-6 pt-4 border-t border-white/10">
+        <div className="px-2 pb-6 pt-4 border-t border-white/10">
           <button
             onClick={onLogout}
             className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-red-500/20 transition-all duration-200"
@@ -410,7 +410,11 @@ const DashboardLayout = () => {
                 bg-[var(--bg-muted)] text-[var(--text-secondary)]
                 hover:bg-[var(--bg-border-strong)] hover:text-[var(--text-primary)]"
             >
-              {isDark ? <IoSunnyOutline size={17} /> : <IoMoonOutline size={17} />}
+              {isDark ? (
+                <IoSunnyOutline size={17} />
+              ) : (
+                <IoMoonOutline size={17} />
+              )}
             </button>
 
             <div className="hidden sm:block text-right">

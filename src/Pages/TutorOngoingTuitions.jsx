@@ -126,7 +126,7 @@ const TutorOngoingTuitions = () => {
               <div className="mt-4 pt-4 border-t border-[var(--bg-border)] flex gap-3">
                 <Link
                   to={`/tuitions/${tuition.tuitionId}`}
-                  className="flex-1 px-4 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
+                  className="flex-1 px-2 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
                 >
                   View Details
                 </Link>
@@ -134,7 +134,7 @@ const TutorOngoingTuitions = () => {
                 <button
                   onClick={() => handleContactStudent(tuition)}
                   disabled={messaging === tuition._id}
-                  className="flex-1 px-4 py-2 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="flex-1 px-2 py-2 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {messaging === tuition._id ? (
                     <span className="w-4 h-4 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />

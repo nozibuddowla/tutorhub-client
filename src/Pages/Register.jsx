@@ -179,7 +179,7 @@ const Register = () => {
   return (
     <div className="py-20">
       <MyContainer>
-        <div className="max-w-150 mx-auto px-4">
+        <div className="max-w-150 mx-auto px-2">
           <div className="hero-content flex-col">
             {/* Header */}
             <h1 className="text-4xl 2xl:text-5xl font-bold font-serif mb-10">
@@ -198,7 +198,7 @@ const Register = () => {
                   type="text"
                   name="username"
                   placeholder="Enter your username..."
-                  className="w-full px-4 py-2 rounded-xl outline-none
+                  className="w-full px-2 py-2 rounded-xl outline-none
     bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
@@ -215,7 +215,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email address..."
-                  className="w-full px-4 py-2 rounded-xl outline-none
+                  className="w-full px-2 py-2 rounded-xl outline-none
     bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
@@ -233,7 +233,7 @@ const Register = () => {
                     type={show ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password..."
-                    className="w-full px-4 py-2 rounded-xl outline-none
+                    className="w-full px-2 py-2 rounded-xl outline-none
     bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
@@ -287,7 +287,7 @@ const Register = () => {
                   type="tel"
                   name="phone"
                   placeholder="Enter your phone number..."
-                  className="w-full px-4 py-2 rounded-xl outline-none
+                  className="w-full px-2 py-2 rounded-xl outline-none
     bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
@@ -304,7 +304,7 @@ const Register = () => {
                   type="file"
                   name="photoUrl"
                   accept="image/*"
-                  className="w-full px-6 py-4 rounded-xl outline-none bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                  className="w-full px-6 py-4 rounded-xl outline-none bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                   required
                 />
               </div>

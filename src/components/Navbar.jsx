@@ -110,7 +110,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="navbar sticky top-0 z-50 px-4 lg:px-8
+      className="navbar sticky top-0 z-50 px-2 lg:px-8
       bg-[var(--bg-elevated)] border-b border-[var(--bg-border)]
       shadow-sm dark:shadow-[0_1px_12px_rgba(0,0,0,0.4)"
     >
@@ -205,7 +205,7 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow-lg
                   bg-[var(--bg-elevated)] border border-[var(--bg-border)]"
               >
-                <li className="menu-title px-4 py-2">
+                <li className="menu-title px-2 py-2">
                   <span className="text-sm font-bold text-[var(--text-primary)]">
                     {user.displayName || "User"}
                   </span>
