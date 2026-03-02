@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "../components/Loading";
+import { Badge, Table } from "../components/ui";
+
 
 const TutorRevenue = () => {
   const { user } = useContext(AuthContext);
@@ -39,6 +41,56 @@ const TutorRevenue = () => {
     })
     .reduce((sum, p) => sum + (p.amount || 0), 0);
 
+  const columns = [
+    {
+      key: "createdAt",
+      label: "Date",
+      render: (v) => (
+        <span className="text-[var(--text-secondary)]">
+          {new Date(v).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </span>
+      ),
+    },
+    {
+      key: "tuitionTitle",
+      label: "Tuition",
+      render: (v, row) => (
+        <div>
+          <p className="font-semibold text-[var(--text-primary)]">
+            {v || "Tuition Payment"}
+          </p>
+          <p className="text-xs text-[var(--text-secondary)]">
+            {row.studentName || "N/A"}
+          </p>
+        </div>
+      ),
+    },
+    {
+      key: "amount",
+      label: "Amount",
+      align: "right",
+      render: (v) => (
+        <span className="font-bold text-[var(--text-primary)]">
+          ৳{v?.toLocaleString() || 0}
+        </span>
+      ),
+    },
+    {
+      key: "status",
+      label: "Status",
+      align: "center",
+      render: (v) => (
+        <Badge variant="green" dot>
+          {v || "success"}
+        </Badge>
+      ),
+    },
+  ];
+  
   if (loading) {
     return <Loading />;
   }
@@ -85,81 +137,25 @@ const TutorRevenue = () => {
       </div>
 
       {/* Transaction History */}
+
       <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
         <div className="p-6 border-b border-[var(--bg-border)]">
           <h3 className="text-xl font-bold text-[var(--text-primary)]">
             Transaction History
           </h3>
         </div>
-
-        {payments.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-(--bg-surface) border-b border-[var(--bg-border)]">
-                <tr>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Date
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Tuition
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Amount
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-(--bg-border)">
-                {payments.map((payment) => (
-                  <tr
-                    key={payment._id}
-                    className="hover:bg-(--bg-surface) transition-colors"
-                  >
-                    <td className="py-4 px-6">
-                      <p className="text-sm text-[var(--text-secondary)]">
-                        {new Date(payment.createdAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          },
-                        )}
-                      </p>
-                    </td>
-                    <td className="py-4 px-6">
-                      <p className="font-semibold text-[var(--text-primary)]">
-                        {payment.tuitionTitle || "Tuition Payment"}
-                      </p>
-                      <p className="text-xs text-(--text-secondary)">
-                        {payment.studentName || "N/A"}
-                      </p>
-                    </td>
-                    <td className="py-4 px-6">
-                      <p className="text-sm font-bold text-[var(--text-primary)]">
-                        ৳{payment.amount?.toLocaleString() || 0}
-                      </p>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 dark:bg-green-900/40 text-green-700">
-                        {payment.status || "success"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="p-12 text-center">
-            <div className="text-6xl mb-4">💳</div>
-            <p className="text-(--text-secondary) text-lg font-medium">
-              No transactions yet
-            </p>
-          </div>
-        )}
+        <div className="p-4">
+          <Table
+            columns={columns}
+            data={payments}
+            empty={
+              <div className="py-8">
+                <div className="text-5xl mb-3">💳</div>
+                <p>No transactions yet</p>
+              </div>
+            }
+          />
+        </div>
       </div>
     </div>
   );

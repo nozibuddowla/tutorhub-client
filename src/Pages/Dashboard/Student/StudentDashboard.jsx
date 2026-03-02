@@ -3,10 +3,11 @@ import axios from "axios";
 import { Link } from "react-router";
 import Loading from "../../../components/Loading";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import { Card } from "../../../components/ui";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
+    <Card hover>
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -17,8 +18,8 @@ const StatCard = ({ label, value, icon, color, link }) => (
         </span>
       </div>
       <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
-      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
-    </div>
+      <p className="text-sm text-[var(--text-secondary)] mt-1">{label}</p>
+    </Card>
   </Link>
 );
 
@@ -119,6 +120,45 @@ const StudentDashboard = () => {
     return new Date(date).toLocaleDateString();
   };
 
+  const quickActions = [
+    {
+      to: "/dashboard/student/post-tuition",
+      icon: "✏️",
+      label: "Post New Tuition",
+      sub: "Find a tutor",
+      rowHover: "hover:bg-blue-50   dark:hover:bg-blue-900/20",
+      iconBg: "bg-blue-100   dark:bg-blue-900/40",
+      iconHover: "group-hover:bg-blue-200   dark:group-hover:bg-blue-900/60",
+    },
+    {
+      to: "/dashboard/student/applied-tutors",
+      icon: "👨‍🏫",
+      label: "Applied Tutors",
+      sub: "Review applications",
+      rowHover: "hover:bg-green-50  dark:hover:bg-green-900/20",
+      iconBg: "bg-green-100  dark:bg-green-900/40",
+      iconHover: "group-hover:bg-green-200  dark:group-hover:bg-green-900/60",
+    },
+    {
+      to: "/dashboard/student/calendar",
+      icon: "📅",
+      label: "Class Calendar",
+      sub: "Schedule & track sessions",
+      rowHover: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
+      iconBg: "bg-purple-100 dark:bg-purple-900/40",
+      iconHover: "group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60",
+    },
+    {
+      to: "/dashboard/student/payments",
+      icon: "💳",
+      label: "Payments",
+      sub: "View payment history",
+      rowHover: "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
+      iconBg: "bg-yellow-100 dark:bg-yellow-900/40",
+      iconHover: "group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/60",
+    },
+  ];
+
   if (loading) return <Loading />;
 
   return (
@@ -170,35 +210,37 @@ const StudentDashboard = () => {
 
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Activity */}
-        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
-          <h3 className="font-bold text-[var(--text-primary)] mb-4">
-            Recent Activity
-          </h3>
-          <div className="space-y-3">
-            {recentActivity.length > 0 ? (
-              recentActivity.map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <span
-                    className="w-2 h-2 rounded-full shrink-0"
-                    style={{ background: item.dot }}
-                  />
-                  <span className="text-sm text-[var(--text-secondary)] flex-1">
-                    {item.text}
-                  </span>
-                  <span className="text-xs text-[var(--text-muted)] shrink-0">
-                    {timeAgo(item.time)}
-                  </span>
+        <Card>
+          <Card.Header divided>
+            <Card.Title>Recent Activity</Card.Title>
+          </Card.Header>
+          <Card.Body>
+            <div className="space-y-3">
+              {recentActivity.length > 0 ? (
+                recentActivity.map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ background: item.dot }}
+                    />
+                    <span className="text-sm text-[var(--text-secondary)] flex-1">
+                      {item.text}
+                    </span>
+                    <span className="text-xs text-[var(--text-muted)] shrink-0">
+                      {timeAgo(item.time)}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-6">
+                  <p className="text-[var(--text-muted)] text-sm">
+                    No activity yet
+                  </p>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-6">
-                <p className="text-[var(--text-muted)] text-sm">
-                  No activity yet
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
 
         {/* Upcoming Sessions — NEW */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
@@ -227,7 +269,7 @@ const StudentDashboard = () => {
                     <p className="text-sm font-bold text-[var(--text-primary)] truncate">
                       {s.subject}
                     </p>
-                    <p className="text-xs text-(--text-secondary)">
+                    <p className="text-xs text-[var(--text-secondary)]">
                       {formatSessionTime(s.startTime)}
                     </p>
                     <p className="text-xs text-blue-500 dark:text-blue-400 font-semibold">
@@ -239,7 +281,7 @@ const StudentDashboard = () => {
             ) : (
               <div className="text-center py-6">
                 <p className="text-3xl mb-2">🗓️</p>
-                <p className="text-sm text-(--text-secondary)">
+                <p className="text-sm text-[var(--text-secondary)]">
                   No upcoming classes
                 </p>
                 <Link
@@ -258,37 +300,9 @@ const StudentDashboard = () => {
           <h3 className="font-bold text-[var(--text-primary)] mb-4">
             Quick Actions
           </h3>
+
           <div className="space-y-3">
-            {[
-              {
-                to: "/dashboard/student/post-tuition",
-                icon: "✏️",
-                label: "Post New Tuition",
-                sub: "Find a tutor",
-                color: "blue",
-              },
-              {
-                to: "/dashboard/student/applied-tutors",
-                icon: "👨‍🏫",
-                label: "Applied Tutors",
-                sub: "Review applications",
-                color: "green",
-              },
-              {
-                to: "/dashboard/student/calendar",
-                icon: "📅",
-                label: "Class Calendar",
-                sub: "Schedule & track sessions",
-                color: "purple",
-              },
-              {
-                to: "/dashboard/student/payments",
-                icon: "💳",
-                label: "Payments",
-                sub: "View payment history",
-                color: "yellow",
-              },
-            ].map((item) => (
+            {quickActions.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -301,7 +315,7 @@ const StudentDashboard = () => {
                   <p className="text-sm font-semibold text-[var(--text-primary)]">
                     {item.label}
                   </p>
-                  <p className="text-xs text-(--text-secondary)">{item.sub}</p>
+                  <p className="text-xs text-[var(--text-secondary)]">{item.sub}</p>
                 </div>
                 <span className="text-[var(--text-muted)]">→</span>
               </Link>

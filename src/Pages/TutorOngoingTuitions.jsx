@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "../components/Loading";
 import { Link, useNavigate } from "react-router";
+import { Button, Badge } from "../components/ui";
 
 const TutorOngoingTuitions = () => {
   const { user } = useContext(AuthContext);
@@ -79,9 +80,10 @@ const TutorOngoingTuitions = () => {
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <span className="bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300text-xs font-bold px-3 py-1 rounded-full">
-                    APPROVED
-                  </span>
+                  <Badge variant="green" dot>
+                    Approved
+                  </Badge>
+
                   <h3 className="font-bold text-xl text-[var(--text-primary)] mt-3">
                     {tuition.tuitionTitle || tuition.subject}
                   </h3>
@@ -126,31 +128,31 @@ const TutorOngoingTuitions = () => {
               <div className="mt-4 pt-4 border-t border-[var(--bg-border)] flex gap-3">
                 <Link
                   to={`/tuitions/${tuition.tuitionId}`}
-                  className="flex-1 px-2 py-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-lg font-semibold hover:bg-purple-200 transition-colors text-center"
+                  className="flex-1 px-2 py-2 font-semibold transition-colors text-center"
                 >
-                  View Details
+                  <Button variant="secondary" size="sm" full>
+                    View Details
+                  </Button>
                 </Link>
-                {/* ── WIRED: Contact Student ── */}
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  full
+                  icon="💬"
+                  loading={messaging === tuition._id}
                   onClick={() => handleContactStudent(tuition)}
-                  disabled={messaging === tuition._id}
-                  className="flex-1 px-2 py-2 bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 rounded-lg font-semibold hover:bg-teal-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="border border-[var(--bg-border-strong)]"
                 >
-                  {messaging === tuition._id ? (
-                    <span className="w-4 h-4 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    "💬"
-                  )}
                   Contact Student
-                </button>
+                </Button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
+        <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-[var(--bg-border-strong)]">
           <div className="text-6xl mb-4">📖</div>
-          <p className="text-(--text-secondary) text-lg font-medium">
+          <p className="text-[var(--text-secondary)] text-lg font-medium">
             No ongoing tuitions yet
           </p>
           <p className="text-[var(--text-muted)] text-sm mt-2">

@@ -49,18 +49,6 @@ export const Button = ({
   );
 };
 
-// ─── INPUT ───────────────────────────────────────────────────────────────────
-/*
-  Props:
-    label       string
-    error       string  (shows red border + message)
-    hint        string  (shows below input in muted text)
-    icon        ReactNode  (left icon)
-    iconRight   ReactNode  (right icon, e.g. eye toggle)
-    size        "sm" | "md" | "lg"   default: "md"
-    full        bool  default: true
-    ...rest     any <input> prop
-*/
 export const Input = ({
   label,
   error,
@@ -129,15 +117,6 @@ export const Input = ({
   );
 };
 
-// ─── CARD ────────────────────────────────────────────────────────────────────
-/*
-  Props:
-    variant     "default" | "bordered" | "flat" | "gradient"   default: "default"
-    padding     "sm" | "md" | "lg" | "none"                    default: "md"
-    hover       bool  (adds hover shadow + slight lift)
-    className   string
-    children    ReactNode
-*/
 export const Card = ({
   variant = "default",
   padding = "md",
@@ -206,15 +185,6 @@ Card.Footer = ({ children, className = "", divided = false }) => (
   </div>
 );
 
-// ─── BADGE ───────────────────────────────────────────────────────────────────
-/*
-  Props:
-    variant  "purple" | "teal" | "green" | "yellow" | "red" | "blue" | "gray"
-             default: "purple"
-    size     "sm" | "md"   default: "md"
-    dot      bool  (shows a colored dot before text)
-    pulse    bool  (dot pulses — for "live" indicators)
-*/
 export const Badge = ({
   variant = "purple",
   size = "md",
@@ -272,16 +242,6 @@ export const Badge = ({
   );
 };
 
-// ─── MODAL ───────────────────────────────────────────────────────────────────
-/*
-  Props:
-    open       bool  (controlled)
-    onClose    fn
-    title      string
-    size       "sm" | "md" | "lg" | "xl"   default: "md"
-    children   ReactNode
-    footer     ReactNode  (optional — renders inside a divided footer)
-*/
 export const Modal = ({
   open,
   onClose,
@@ -354,16 +314,6 @@ export const Modal = ({
   );
 };
 
-// ─── TABLE ───────────────────────────────────────────────────────────────────
-/*
-  Props:
-    columns   Array<{ key, label, render?, width?, align? }>
-    data      Array<object>
-    loading   bool
-    empty     string | ReactNode   (empty state message)
-    striped   bool
-    hoverable bool  default: true
-*/
 export const Table = ({
   columns = [],
   data = [],
@@ -432,14 +382,6 @@ export const Table = ({
   );
 };
 
-// ─── DROPDOWN ────────────────────────────────────────────────────────────────
-/*
-  Props:
-    trigger    ReactNode  (the element that opens the dropdown)
-    items      Array<{ label, icon?, onClick?, href?, divider?, danger? }>
-    align      "left" | "right"   default: "left"
-    width      string  (Tailwind width class)  default: "w-48"
-*/
 export const Dropdown = ({
   trigger,
   items = [],

@@ -3,10 +3,11 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import { Link } from "react-router";
 import Loading from "../../components/Loading";
+import { Card } from "../../components/ui";
 
 const StatCard = ({ label, value, icon, color, link }) => (
   <Link to={link || "#"}>
-    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
+    <Card hover>
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
@@ -17,8 +18,8 @@ const StatCard = ({ label, value, icon, color, link }) => (
         </span>
       </div>
       <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
-      <p className="text-sm text-(--text-secondary) mt-1">{label}</p>
-    </div>
+      <p className="text-sm text-[var(--text-secondary)] mt-1">{label}</p>
+    </Card>
   </Link>
 );
 
@@ -180,135 +181,143 @@ const TutorDashboard = () => {
       {/* Three column layout */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Applications */}
-        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-[var(--text-primary)]">
-              Recent Applications
-            </h3>
-            <Link
-              to="/dashboard/tutor/applications"
-              className="text-sm text-purple-600 font-semibold hover:underline"
-            >
-              View All →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {recentApplications.length > 0 ? (
-              recentApplications.map((app) => (
-                <div key={app._id} className="flex items-center gap-3">
-                  <span
-                    className="w-2 h-2 rounded-full shrink-0"
-                    style={{
-                      background:
-                        app.status === "approved"
-                          ? "#38a169"
-                          : app.status === "rejected"
-                            ? "#e53e3e"
-                            : "#d69e2e",
-                    }}
-                  />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-[var(--text-secondary)]">
-                      {app.tuitionTitle || app.subject}
-                    </p>
-                    <p className="text-xs text-[var(--text-muted)] capitalize">
-                      {app.status}
-                    </p>
+        <Card>
+          <Card.Header>
+            <div className="flex items-center justify-between">
+              <Card.Title>Recent Applications</Card.Title>
+              <Link
+                to="/dashboard/tutor/applications"
+                className="text-sm text-purple-500 dark:text-purple-400 font-semibold hover:underline"
+              >
+                View All →
+              </Link>
+            </div>
+          </Card.Header>
+          <Card.Body>
+            <div className="space-y-3">
+              {recentApplications.length > 0 ? (
+                recentApplications.map((app) => (
+                  <div key={app._id} className="flex items-center gap-3">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{
+                        background:
+                          app.status === "approved"
+                            ? "#38a169"
+                            : app.status === "rejected"
+                              ? "#e53e3e"
+                              : "#d69e2e",
+                      }}
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-[var(--text-secondary)]">
+                        {app.tuitionTitle || app.subject}
+                      </p>
+                      <p className="text-xs text-[var(--text-muted)] capitalize">
+                        {app.status}
+                      </p>
+                    </div>
+                    <span className="text-xs text-[var(--text-muted)]">
+                      {new Date(app.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
-                  <span className="text-xs text-[var(--text-muted)]">
-                    {new Date(app.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-(--text-secondary) text-center py-4">
-                No applications yet
-              </p>
-            )}
-          </div>
-        </div>
+                ))
+              ) : (
+                <p className="text-sm text-(--text-secondary) text-center py-4">
+                  No applications yet
+                </p>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
 
         {/* Upcoming Sessions — NEW ── */}
-        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-[var(--text-primary)]">
-              Upcoming Classes
-            </h3>
-            <Link
-              to="/dashboard/tutor/calendar"
-              className="text-sm text-purple-600 font-semibold hover:underline"
-            >
-              Calendar →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {upcomingSessions.length > 0 ? (
-              upcomingSessions.map((s) => (
-                <div
-                  key={s._id}
-                  className="flex items-start gap-3 p-3 bg-purple-50 rounded-xl"
-                >
-                  <div className="w-9 h-9 bg-purple-600 rounded-xl flex items-center justify-center text-white text-sm font-black shrink-0">
-                    {new Date(s.startTime).getDate()}
+        <Card>
+          <Card.Header divided>
+            <div className="flex items-center justify-between">
+              <Card.Title>Upcoming Classes</Card.Title>
+              <Link
+                to="/dashboard/tutor/calendar"
+                className="text-sm text-purple-500 dark:text-purple-400 font-semibold hover:underline"
+              >
+                Calendar →
+              </Link>
+            </div>
+          </Card.Header>
+          <Card.Body>
+            <div className="space-y-3">
+              {upcomingSessions.length > 0 ? (
+                upcomingSessions.map((s) => (
+                  <div
+                    key={s._id}
+                    className="flex items-start gap-3 p-3 bg-purple-50 rounded-xl"
+                  >
+                    <div className="w-9 h-9 bg-purple-600 rounded-xl flex items-center justify-center text-white text-sm font-black shrink-0">
+                      {new Date(s.startTime).getDate()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-[var(--text-primary)] truncate">
+                        {s.subject}
+                      </p>
+                      <p className="text-xs text-(--text-secondary)">
+                        {formatSessionTime(s.startTime)}
+                      </p>
+                      <p className="text-xs text-purple-600 font-semibold">
+                        {s.studentName}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-[var(--text-primary)] truncate">
-                      {s.subject}
-                    </p>
-                    <p className="text-xs text-(--text-secondary)">
-                      {formatSessionTime(s.startTime)}
-                    </p>
-                    <p className="text-xs text-purple-600 font-semibold">
-                      {s.studentName}
-                    </p>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center py-6">
+                  <p className="text-3xl mb-2">🗓️</p>
+                  <p className="text-sm text-(--text-secondary)">
+                    No upcoming classes
+                  </p>
+                  <Link
+                    to="/dashboard/tutor/calendar"
+                    className="text-xs text-purple-600 font-bold hover:underline mt-1 inline-block"
+                  >
+                    Schedule one →
+                  </Link>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-6">
-                <p className="text-3xl mb-2">🗓️</p>
-                <p className="text-sm text-(--text-secondary)">
-                  No upcoming classes
-                </p>
-                <Link
-                  to="/dashboard/tutor/calendar"
-                  className="text-xs text-purple-600 font-bold hover:underline mt-1 inline-block"
-                >
-                  Schedule one →
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
 
         {/* Quick Actions */}
-        <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
-          <h3 className="font-bold text-[var(--text-primary)] mb-4">
-            Quick Actions
-          </h3>
-          <div className="space-y-3">
-            {quickActions.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`flex items-center gap-3 p-3 rounded-xl hover:bg-${item.hover}-50 transition-colors group`}
-              >
-                <div
-                  className={`w-10 h-10 bg-${item.hover}-100 rounded-xl flex items-center justify-center group-hover:bg-${item.hover}-200`}
+        <Card>
+          <Card.Header divided>
+            <Card.Title>Quick Actions</Card.Title>
+          </Card.Header>
+          <Card.Body>
+            <div className="space-y-1">
+              {quickActions.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center gap-3 p-3 rounded-xl transition-colors group ${item.rowHover}`}
                 >
-                  <span className="text-lg">{item.icon}</span>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-[var(--text-primary)]">
-                    {item.label}
-                  </p>
-                  <p className="text-xs text-(--text-secondary)">{item.sub}</p>
-                </div>
-                <span className="text-[var(--text-muted)]">→</span>
-              </Link>
-            ))}
-          </div>
-        </div>
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${item.iconBg} ${item.iconHover}`}
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-[var(--text-primary)]">
+                      {item.label}
+                    </p>
+                    <p className="text-xs text-[var(--text-secondary)]">
+                      {item.sub}
+                    </p>
+                  </div>
+                  <span className="text-[var(--text-muted)]">→</span>
+                </Link>
+              ))}
+            </div>
+          </Card.Body>
+        </Card>
       </div>
     </div>
   );

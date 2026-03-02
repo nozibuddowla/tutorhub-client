@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 import TutorReviews from "../components/TutorReviews";
+import { Button, Input, Modal, Badge } from "../components/ui";
 
 const TuitionDetails = () => {
   const { id } = useParams();
@@ -81,7 +82,7 @@ const TuitionDetails = () => {
 
   if (!tuition) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen  bg-[var(--bg-base)] flex items-center justify-center">
         <div className="text-center">
           <p className="text-(--text-secondary) text-lg">Tuition not found</p>
         </div>
@@ -90,15 +91,17 @@ const TuitionDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-[var(--bg-base)] py-12">
       <div className="max-w-4xl mx-auto px-2">
         {/* Back Button */}
-        <button
+        <Button
           onClick={() => navigate("/tuitions")}
-          className="mb-6 flex items-center gap-2 text-gray-600 hover:text-[var(--text-primary)] font-semibold"
+          variant="ghost"
+          size="sm"
+          icon="←"
         >
-          ← Back to All Tuitions
-        </button>
+          Back to All Tuitions
+        </Button>
 
         {/* Main Card */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
@@ -140,7 +143,7 @@ const TuitionDetails = () => {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center shrink-0">
                   <span className="text-2xl">📚</span>
                 </div>
                 <div>
@@ -188,16 +191,18 @@ const TuitionDetails = () => {
 
             {/* Apply Button (Only for tutors) */}
             {role === "tutor" && (
-              <button
+              <Button
                 onClick={() => setShowApplyModal(true)}
-                className="w-full py-4 bg-linear-to-r from-purple-600 to-blue-600 text-white text-lg font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                variant="primary"
+                size="lg"
+                full
               >
                 Apply for this Tuition
-              </button>
+              </Button>
             )}
 
             {role === "student" && (
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-xl p-4 text-center">
                 <p className="text-blue-700 font-semibold">
                   You posted this tuition
                 </p>
@@ -221,114 +226,71 @@ const TuitionDetails = () => {
       {/* Apply Modal */}
       {showApplyModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-2xl font-black text-[var(--text-primary)] mb-6">
-              Apply for Tuition
-            </h2>
-
-            <form onSubmit={handleApplySubmit} className="space-y-4">
-              {/* Name (Read-only) */}
-              <div>
-                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={user?.displayName || ""}
-                  readOnly
-                  className="w-full px-2 py-3 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                />
-              </div>
-
-              {/* Email (Read-only) */}
-              <div>
-                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={user?.email || ""}
-                  readOnly
-                  className="w-full px-2 py-3 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                />
-              </div>
-
-              {/* Qualifications */}
-              <div>
-                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                  Qualifications *
-                </label>
-                <input
-                  type="text"
-                  name="qualifications"
-                  placeholder="e.g., BSc in Mathematics"
-                  className="w-full px-2 py-3 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-
-              {/* Experience */}
-              <div>
-                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                  Experience *
-                </label>
-                <input
-                  type="text"
-                  name="experience"
-                  placeholder="e.g., 5 years teaching experience"
-                  className="w-full px-2 py-3 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-
-              {/* Expected Salary */}
-              <div>
-                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
-                  Expected Salary (BDT/month) *
-                </label>
-                <input
-                  type="number"
-                  name="expectedSalary"
-                  placeholder="e.g., 5000"
-                  className="w-full px-2 py-3 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
-                  required
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="submit"
-                  disabled={applying}
-                  className={`flex-1 py-3 rounded-xl font-bold text-white transition-all ${
-                    applying
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-linear-to-r from-purple-600 to-blue-600 hover:opacity-90"
-                  }`}
-                >
-                  {applying ? "Submitting..." : "Submit Application"}
-                </button>
-                <button
-                  type="button"
+          <Modal
+            open={showApplyModal}
+            onClose={() => !applying && setShowApplyModal(false)}
+            title="Apply for Tuition"
+            footer={
+              <>
+                <Button
+                  variant="ghost"
                   onClick={() => setShowApplyModal(false)}
-                  disabled={applying}
-                  className="flex-1 py-3 bg-gray-100 text-[var(--text-secondary)] rounded-xl font-bold hover:bg-gray-200 transition-colors"
                 >
                   Cancel
-                </button>
-              </div>
+                </Button>
+                <Button
+                  variant="primary"
+                  loading={applying}
+                  onClick={handleApplySubmit}
+                >
+                  Submit
+                </Button>
+              </>
+            }
+          >
+            <form
+              id="apply-form"
+              onSubmit={handleApplySubmit}
+              className="space-y-4"
+            >
+              {/* Name (Read-only) */}
+              <Input
+                label="Name"
+                value={user?.displayName || ""}
+                readOnly
+                className="cursor-not-allowed opacity-70"
+              />
+              <Input
+                label="Email"
+                type="email"
+                value={user?.email || ""}
+                readOnly
+                className="cursor-not-allowed opacity-70"
+              />
+
+              <Input
+                label="Qualifications *"
+                name="qualifications"
+                placeholder="e.g., BSc in Mathematics"
+                required
+              />
+              <Input
+                label="Experience *"
+                name="experience"
+                placeholder="e.g., 5 years teaching experience"
+                required
+              />
+              <Input
+                label="Expected Salary (BDT/month) *"
+                name="expectedSalary"
+                type="number"
+                icon="৳"
+                hint="Monthly salary in BDT"
+                placeholder="e.g., 5000"
+                required
+              />
             </form>
-          </div>
+          </Modal>
         </div>
       )}
     </div>
