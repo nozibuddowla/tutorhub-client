@@ -30,6 +30,10 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import MessagesPage from "../Pages/Dashboard/MessagesPage";
 import ClassCalendar from "../Pages/Dashboard/ClassCalendar";
+import FAQSection from "../components/FAQSection";
+import TermsOfService from "../Pages/TermsOfService";
+import PrivacyPolicy from "../Pages/PrivacyPolicy";
+import FAQ from "../Pages/FAQ";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +72,9 @@ const router = createBrowserRouter([
       },
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/faq", element: <FAQ /> },
+      { path: "/terms", element: <TermsOfService /> },
+      { path: "/privacy", element: <PrivacyPolicy /> },
     ],
   },
   {
