@@ -27,75 +27,28 @@ const Stars = ({ rating, size = "md" }) => {
   );
 };
 
-// ── Profile Photo Gallery ─────────────────────────────────────────────────────
-const ProfileGallery = ({ tutor }) => {
-  const [active, setActive] = useState(0);
-  const labels = ["Profile", "Teaching", "Workspace", "Certificate"];
-  // Uses same photo for all slides — real app would store multiple photos
-  const slides = labels.map((label) => ({ label, src: tutor.photoURL }));
-
-  return (
-    <div>
-      {/* Main image */}
-      <div className="relative rounded-2xl overflow-hidden border border-[var(--bg-border)] bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 h-64 flex items-center justify-center mb-3">
-        <img
-          src={
-            slides[active].src ||
-            `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
-          }
-          alt={tutor.name}
-          onError={(e) => {
-            e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
-          }}
-          className="w-36 h-36 rounded-2xl object-cover ring-4 ring-white dark:ring-[var(--bg-elevated)] shadow-xl"
-        />
-
-        {/* Verified badge */}
-        <div className="absolute top-3 right-3 bg-white dark:bg-[var(--bg-elevated)] rounded-xl px-2.5 py-1 shadow flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
-          <span className="text-xs font-bold text-green-600 dark:text-green-400">
-            Verified
-          </span>
-        </div>
-
-        {/* Label */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
-          {slides[active].label}
-        </div>
-      </div>
-
-      {/* Thumbnails */}
-      <div className="grid grid-cols-4 gap-2">
-        {slides.map((slide, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className={`rounded-xl h-16 border-2 flex flex-col items-center justify-center gap-0.5 transition-all bg-gradient-to-br from-purple-50 to-teal-50 dark:from-purple-900/20 dark:to-teal-900/20 overflow-hidden ${
-              active === i
-                ? "border-purple-500 scale-105 shadow-md"
-                : "border-[var(--bg-border)] hover:border-purple-300 dark:hover:border-purple-700"
-            }`}
-          >
-            <img
-              src={
-                slide.src ||
-                `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
-              }
-              alt=""
-              onError={(e) => {
-                e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
-              }}
-              className="w-9 h-9 rounded-lg object-cover"
-            />
-            <span className="text-xs text-[var(--text-muted)] leading-none">
-              {slide.label}
-            </span>
-          </button>
-        ))}
-      </div>
+// ── Profile Photo Display ─────────────────────────────────────────────────────
+const ProfilePhoto = ({ tutor }) => (
+  <div className="relative rounded-2xl overflow-hidden border border-[var(--bg-border)] bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 h-52 flex items-center justify-center mb-4">
+    <img
+      src={
+        tutor.photoURL ||
+        `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
+      }
+      alt={tutor.name}
+      onError={(e) => {
+        e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
+      }}
+      className="w-32 h-32 rounded-2xl object-cover ring-4 ring-white dark:ring-[var(--bg-elevated)] shadow-xl"
+    />
+    <div className="absolute top-3 right-3 bg-white dark:bg-[var(--bg-elevated)] rounded-xl px-2.5 py-1 shadow flex items-center gap-1.5">
+      <span className="w-2 h-2 rounded-full bg-green-400 inline-block" />
+      <span className="text-xs font-bold text-green-600 dark:text-green-400">
+        Verified
+      </span>
     </div>
-  );
-};
+  </div>
+);
 
 // ── Related Tutors ────────────────────────────────────────────────────────────
 const RelatedTutors = ({ currentId, subjects }) => {
@@ -222,8 +175,7 @@ const TutorProfile = () => {
           <div className="space-y-4 -mt-16 relative z-10">
             {/* Profile card */}
             <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-lg border border-[var(--bg-border)] p-6">
-              {/* 1. Media gallery */}
-              <ProfileGallery tutor={tutor} />
+              <ProfilePhoto tutor={tutor} />
 
               {/* Name + rating */}
               <div className="text-center mt-4">
