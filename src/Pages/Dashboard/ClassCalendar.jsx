@@ -354,7 +354,7 @@ const SessionDetailModal = ({
                 onStatusChange(session._id, "cancelled");
                 onClose();
               }}
-              className="flex-1 py-2.5 bg-red-100 dark:bg-red-900/40 text-red-600 font-bold rounded-xl hover:bg-red-200 transition text-sm"
+              className="flex-1 py-2.5 bg-red-100 dark:bg-red-900/40 text-white font-bold rounded-xl hover:bg-red-200 transition text-sm"
             >
               Cancel
             </button>

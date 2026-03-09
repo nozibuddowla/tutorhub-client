@@ -16,7 +16,7 @@ const statColors = {
 };
 const dotColors = {
   approved: "bg-green-500",
-  rejected: "bg-red-500",
+  rejected: "bg-red-6000",
   pending: "bg-yellow-500",
 };
 
@@ -70,7 +70,7 @@ const quickActions = [
     icon: "📅",
     label: "Class Calendar",
     sub: "Schedule & track sessions",
-    rowHover: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    rowHover: "hover:bg-blue-600 dark:hover:bg-blue-900/20",
     iconBg: "bg-blue-100 dark:bg-blue-900/40",
     iconHover: "group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60",
   },

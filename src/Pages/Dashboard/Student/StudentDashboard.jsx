@@ -13,7 +13,7 @@ const statColors = {
   purple:
     "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
 };
-const dotColors = { blue: "bg-blue-500", green: "bg-green-500" };
+const dotColors = { blue: "bg-blue-6000", green: "bg-green-500" };
 
 const StatCard = ({ label, value, icon, colorKey, link }) => (
   <Link to={link || "#"}>
@@ -47,7 +47,7 @@ const quickActions = [
     icon: "✏️",
     label: "Post New Tuition",
     sub: "Find a tutor",
-    rowHover: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    rowHover: "hover:bg-blue-600 dark:hover:bg-blue-900/20",
     iconBg: "bg-blue-100 dark:bg-blue-900/40",
     iconHover: "group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60",
   },
@@ -128,13 +128,11 @@ const StudentDashboard = () => {
       });
       setUpcoming(sessionsRes.data || []);
       const activity = [
-        ...tuitions
-          .slice(0, 3)
-          .map((t) => ({
-            text: `Posted tuition: ${t.subject}`,
-            time: t.createdAt,
-            dotKey: "blue",
-          })),
+        ...tuitions.slice(0, 3).map((t) => ({
+          text: `Posted tuition: ${t.subject}`,
+          time: t.createdAt,
+          dotKey: "blue",
+        })),
         ...apps
           .filter((a) => a.status === "approved")
           .slice(0, 2)
@@ -220,7 +218,7 @@ const StudentDashboard = () => {
                 recentActivity.map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <span
-                      className={`w-2 h-2 rounded-full shrink-0 ${dotColors[item.dotKey] || "bg-blue-500"}`}
+                      className={`w-2 h-2 rounded-full shrink-0 ${dotColors[item.dotKey] || "bg-blue-6000"}`}
                     />
                     <span className="text-sm text-[var(--text-secondary)] flex-1">
                       {item.text}
@@ -259,7 +257,7 @@ const StudentDashboard = () => {
               upcomingSessions.map((s) => (
                 <div
                   key={s._id}
-                  className="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl"
+                  className="flex items-start gap-3 p-3 bg-blue-600 dark:bg-blue-900/20 rounded-xl"
                 >
                   <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white text-sm font-black shrink-0">
                     {new Date(s.startTime).getDate()}

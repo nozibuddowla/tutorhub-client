@@ -22,7 +22,7 @@ const DEMO_ACCOUNTS = [
     email: "tutor@tutorhub.com",
     password: "Tutor123",
     color:
-      "text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-700",
+      "text-white dark:text-teal-300 border-teal-200 dark:border-teal-700",
     icon: "👨‍🏫",
   },
   {

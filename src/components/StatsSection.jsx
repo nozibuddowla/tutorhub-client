@@ -33,7 +33,7 @@ const colorMap = {
     accent: "bg-purple-600",
   },
   teal: {
-    iconBg: "bg-teal-100 dark:bg-teal-900/30",
+    iconBg: "bg-teal-600 dark:bg-teal-900/30",
     iconBorder: "border-2 border-teal-300 dark:border-teal-700",
     suffix: "text-teal-600 dark:text-teal-400",
     accent: "bg-teal-600",
@@ -47,8 +47,8 @@ const colorMap = {
   red: {
     iconBg: "bg-red-100 dark:bg-red-900/30",
     iconBorder: "border-2 border-red-300 dark:border-red-700",
-    suffix: "text-red-600 dark:text-red-400",
-    accent: "bg-red-500",
+    suffix: "text-white dark:text-red-400",
+    accent: "bg-red-6000",
   },
 };
 

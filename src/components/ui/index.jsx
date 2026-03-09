@@ -201,7 +201,7 @@ export const Badge = ({
   const variants = {
     purple:
       "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
-    teal: "bg-teal-100   dark:bg-teal-900/40   text-teal-700   dark:text-teal-300",
+    teal: "bg-teal-600   dark:bg-teal-900/40   text-white   dark:text-teal-300",
     green:
       "bg-green-100  dark:bg-green-900/40  text-green-700  dark:text-green-300",
     yellow:
@@ -216,8 +216,8 @@ export const Badge = ({
     teal: "bg-teal-500",
     green: "bg-green-500",
     yellow: "bg-yellow-500",
-    red: "bg-red-500",
-    blue: "bg-blue-500",
+    red: "bg-red-6000",
+    blue: "bg-blue-6000",
     gray: "bg-[var(--text-muted)]",
   };
 
@@ -428,7 +428,7 @@ export const Dropdown = ({
               w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors
               ${
                 item.danger
-                  ? "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  ? "text-white dark:text-red-400 hover:bg-red-600 dark:hover:bg-red-900/20"
                   : "text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] hover:text-[var(--text-primary)]"
               }
             `;

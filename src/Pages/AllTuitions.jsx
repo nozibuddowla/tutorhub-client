@@ -5,7 +5,7 @@ import axios from "axios";
 // ── Subject config ────────────────────────────────────────────────────────────
 const subjectColors = {
   mathematics: {
-    bg: "bg-blue-50 dark:bg-blue-900/20",
+    bg: "bg-blue-600 dark:bg-blue-900/20",
     text: "text-blue-700 dark:text-blue-300",
     icon: "📐",
   },
@@ -21,7 +21,7 @@ const subjectColors = {
   },
   biology: {
     bg: "bg-teal-50 dark:bg-teal-900/20",
-    text: "text-teal-700 dark:text-teal-300",
+    text: "text-white dark:text-teal-300",
     icon: "🧬",
   },
   english: {
@@ -30,7 +30,7 @@ const subjectColors = {
     icon: "📖",
   },
   bangla: {
-    bg: "bg-red-50 dark:bg-red-900/20",
+    bg: "bg-red-600 dark:bg-red-900/20",
     text: "text-red-700 dark:text-red-300",
     icon: "🇧🇩",
   },

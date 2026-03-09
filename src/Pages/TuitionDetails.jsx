@@ -10,7 +10,7 @@ import { Button, Input, Modal } from "../components/ui";
 // ── Subject config ────────────────────────────────────────────────────────────
 const subjectConfig = {
   math: {
-    bg: "bg-blue-50 dark:bg-blue-900/20",
+    bg: "bg-blue-600 dark:bg-blue-900/20",
     border: "border-blue-200 dark:border-blue-800",
     text: "text-blue-700 dark:text-blue-300",
     slides: ["📐", "📊", "📈", "🔢"],
@@ -42,7 +42,7 @@ const subjectConfig = {
   biology: {
     bg: "bg-teal-50 dark:bg-teal-900/20",
     border: "border-teal-200 dark:border-teal-800",
-    text: "text-teal-700 dark:text-teal-300",
+    text: "text-white dark:text-teal-300",
     slides: ["🧬", "🌿", "🦠", "🫀"],
   },
   ict: {
@@ -52,7 +52,7 @@ const subjectConfig = {
     slides: ["💻", "🖥️", "📱", "⌨️"],
   },
   bangla: {
-    bg: "bg-red-50 dark:bg-red-900/20",
+    bg: "bg-red-600 dark:bg-red-900/20",
     border: "border-red-200 dark:border-red-800",
     text: "text-red-700 dark:text-red-300",
     slides: ["🇧🇩", "📜", "✒️", "📚"],
@@ -401,7 +401,7 @@ const TuitionDetails = () => {
                           icon: "📚",
                           label: "Subject",
                           value: tuition.subject,
-                          bg: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300",
+                          bg: "bg-blue-600 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300",
                         },
                         {
                           icon: "👤",
@@ -566,7 +566,7 @@ const TuitionDetails = () => {
                 </button>
               )}
               {role === "student" && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-xl p-3 text-center text-sm font-semibold">
+                <div className="bg-blue-600 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-xl p-3 text-center text-sm font-semibold">
                   📋 You posted this tuition
                 </div>
               )}

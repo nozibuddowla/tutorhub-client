@@ -236,7 +236,7 @@ const Navbar = () => {
                     <div className="border-t border-[var(--bg-border)] py-1.5">
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-600 dark:hover:bg-red-900/20 transition-colors"
                       >
                         <span className="w-5 text-center text-base">🚪</span>
                         Logout
@@ -360,7 +360,7 @@ const Navbar = () => {
                     </div>
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-600 dark:hover:bg-red-900/20 transition-colors"
                     >
                       <span className="text-base w-5 text-center">🚪</span>
                       Logout

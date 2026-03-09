@@ -31,7 +31,7 @@ const PasswordStrength = ({ password }) => {
   ];
   const score = checks.filter(Boolean).length;
   const levels = [
-    { label: "Very Weak", color: "bg-red-500", w: "w-1/5" },
+    { label: "Very Weak", color: "bg-red-6000", w: "w-1/5" },
     { label: "Weak", color: "bg-orange-500", w: "w-2/5" },
     { label: "Fair", color: "bg-yellow-500", w: "w-3/5" },
     { label: "Strong", color: "bg-teal-500", w: "w-4/5" },

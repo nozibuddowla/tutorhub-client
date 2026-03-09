@@ -13,7 +13,7 @@ const contactInfo = [
     icon: "📧",
     label: "Email",
     value: "support@tutorhub.com",
-    colorCls: "bg-teal-100 dark:bg-teal-900/30",
+    colorCls: "bg-teal-600 dark:bg-teal-900/30",
     textCls: "text-teal-600 dark:text-teal-400",
   },
   {

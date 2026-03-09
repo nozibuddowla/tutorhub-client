@@ -9,7 +9,7 @@ const steps = [
     icon: "👤",
     gradient: "from-blue-500 to-cyan-500",
     number: "bg-gradient-to-br from-blue-500 to-cyan-500",
-    dot: "bg-blue-500",
+    dot: "bg-blue-6000",
     hover: "group-hover:from-blue-600 group-hover:to-purple-600",
   },
   {
@@ -175,7 +175,7 @@ const HowItWorks = () => {
                 <motion.div
                   initial={{ x: -10, opacity: 0 }}
                   whileHover={{ x: 0, opacity: 1 }}
-                  className="mt-4 text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-2"
+                  className="mt-4 text-white dark:text-blue-400 font-semibold flex items-center gap-2"
                 >
                   Learn more
                   <motion.span

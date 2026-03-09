@@ -324,7 +324,7 @@ const TutorProfile = () => {
                           icon: "💬",
                           label: "Reviews",
                           value: `${tutor.reviewCount || 0} reviews`,
-                          bg: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300",
+                          bg: "bg-blue-600 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300",
                         },
                         {
                           icon: "✅",

@@ -295,7 +295,7 @@ const Sidebar = ({
                     <Icon d={icons[link.icon]} size={18} />
                     <span className="flex-1">{link.label}</span>
                     {link.badge && unreadMessages > 0 && (
-                      <span className="w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold shrink-0">
+                      <span className="w-5 h-5 bg-red-6000 text-white text-xs rounded-full flex items-center justify-center font-bold shrink-0">
                         {unreadMessages > 9 ? "9+" : unreadMessages}
                       </span>
                     )}
@@ -310,7 +310,7 @@ const Sidebar = ({
         <div className="px-2 pb-6 pt-4 border-t border-white/10">
           <button
             onClick={onLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-red-500/20 transition-all duration-200"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-red-6000/20 transition-all duration-200"
           >
             <Icon d={icons.logout} size={18} />
             <span>Sign Out</span>

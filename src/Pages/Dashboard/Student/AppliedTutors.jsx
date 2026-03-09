@@ -129,8 +129,8 @@ const AppliedTutors = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-blue-50 px-2 py-2 rounded-xl">
-            <p className="text-sm text-blue-600 font-semibold">
+          <div className="bg-blue-600 px-2 py-2 rounded-xl">
+            <p className="text-sm text-white font-semibold">
               Total: {applications.length}
             </p>
           </div>
@@ -254,7 +254,7 @@ const AppliedTutors = () => {
                       </button>
                       <button
                         onClick={() => handleReject(application._id)}
-                        className="w-full px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                        className="w-full px-6 py-3 bg-red-6000 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
                       >
                         <span>✗</span> Reject
                       </button>

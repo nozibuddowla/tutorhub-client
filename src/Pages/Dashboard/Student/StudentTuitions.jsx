@@ -114,8 +114,8 @@ const StudentTuitions = () => {
 
         {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
-          <div className="bg-blue-50 px-2 py-2 rounded-xl">
-            <p className="text-sm text-blue-600 font-semibold">
+          <div className="bg-blue-600 px-2 py-2 rounded-xl">
+            <p className="text-sm text-white font-semibold">
               Total: {tuitions.length}
             </p>
           </div>
@@ -192,13 +192,13 @@ const StudentTuitions = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(tuition)}
-                    className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+                    className="px-6 py-3 bg-blue-6000 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(tuition._id)}
-                    className="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                    className="px-6 py-3 bg-red-6000 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
                   >
                     Delete
                   </button>

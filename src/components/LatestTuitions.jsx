@@ -21,7 +21,7 @@ const SkeletonCard = () => (
 // ── Subject colour map (static strings — Tailwind won't purge) ────────────────
 const subjectColors = {
   math: {
-    bg: "bg-blue-50 dark:bg-blue-900/30",
+    bg: "bg-blue-600 dark:bg-blue-900/30",
     text: "text-blue-700 dark:text-blue-300",
     icon: "📐",
   },
@@ -47,7 +47,7 @@ const subjectColors = {
   },
   biology: {
     bg: "bg-teal-50 dark:bg-teal-900/30",
-    text: "text-teal-700 dark:text-teal-300",
+    text: "text-white dark:text-teal-300",
     icon: "🧬",
   },
   ict: {
@@ -56,7 +56,7 @@ const subjectColors = {
     icon: "💻",
   },
   bangla: {
-    bg: "bg-red-50 dark:bg-red-900/30",
+    bg: "bg-red-600 dark:bg-red-900/30",
     text: "text-red-700 dark:text-red-300",
     icon: "🇧🇩",
   },

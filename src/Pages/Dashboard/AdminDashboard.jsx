@@ -214,7 +214,7 @@ const AdminDashboard = () => {
                 icon: "📚",
                 label: "Manage Tuitions",
                 sub: "Approve or reject posts",
-                row: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+                row: "hover:bg-blue-600 dark:hover:bg-blue-900/20",
                 bg: "bg-blue-100 dark:bg-blue-900/40",
                 arrow: "group-hover:text-blue-500",
               },

@@ -201,7 +201,7 @@ const PrivacyPolicy = () => {
                   onClick={() => scrollToSection(s.id)}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium text-left transition-all ${
                     activeSection === s.id
-                      ? "bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 font-bold"
+                      ? "bg-teal-50 dark:bg-teal-900/30 text-white dark:text-teal-400 font-bold"
                       : "text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)]"
                   }`}
                 >
@@ -223,7 +223,7 @@ const PrivacyPolicy = () => {
               className="bg-[var(--bg-elevated)] border border-[var(--bg-border)] rounded-3xl p-7 scroll-mt-28"
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-2xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-2xl bg-teal-600 dark:bg-teal-900/40 flex items-center justify-center text-xl">
                   {s.icon}
                 </div>
                 <h2 className="text-xl font-black text-[var(--text-primary)]">
