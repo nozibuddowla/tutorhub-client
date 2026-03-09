@@ -1,14 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
-import Loading from "../components/Loading";
 
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+const SkeletonCard = () => (
+  <div className="flex flex-col rounded-2xl border border-[var(--bg-border)] bg-[var(--bg-elevated)] overflow-hidden animate-pulse">
+    <div className="h-44 bg-[var(--bg-muted)]" />
+    <div className="flex flex-col flex-1 p-5 gap-3">
+      <div className="h-5 bg-[var(--bg-muted)] rounded w-3/4 mx-auto" />
+      <div className="h-4 bg-[var(--bg-muted)] rounded w-1/2 mx-auto" />
+      <div className="h-4 bg-[var(--bg-muted)] rounded w-2/3 mx-auto" />
+      <div className="mt-auto flex gap-2">
+        <div className="h-9 bg-[var(--bg-muted)] rounded-xl flex-1" />
+        <div className="h-9 bg-[var(--bg-muted)] rounded-xl w-16" />
+      </div>
+    </div>
+  </div>
+);
+
+// ── Star Rating ───────────────────────────────────────────────────────────────
 const StarRating = ({ rating }) => (
-  <div className="flex items-center gap-1">
+  <div className="flex items-center justify-center gap-0.5">
     {[1, 2, 3, 4, 5].map((star) => (
       <svg
         key={star}
-        className={`w-3.5 h-3.5 ${star <= Math.round(parseFloat(rating || 0)) ? "text-yellow-400" : "text-[var(--bg-border-strong)]"}`}
+        className={`w-3.5 h-3.5 ${star <= Math.round(parseFloat(rating || 0)) ? "text-yellow-400" : "text-gray-200 dark:text-gray-700"}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -18,71 +34,106 @@ const StarRating = ({ rating }) => (
   </div>
 );
 
+// ── Tutor Card ────────────────────────────────────────────────────────────────
 const TutorCard = ({ tutor }) => (
-  <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-lg transition-all group">
-    <div className="flex items-start gap-4 mb-4">
-      <div className="relative shrink-0">
-        <img
-          src={
-            tutor.photoURL ||
-            `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
-          }
-          alt={tutor.name}
-          className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--bg-border)]"
-          onError={(e) => {
-            e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
-          }}
-        />
-        <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-[var(--bg-elevated)]" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-bold text-[var(--text-primary)] text-lg leading-tight truncate">
-          {tutor.name}
-        </h3>
-        <p className="text-sm text-[var(--text-secondary)] truncate">
-          {tutor.email}
-        </p>
-        <div className="flex items-center gap-2 mt-1">
-          <StarRating rating={tutor.averageRating} />
-          <span className="text-xs text-[var(--text-secondary)]">
-            {tutor.averageRating
-              ? `${parseFloat(tutor.averageRating).toFixed(1)} (${tutor.reviewCount || 0})`
-              : "No reviews"}
-          </span>
-        </div>
+  <div
+    className="group flex flex-col h-full rounded-2xl border border-[var(--bg-border)]
+    bg-[var(--bg-elevated)] overflow-hidden shadow-sm
+    hover:shadow-xl hover:border-purple-300 dark:hover:border-purple-700
+    transition-all duration-300"
+  >
+    {/* Banner / Photo */}
+    <div className="relative h-44 bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 flex items-center justify-center shrink-0">
+      <img
+        src={
+          tutor.photoURL ||
+          `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`
+        }
+        alt={tutor.name}
+        onError={(e) => {
+          e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${tutor.name}`;
+        }}
+        className="w-24 h-24 rounded-2xl object-cover ring-4 ring-white dark:ring-[var(--bg-elevated)] shadow-md"
+      />
+      <div className="absolute top-3 right-3 bg-white dark:bg-[var(--bg-elevated)] rounded-xl px-2.5 py-1 shadow-md flex items-center gap-1">
+        <span className="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+        <span className="text-xs font-bold text-green-600 dark:text-green-400">
+          Verified
+        </span>
       </div>
     </div>
-    {tutor.subjects && (
-      <div className="flex flex-wrap gap-2 mb-4">
-        {(Array.isArray(tutor.subjects) ? tutor.subjects : [tutor.subjects])
-          .slice(0, 3)
-          .map((s, i) => (
-            <span
-              key={i}
-              className="bg-purple-100 dark:bg-purple-900/40 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 dark:text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full"
-            >
-              {s}
-            </span>
-          ))}
+
+    {/* Body */}
+    <div className="flex flex-col flex-1 p-5 text-center">
+      {/* Title — Name */}
+      <h3
+        className="text-base font-bold text-[var(--text-primary)] leading-snug
+        group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors truncate"
+      >
+        {tutor.name}
+      </h3>
+
+      {/* Short description — email / subjects */}
+      <p className="mt-1 text-xs text-[var(--text-muted)] truncate">
+        {tutor.email}
+      </p>
+
+      {/* Meta — rating */}
+      <div className="mt-2 flex flex-col items-center gap-1">
+        <StarRating rating={tutor.averageRating} />
+        <span className="text-xs text-[var(--text-muted)]">
+          {tutor.averageRating
+            ? `${parseFloat(tutor.averageRating).toFixed(1)} · ${tutor.reviewCount || 0} reviews`
+            : "No reviews yet"}
+        </span>
       </div>
-    )}
-    <div className="flex gap-2 pt-4 border-t border-[var(--bg-border)]">
-      <Link
-        to={`/tutors/${tutor._id}`}
-        className="flex-1 text-center py-2.5 bg-gradient-to-r from-purple-600 to-teal-600 text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity"
-      >
-        View Profile
-      </Link>
-      <Link
-        to="/tuitions"
-        className="px-2 py-2.5 bg-[var(--bg-muted)] text-[var(--text-secondary)] rounded-xl text-sm font-semibold hover:bg-[var(--bg-border-strong)] transition-colors"
-      >
-        Browse
-      </Link>
+
+      {/* Subject pills */}
+      {tutor.subjects && (
+        <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+          {(Array.isArray(tutor.subjects) ? tutor.subjects : [tutor.subjects])
+            .slice(0, 3)
+            .map((s, i) => (
+              <span
+                key={i}
+                className="text-xs font-semibold px-2 py-0.5 rounded-full
+                bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300"
+              >
+                {s}
+              </span>
+            ))}
+        </div>
+      )}
+
+      {/* Buttons — pushed to bottom */}
+      <div className="mt-auto pt-4 flex gap-2">
+        <Link
+          to={`/tutors/${tutor._id}`}
+          className="flex-1 text-center py-2.5 rounded-xl text-sm font-bold
+            bg-gradient-to-r from-purple-600 to-teal-600 text-white
+            hover:opacity-90 transition-opacity"
+        >
+          View Details
+        </Link>
+        <Link
+          to="/tuitions"
+          className="px-3 py-2.5 rounded-xl text-sm font-semibold
+            bg-[var(--bg-muted)] text-[var(--text-secondary)]
+            border border-[var(--bg-border)]
+            hover:bg-[var(--bg-border-strong)] transition-colors"
+        >
+          Browse
+        </Link>
+      </div>
     </div>
   </div>
 );
 
+// ── Pagination ────────────────────────────────────────────────────────────────
+const pgBtn =
+  "px-3 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition text-sm";
+
+// ── Main ──────────────────────────────────────────────────────────────────────
 const AllTutors = () => {
   const [tutors, setTutors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +142,7 @@ const AllTutors = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [total, setTotal] = useState(0);
-  const limit = 9;
+  const limit = 8; // 4-col × 2 rows
 
   useEffect(() => {
     fetchTutors();
@@ -102,15 +153,19 @@ const AllTutors = () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/tutors/all`,
-        { params: { search, page, limit } },
+        {
+          params: { search, page, limit },
+        },
       );
       setTutors(res.data.tutors || []);
       setTotal(res.data.total || 0);
       setTotalPages(res.data.totalPages || 0);
     } catch {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/tutors`);
-      setTutors(res.data || []);
-      setTotal(res.data.length || 0);
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/tutors`);
+        setTutors(res.data || []);
+        setTotal(res.data.length || 0);
+      } catch {}
     } finally {
       setLoading(false);
     }
@@ -126,12 +181,11 @@ const AllTutors = () => {
     setSearch("");
     setPage(1);
   };
-  const pgBtn =
-    "px-2 py-2 rounded-xl border border-[var(--bg-border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-semibold hover:bg-[var(--bg-muted)] disabled:opacity-40 disabled:cursor-not-allowed transition";
 
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
-      <div className="bg-gradient-to-r from-purple-600 to-teal-600 py-16 px-2">
+      {/* Hero */}
+      <div className="bg-gradient-to-r from-purple-600 to-teal-600 py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-black text-white mb-3">
             Find Your Perfect Tutor
@@ -149,19 +203,21 @@ const AllTutors = () => {
                 placeholder="Search by name or subject..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/15 backdrop-blur border border-white/25 text-white placeholder:text-white/60 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/40 transition"
+                className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/15 backdrop-blur border border-white/25 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 transition"
               />
             </div>
             <button
               type="submit"
-              className="px-5 py-3.5 bg-white text-purple-700 dark:text-purple-300 font-bold rounded-xl hover:bg-purple-50 transition shadow-lg"
+              className="px-5 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition shadow-lg"
             >
               Search
             </button>
           </form>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-2 py-12">
+
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Results bar */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-[var(--text-primary)]">
             {loading ? "Loading..." : `${total} Tutors Available`}
@@ -175,15 +231,26 @@ const AllTutors = () => {
             </button>
           )}
         </div>
-        {loading ? (
-          <Loading />
-        ) : tutors.length > 0 ? (
+
+        {/* Skeleton */}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        )}
+
+        {/* Cards */}
+        {!loading && tutors.length > 0 && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {tutors.map((tutor) => (
                 <TutorCard key={tutor._id} tutor={tutor} />
               ))}
             </div>
+
+            {/* Pagination */}
             {totalPages > 1 && (
               <>
                 <div className="mt-10 flex justify-center items-center gap-2 flex-wrap">
@@ -228,7 +295,10 @@ const AllTutors = () => {
               </>
             )}
           </>
-        ) : (
+        )}
+
+        {/* Empty */}
+        {!loading && tutors.length === 0 && (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">👨‍🏫</div>
             <p className="text-[var(--text-secondary)] text-lg font-medium">
@@ -248,4 +318,5 @@ const AllTutors = () => {
     </div>
   );
 };
+
 export default AllTutors;

@@ -115,12 +115,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* ── Logo ─────────────────────────────────────────── */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-              style={{
-                background: "linear-gradient(135deg, #6b46c1, #11998e)",
-              }}
-            >
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-purple-700 to-teal-500">
               <span className="text-white font-black text-lg">T</span>
             </div>
             <span className="font-black text-xl hidden sm:block text-[var(--text-primary)]">
@@ -260,10 +255,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 py-2 text-sm font-bold text-white rounded-xl hover:opacity-90 transition shadow-md"
-                  style={{
-                    background: "linear-gradient(135deg, #6b46c1, #11998e)",
-                  }}
+                  className="px-4 py-2 text-sm font-bold text-white rounded-xl hover:opacity-90 transition shadow-md bg-gradient-to-br from-purple-700 to-teal-500"
                 >
                   Register
                 </Link>
@@ -388,10 +380,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/signup"
-                    className="w-full py-3 text-center text-sm font-bold text-white rounded-xl hover:opacity-90 transition"
-                    style={{
-                      background: "linear-gradient(135deg, #6b46c1, #11998e)",
-                    }}
+                    className="w-full py-3 text-center text-sm font-bold text-white rounded-xl hover:opacity-90 transition bg-gradient-to-br from-purple-700 to-teal-500"
                   >
                     Register
                   </Link>

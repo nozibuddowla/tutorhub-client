@@ -17,9 +17,7 @@ const RootLayout = () => {
   return (
     <DarkModeContext.Provider value={darkMode}>
       <div className="flex flex-col min-h-screen bg-(--bg-base) text-[var(--text-primary)]">
-        <header>
-          <Navbar />
-        </header>
+        <Navbar />
 
         {/* Main content takes remaining space */}
         <main className="flex-1">

@@ -24,17 +24,43 @@ const useCountUp = (target, duration = 1800, started = false) => {
   return count;
 };
 
-const StatCard = ({ icon, value, suffix, label, color, started, delay }) => {
+// Static Tailwind class maps — prevents purging
+const colorMap = {
+  purple: {
+    iconBg: "bg-purple-100 dark:bg-purple-900/30",
+    iconBorder: "border-2 border-purple-300 dark:border-purple-700",
+    suffix: "text-purple-600 dark:text-purple-400",
+    accent: "bg-purple-600",
+  },
+  teal: {
+    iconBg: "bg-teal-100 dark:bg-teal-900/30",
+    iconBorder: "border-2 border-teal-300 dark:border-teal-700",
+    suffix: "text-teal-600 dark:text-teal-400",
+    accent: "bg-teal-600",
+  },
+  amber: {
+    iconBg: "bg-amber-100 dark:bg-amber-900/30",
+    iconBorder: "border-2 border-amber-300 dark:border-amber-700",
+    suffix: "text-amber-600 dark:text-amber-400",
+    accent: "bg-amber-500",
+  },
+  red: {
+    iconBg: "bg-red-100 dark:bg-red-900/30",
+    iconBorder: "border-2 border-red-300 dark:border-red-700",
+    suffix: "text-red-600 dark:text-red-400",
+    accent: "bg-red-500",
+  },
+};
+
+const StatCard = ({ icon, value, suffix, label, colorKey, started }) => {
   const count = useCountUp(value, 1800, started);
+  const c = colorMap[colorKey];
+
   return (
-    <div
-      className="relative flex flex-col items-center text-center p-8 rounded-3xl border bg-[var(--bg-elevated)] border-[var(--bg-border)] hover:shadow-xl transition-shadow group"
-      style={{ animationDelay: `${delay}ms` }}
-    >
-      {/* Icon ring */}
+    <div className="relative flex flex-col items-center text-center p-8 rounded-3xl border bg-[var(--bg-elevated)] border-[var(--bg-border)] hover:shadow-xl transition-shadow group">
+      {/* Icon */}
       <div
-        className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-5 transition-transform group-hover:scale-110 duration-300"
-        style={{ background: `${color}18`, border: `2px solid ${color}35` }}
+        className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-5 transition-transform group-hover:scale-110 duration-300 ${c.iconBg} ${c.iconBorder}`}
       >
         {icon}
       </div>
@@ -42,9 +68,7 @@ const StatCard = ({ icon, value, suffix, label, color, started, delay }) => {
       {/* Number */}
       <p className="text-5xl font-black tabular-nums leading-none text-[var(--text-primary)]">
         {count.toLocaleString()}
-        <span style={{ color }} className="text-4xl">
-          {suffix}
-        </span>
+        <span className={`text-4xl ${c.suffix}`}>{suffix}</span>
       </p>
 
       {/* Label */}
@@ -52,10 +76,9 @@ const StatCard = ({ icon, value, suffix, label, color, started, delay }) => {
         {label}
       </p>
 
-      {/* Bottom accent */}
+      {/* Bottom accent — no inline style */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-16 rounded-full transition-all group-hover:w-24"
-        style={{ background: color }}
+        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-16 rounded-full transition-all group-hover:w-24 ${c.accent}`}
       />
     </div>
   );
@@ -71,20 +94,18 @@ const StatsSection = () => {
   const [started, setStarted] = useState(false);
   const sectionRef = useRef(null);
 
-  // Fetch real data
   useEffect(() => {
-    const fetch = async () => {
+    const fetchStats = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/stats`);
-        if (res.data) setStats({ ...stats, ...res.data });
+        if (res.data) setStats((prev) => ({ ...prev, ...res.data }));
       } catch {
         // keep fallback values
       }
     };
-    fetch();
+    fetchStats();
   }, []);
 
-  // Intersection observer — start counters when visible
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -102,32 +123,28 @@ const StatsSection = () => {
       value: stats.tutors,
       suffix: "+",
       label: "Expert Tutors",
-      color: "#6b46c1",
-      delay: 0,
+      colorKey: "purple",
     },
     {
       icon: "🎓",
       value: stats.students,
       suffix: "+",
       label: "Students Helped",
-      color: "#11998e",
-      delay: 100,
+      colorKey: "teal",
     },
     {
       icon: "📚",
       value: stats.tuitions,
       suffix: "+",
       label: "Tuition Hours",
-      color: "#d97706",
-      delay: 200,
+      colorKey: "amber",
     },
     {
       icon: "⭐",
       value: stats.satisfaction,
       suffix: "%",
       label: "Satisfaction Rate",
-      color: "#e53e3e",
-      delay: 300,
+      colorKey: "red",
     },
   ];
 
@@ -137,7 +154,6 @@ const StatsSection = () => {
       className="py-20 px-4 bg-[var(--bg-surface)] border-y border-[var(--bg-border)]"
     >
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-14">
           <span className="inline-block text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-400 mb-3">
             Platform Statistics
@@ -151,7 +167,6 @@ const StatsSection = () => {
           </p>
         </div>
 
-        {/* Stats grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {items.map((item) => (
             <StatCard key={item.label} {...item} started={started} />

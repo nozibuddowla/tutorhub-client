@@ -4,23 +4,45 @@ import axios from "axios";
 import { Link } from "react-router";
 import Loading from "../../components/Loading";
 
-const StatCard = ({ label, value, icon, color, change, link }) => (
-  <Link to={link || "#"}>
-    <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-2xl">{icon}</span>
-        <span
-          className="text-xs font-bold px-2 py-1 rounded-full"
-          style={{ background: `${color}20`, color }}
-        >
-          {change}
-        </span>
+// Static color map — no inline style
+const statColors = {
+  blue: {
+    badge: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300",
+  },
+  green: {
+    badge:
+      "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300",
+  },
+  red: {
+    badge: "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300",
+  },
+  yellow: {
+    badge:
+      "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300",
+  },
+};
+
+const StatCard = ({ label, value, icon, colorKey, change, link }) => {
+  const c = statColors[colorKey] || statColors.blue;
+  return (
+    <Link to={link || "#"}>
+      <div className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-all cursor-pointer">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-2xl">{icon}</span>
+          <span
+            className={`text-xs font-bold px-2 py-1 rounded-full ${c.badge}`}
+          >
+            {change}
+          </span>
+        </div>
+        <p className="text-3xl font-black text-[var(--text-primary)]">
+          {value}
+        </p>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">{label}</p>
       </div>
-      <p className="text-3xl font-black text-[var(--text-primary)]">{value}</p>
-      <p className="text-sm text-[var(--text-secondary)] mt-1">{label}</p>
-    </div>
-  </Link>
-);
+    </Link>
+  );
+};
 
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -50,11 +72,9 @@ const AdminDashboard = () => {
           withCredentials: true,
         }),
       ]);
-
       const users = usersRes.data;
       const tuitions = tuitionsRes.data;
       const payments = paymentsRes.data;
-
       setStats({
         totalUsers: users.length,
         totalTuitions: tuitions.length,
@@ -63,15 +83,14 @@ const AdminDashboard = () => {
         ).length,
         totalEarnings: payments.reduce((sum, p) => sum + (p.amount || 0), 0),
       });
-
       setRecentUsers(
         users
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 5),
       );
-      setLoading(false);
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
+    } finally {
       setLoading(false);
     }
   };
@@ -80,11 +99,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div
-        className="rounded-2xl p-6 text-white"
-        style={{ background: "linear-gradient(135deg, #1a1a2e, #e53e3e)" }}
-      >
+      {/* Welcome Banner — gradient via Tailwind */}
+      <div className="rounded-2xl p-6 text-white bg-gradient-to-br from-gray-900 to-red-600">
         <h2 className="text-2xl font-black">Admin Control Panel 🛡️</h2>
         <p className="text-white/70 mt-1 text-sm">
           Monitor platform activity, manage users, and oversee all operations.
@@ -97,7 +113,7 @@ const AdminDashboard = () => {
           label="Total Users"
           value={stats.totalUsers}
           icon="👥"
-          color="#2b6cb0"
+          colorKey="blue"
           change="View All"
           link="/dashboard/admin/users"
         />
@@ -105,7 +121,7 @@ const AdminDashboard = () => {
           label="Active Tuitions"
           value={stats.totalTuitions}
           icon="📚"
-          color="#38a169"
+          colorKey="green"
           change="Manage"
           link="/dashboard/admin/tuitions"
         />
@@ -113,7 +129,7 @@ const AdminDashboard = () => {
           label="Pending Approval"
           value={stats.pendingTuitions}
           icon="⏳"
-          color="#e53e3e"
+          colorKey="red"
           change="Review"
           link="/dashboard/admin/tuitions"
         />
@@ -121,13 +137,13 @@ const AdminDashboard = () => {
           label="Total Revenue"
           value={`৳${stats.totalEarnings.toLocaleString()}`}
           icon="💳"
-          color="#d69e2e"
+          colorKey="yellow"
           change="View"
           link="/dashboard/admin/reports"
         />
       </div>
 
-      {/* Two Column Layout */}
+      {/* Two column */}
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Recent Users */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
@@ -177,70 +193,66 @@ const AdminDashboard = () => {
           </div>
         </div>
 
+        {/* Quick Actions */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <h3 className="font-bold text-[var(--text-primary)] mb-4">
             Quick Actions
           </h3>
           <div className="space-y-3">
-            <Link
-              to="/dashboard/admin/users"
-              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-purple-50 dark:hover:bg-purple-900/20"
-            >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-purple-100 dark:bg-purple-900/40 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60">
-                <span className="text-lg">👥</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[var(--text-primary)]">
-                  Manage Users
-                </p>
-                <p className="text-xs text-[var(--text-secondary)]">
-                  View, edit, or delete users
-                </p>
-              </div>
-              <span className="text-[var(--text-muted)] group-hover:text-purple-500 transition-colors">
-                →
-              </span>
-            </Link>
-
-            <Link
-              to="/dashboard/admin/tuitions"
-              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-blue-50 dark:hover:bg-blue-900/20"
-            >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-blue-100 dark:bg-blue-900/40 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60">
-                <span className="text-lg">📚</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[var(--text-primary)]">
-                  Manage Tuitions
-                </p>
-                <p className="text-xs text-[var(--text-secondary)]">
-                  Approve or reject posts
-                </p>
-              </div>
-              <span className="text-[var(--text-muted)] group-hover:text-blue-500 transition-colors">
-                →
-              </span>
-            </Link>
-
-            <Link
-              to="/dashboard/admin/reports"
-              className="flex items-center gap-3 p-3 rounded-xl transition-colors group hover:bg-green-50 dark:hover:bg-green-900/20"
-            >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors bg-green-100 dark:bg-green-900/40 group-hover:bg-green-200 dark:group-hover:bg-green-900/60">
-                <span className="text-lg">📊</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[var(--text-primary)]">
-                  View Reports
-                </p>
-                <p className="text-xs text-[var(--text-secondary)]">
-                  Analytics and earnings
-                </p>
-              </div>
-              <span className="text-[var(--text-muted)] group-hover:text-green-500 transition-colors">
-                →
-              </span>
-            </Link>
+            {[
+              {
+                to: "/dashboard/admin/users",
+                icon: "👥",
+                label: "Manage Users",
+                sub: "View, edit, or delete users",
+                row: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
+                bg: "bg-purple-100 dark:bg-purple-900/40",
+                arrow: "group-hover:text-purple-500",
+              },
+              {
+                to: "/dashboard/admin/tuitions",
+                icon: "📚",
+                label: "Manage Tuitions",
+                sub: "Approve or reject posts",
+                row: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+                bg: "bg-blue-100 dark:bg-blue-900/40",
+                arrow: "group-hover:text-blue-500",
+              },
+              {
+                to: "/dashboard/admin/reports",
+                icon: "📊",
+                label: "View Reports",
+                sub: "Analytics and earnings",
+                row: "hover:bg-green-50 dark:hover:bg-green-900/20",
+                bg: "bg-green-100 dark:bg-green-900/40",
+                arrow: "group-hover:text-green-500",
+              },
+            ].map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`flex items-center gap-3 p-3 rounded-xl transition-colors group ${item.row}`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${item.bg}`}
+                >
+                  <span className="text-lg">{item.icon}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">
+                    {item.label}
+                  </p>
+                  <p className="text-xs text-[var(--text-secondary)]">
+                    {item.sub}
+                  </p>
+                </div>
+                <span
+                  className={`text-[var(--text-muted)] transition-colors ${item.arrow}`}
+                >
+                  →
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

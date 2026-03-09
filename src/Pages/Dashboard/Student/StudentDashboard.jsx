@@ -1,18 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
-import Loading from "../../../components/Loading";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import Loading from "../../../components/Loading";
 import { Card } from "../../../components/ui";
 
-const StatCard = ({ label, value, icon, color, link }) => (
+const statColors = {
+  blue: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300",
+  yellow:
+    "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300",
+  green: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300",
+  purple:
+    "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
+};
+const dotColors = { blue: "bg-blue-500", green: "bg-green-500" };
+
+const StatCard = ({ label, value, icon, colorKey, link }) => (
   <Link to={link || "#"}>
     <Card hover>
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
-          className="text-xs font-bold px-2 py-1 rounded-full"
-          style={{ background: `${color}20`, color }}
+          className={`text-xs font-bold px-2 py-1 rounded-full ${statColors[colorKey] || statColors.blue}`}
         >
           Active
         </span>
@@ -32,6 +41,45 @@ const formatSessionTime = (d) =>
   " · " +
   new Date(d).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
+const quickActions = [
+  {
+    to: "/dashboard/student/post-tuition",
+    icon: "✏️",
+    label: "Post New Tuition",
+    sub: "Find a tutor",
+    rowHover: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    iconBg: "bg-blue-100 dark:bg-blue-900/40",
+    iconHover: "group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60",
+  },
+  {
+    to: "/dashboard/student/applied-tutors",
+    icon: "👨‍🏫",
+    label: "Applied Tutors",
+    sub: "Review applications",
+    rowHover: "hover:bg-green-50 dark:hover:bg-green-900/20",
+    iconBg: "bg-green-100 dark:bg-green-900/40",
+    iconHover: "group-hover:bg-green-200 dark:group-hover:bg-green-900/60",
+  },
+  {
+    to: "/dashboard/student/calendar",
+    icon: "📅",
+    label: "Class Calendar",
+    sub: "Schedule & track sessions",
+    rowHover: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
+    iconBg: "bg-purple-100 dark:bg-purple-900/40",
+    iconHover: "group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60",
+  },
+  {
+    to: "/dashboard/student/payments",
+    icon: "💳",
+    label: "Payments",
+    sub: "View payment history",
+    rowHover: "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
+    iconBg: "bg-yellow-100 dark:bg-yellow-900/40",
+    iconHover: "group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/60",
+  },
+];
+
 const StudentDashboard = () => {
   const { user } = useContext(AuthContext);
   const [stats, setStats] = useState({
@@ -40,18 +88,17 @@ const StudentDashboard = () => {
     approved: 0,
     tutors: 0,
   });
-  const [upcomingSessions, setUpcomingSessions] = useState([]);
-  const [recentActivity, setRecentActivity] = useState([]);
+  const [upcomingSessions, setUpcoming] = useState([]);
+  const [recentActivity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.email) return;
-    fetchDashboardData();
+    if (user?.email) fetchDashboardData();
   }, [user]);
 
   const fetchDashboardData = async () => {
     try {
-      const [tuitionsRes, applicationsRes, sessionsRes] = await Promise.all([
+      const [tuitionsRes, appsRes, sessionsRes] = await Promise.all([
         axios.get(
           `${import.meta.env.VITE_API_URL}/student/tuitions/${user.email}`,
           { withCredentials: true },
@@ -65,109 +112,62 @@ const StudentDashboard = () => {
           { withCredentials: true },
         ),
       ]);
-
       const tuitions = tuitionsRes.data;
-      const applications = applicationsRes.data;
-
+      const apps = appsRes.data;
       setStats({
         tuitions: tuitions.length,
         pending: tuitions.filter((t) => t.status === "pending").length,
-        approved: applications.filter((a) => a.status === "approved").length,
+        approved: apps.filter((a) => a.status === "approved").length,
         tutors: [
           ...new Set(
-            applications
+            apps
               .filter((a) => a.status === "approved")
               .map((a) => a.tutorEmail),
           ),
         ].length,
       });
-
-      setUpcomingSessions(sessionsRes.data || []);
-
-      // Build recent activity from tuitions + applications
+      setUpcoming(sessionsRes.data || []);
       const activity = [
-        ...tuitions.slice(0, 3).map((t) => ({
-          text: `Posted tuition: ${t.subject}`,
-          time: t.createdAt,
-          dot: "#2b6cb0",
-        })),
-        ...applications
+        ...tuitions
+          .slice(0, 3)
+          .map((t) => ({
+            text: `Posted tuition: ${t.subject}`,
+            time: t.createdAt,
+            dotKey: "blue",
+          })),
+        ...apps
           .filter((a) => a.status === "approved")
           .slice(0, 2)
           .map((a) => ({
             text: `Tutor hired: ${a.tutorName}`,
             time: a.approvedAt || a.createdAt,
-            dot: "#38a169",
+            dotKey: "green",
           })),
       ]
         .sort((a, b) => new Date(b.time) - new Date(a.time))
         .slice(0, 5);
-
-      setRecentActivity(activity);
-      setLoading(false);
+      setActivity(activity);
     } catch (err) {
       console.error(err);
+    } finally {
       setLoading(false);
     }
   };
 
   const timeAgo = (date) => {
-    const diff = Date.now() - new Date(date);
-    const days = Math.floor(diff / 86400000);
+    const days = Math.floor((Date.now() - new Date(date)) / 86400000);
     if (days === 0) return "Today";
     if (days === 1) return "Yesterday";
     if (days < 7) return `${days} days ago`;
     return new Date(date).toLocaleDateString();
   };
 
-  const quickActions = [
-    {
-      to: "/dashboard/student/post-tuition",
-      icon: "✏️",
-      label: "Post New Tuition",
-      sub: "Find a tutor",
-      rowHover: "hover:bg-blue-50   dark:hover:bg-blue-900/20",
-      iconBg: "bg-blue-100   dark:bg-blue-900/40",
-      iconHover: "group-hover:bg-blue-200   dark:group-hover:bg-blue-900/60",
-    },
-    {
-      to: "/dashboard/student/applied-tutors",
-      icon: "👨‍🏫",
-      label: "Applied Tutors",
-      sub: "Review applications",
-      rowHover: "hover:bg-green-50  dark:hover:bg-green-900/20",
-      iconBg: "bg-green-100  dark:bg-green-900/40",
-      iconHover: "group-hover:bg-green-200  dark:group-hover:bg-green-900/60",
-    },
-    {
-      to: "/dashboard/student/calendar",
-      icon: "📅",
-      label: "Class Calendar",
-      sub: "Schedule & track sessions",
-      rowHover: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
-      iconBg: "bg-purple-100 dark:bg-purple-900/40",
-      iconHover: "group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60",
-    },
-    {
-      to: "/dashboard/student/payments",
-      icon: "💳",
-      label: "Payments",
-      sub: "View payment history",
-      rowHover: "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
-      iconBg: "bg-yellow-100 dark:bg-yellow-900/40",
-      iconHover: "group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/60",
-    },
-  ];
-
   if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div
-        className="rounded-2xl p-6 text-white"
-        style={{ background: "linear-gradient(135deg, #2b6cb0, #0d7377)" }}
-      >
+      {/* Banner — gradient via Tailwind */}
+      <div className="rounded-2xl p-6 text-white bg-gradient-to-br from-blue-700 to-teal-600">
         <h2 className="text-2xl font-black">
           Hello, {user?.displayName?.split(" ")[0] || "Student"} 👋
         </h2>
@@ -182,28 +182,28 @@ const StudentDashboard = () => {
           label="My Tuitions"
           value={stats.tuitions}
           icon="📚"
-          color="#2b6cb0"
+          colorKey="blue"
           link="/dashboard/student/my-tuitions"
         />
         <StatCard
           label="Pending"
           value={stats.pending}
           icon="⏳"
-          color="#d69e2e"
+          colorKey="yellow"
           link="/dashboard/student/my-tuitions"
         />
         <StatCard
           label="Active Tutors"
           value={stats.tutors}
           icon="👨‍🏫"
-          color="#38a169"
+          colorKey="green"
           link="/dashboard/student/applied-tutors"
         />
         <StatCard
           label="Upcoming Sessions"
           value={upcomingSessions.length}
           icon="📅"
-          color="#6b46c1"
+          colorKey="purple"
           link="/dashboard/student/calendar"
         />
       </div>
@@ -220,8 +220,7 @@ const StudentDashboard = () => {
                 recentActivity.map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <span
-                      className="w-2 h-2 rounded-full shrink-0"
-                      style={{ background: item.dot }}
+                      className={`w-2 h-2 rounded-full shrink-0 ${dotColors[item.dotKey] || "bg-blue-500"}`}
                     />
                     <span className="text-sm text-[var(--text-secondary)] flex-1">
                       {item.text}
@@ -242,7 +241,7 @@ const StudentDashboard = () => {
           </Card.Body>
         </Card>
 
-        {/* Upcoming Sessions — NEW */}
+        {/* Upcoming Sessions */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-[var(--text-primary)]">
@@ -300,22 +299,25 @@ const StudentDashboard = () => {
           <h3 className="font-bold text-[var(--text-primary)] mb-4">
             Quick Actions
           </h3>
-
-          <div className="space-y-3">
+          <div className="space-y-1">
             {quickActions.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--bg-surface)] transition-colors group"
+                className={`flex items-center gap-3 p-3 rounded-xl transition-colors group ${item.rowHover}`}
               >
-                <div className="w-10 h-10 bg-[var(--bg-muted)] rounded-xl flex items-center justify-center group-hover:bg-[var(--bg-border-strong)]">
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${item.iconBg} ${item.iconHover}`}
+                >
                   <span className="text-lg">{item.icon}</span>
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-[var(--text-primary)]">
                     {item.label}
                   </p>
-                  <p className="text-xs text-[var(--text-secondary)]">{item.sub}</p>
+                  <p className="text-xs text-[var(--text-secondary)]">
+                    {item.sub}
+                  </p>
                 </div>
                 <span className="text-[var(--text-muted)]">→</span>
               </Link>

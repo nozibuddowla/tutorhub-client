@@ -5,14 +5,28 @@ import { Link } from "react-router";
 import Loading from "../../components/Loading";
 import { Card } from "../../components/ui";
 
-const StatCard = ({ label, value, icon, color, link }) => (
+// Static color map
+const statColors = {
+  purple:
+    "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300",
+  yellow:
+    "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300",
+  green: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300",
+  red: "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300",
+};
+const dotColors = {
+  approved: "bg-green-500",
+  rejected: "bg-red-500",
+  pending: "bg-yellow-500",
+};
+
+const StatCard = ({ label, value, icon, colorKey, link }) => (
   <Link to={link || "#"}>
     <Card hover>
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         <span
-          className="text-xs font-bold px-2 py-1 rounded-full"
-          style={{ background: `${color}20`, color }}
+          className={`text-xs font-bold px-2 py-1 rounded-full ${statColors[colorKey] || statColors.purple}`}
         >
           Active
         </span>
@@ -39,7 +53,7 @@ const quickActions = [
     label: "My Applications",
     sub: "Track your applications",
     rowHover: "hover:bg-purple-50 dark:hover:bg-purple-900/20",
-    iconBg: "bg-purple-100  dark:bg-purple-900/40",
+    iconBg: "bg-purple-100 dark:bg-purple-900/40",
     iconHover: "group-hover:bg-purple-200 dark:group-hover:bg-purple-900/60",
   },
   {
@@ -47,26 +61,26 @@ const quickActions = [
     icon: "📚",
     label: "Ongoing Tuitions",
     sub: "View active tuitions",
-    rowHover: "hover:bg-green-50  dark:hover:bg-green-900/20",
-    iconBg: "bg-green-100   dark:bg-green-900/40",
-    iconHover: "group-hover:bg-green-200  dark:group-hover:bg-green-900/60",
+    rowHover: "hover:bg-green-50 dark:hover:bg-green-900/20",
+    iconBg: "bg-green-100 dark:bg-green-900/40",
+    iconHover: "group-hover:bg-green-200 dark:group-hover:bg-green-900/60",
   },
   {
     to: "/dashboard/tutor/calendar",
     icon: "📅",
     label: "Class Calendar",
     sub: "Schedule & track sessions",
-    rowHover: "hover:bg-blue-50   dark:hover:bg-blue-900/20",
-    iconBg: "bg-blue-100    dark:bg-blue-900/40",
-    iconHover: "group-hover:bg-blue-200   dark:group-hover:bg-blue-900/60",
+    rowHover: "hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    iconBg: "bg-blue-100 dark:bg-blue-900/40",
+    iconHover: "group-hover:bg-blue-200 dark:group-hover:bg-blue-900/60",
   },
   {
     to: "/dashboard/tutor/revenue",
     icon: "💰",
     label: "Revenue History",
     sub: "Track earnings",
-    rowHover: "hover:bg-yellow-50  dark:hover:bg-yellow-900/20",
-    iconBg: "bg-yellow-100  dark:bg-yellow-900/40",
+    rowHover: "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
+    iconBg: "bg-yellow-100 dark:bg-yellow-900/40",
     iconHover: "group-hover:bg-yellow-200 dark:group-hover:bg-yellow-900/60",
   },
 ];
@@ -79,8 +93,8 @@ const TutorDashboard = () => {
     ongoing: 0,
     totalEarnings: 0,
   });
-  const [recentApplications, setRecentApplications] = useState([]);
-  const [upcomingSessions, setUpcomingSessions] = useState([]);
+  const [recentApplications, setRecent] = useState([]);
+  const [upcomingSessions, setUpcoming] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -89,42 +103,36 @@ const TutorDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const [applicationsRes, ongoingRes, revenueRes, sessionsRes] =
-        await Promise.all([
-          axios.get(
-            `${import.meta.env.VITE_API_URL}/tutor/applications/${user.email}`,
-            { withCredentials: true },
-          ),
-          axios.get(
-            `${import.meta.env.VITE_API_URL}/tutor/ongoing/${user.email}`,
-            { withCredentials: true },
-          ),
-          axios.get(
-            `${import.meta.env.VITE_API_URL}/tutor/revenue/${user.email}`,
-            { withCredentials: true },
-          ),
-          axios.get(
-            `${import.meta.env.VITE_API_URL}/sessions/upcoming/${user.email}`,
-            { withCredentials: true },
-          ),
-        ]);
-
-      const applications = applicationsRes.data;
-      const ongoing = ongoingRes.data;
-      const revenue = revenueRes.data;
-
+      const [appRes, ongoingRes, revenueRes, sessionsRes] = await Promise.all([
+        axios.get(
+          `${import.meta.env.VITE_API_URL}/tutor/applications/${user.email}`,
+          { withCredentials: true },
+        ),
+        axios.get(
+          `${import.meta.env.VITE_API_URL}/tutor/ongoing/${user.email}`,
+          { withCredentials: true },
+        ),
+        axios.get(
+          `${import.meta.env.VITE_API_URL}/tutor/revenue/${user.email}`,
+          { withCredentials: true },
+        ),
+        axios.get(
+          `${import.meta.env.VITE_API_URL}/sessions/upcoming/${user.email}`,
+          { withCredentials: true },
+        ),
+      ]);
+      const apps = appRes.data;
       setStats({
-        totalApplications: applications.length,
-        pending: applications.filter((a) => a.status === "pending").length,
-        ongoing: ongoing.length,
-        totalEarnings: revenue.reduce((sum, p) => sum + (p.amount || 0), 0),
+        totalApplications: apps.length,
+        pending: apps.filter((a) => a.status === "pending").length,
+        ongoing: ongoingRes.data.length,
+        totalEarnings: revenueRes.data.reduce((s, p) => s + (p.amount || 0), 0),
       });
-
-      setRecentApplications(applications.slice(0, 5));
-      setUpcomingSessions(sessionsRes.data || []);
-      setLoading(false);
+      setRecent(apps.slice(0, 5));
+      setUpcoming(sessionsRes.data || []);
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
+    } finally {
       setLoading(false);
     }
   };
@@ -133,11 +141,8 @@ const TutorDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div
-        className="rounded-2xl p-6 text-white"
-        style={{ background: "linear-gradient(135deg, #6b46c1, #11998e)" }}
-      >
+      {/* Welcome Banner — gradient via Tailwind */}
+      <div className="rounded-2xl p-6 text-white bg-gradient-to-br from-purple-700 to-teal-600">
         <h2 className="text-2xl font-black">
           Hello, {user?.displayName?.split(" ")[0] || "Tutor"} 👋
         </h2>
@@ -152,33 +157,32 @@ const TutorDashboard = () => {
           label="Total Applications"
           value={stats.totalApplications}
           icon="📝"
-          color="#6b46c1"
+          colorKey="purple"
           link="/dashboard/tutor/applications"
         />
         <StatCard
           label="Pending Reviews"
           value={stats.pending}
           icon="⏳"
-          color="#d69e2e"
+          colorKey="yellow"
           link="/dashboard/tutor/applications"
         />
         <StatCard
           label="Ongoing Tuitions"
           value={stats.ongoing}
           icon="📖"
-          color="#38a169"
+          colorKey="green"
           link="/dashboard/tutor/ongoing"
         />
         <StatCard
           label="Total Earnings"
           value={`৳${stats.totalEarnings.toLocaleString()}`}
           icon="💰"
-          color="#e53e3e"
+          colorKey="red"
           link="/dashboard/tutor/revenue"
         />
       </div>
 
-      {/* Three column layout */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Recent Applications */}
         <Card>
@@ -199,15 +203,7 @@ const TutorDashboard = () => {
                 recentApplications.map((app) => (
                   <div key={app._id} className="flex items-center gap-3">
                     <span
-                      className="w-2 h-2 rounded-full shrink-0"
-                      style={{
-                        background:
-                          app.status === "approved"
-                            ? "#38a169"
-                            : app.status === "rejected"
-                              ? "#e53e3e"
-                              : "#d69e2e",
-                      }}
+                      className={`w-2 h-2 rounded-full shrink-0 ${dotColors[app.status] || dotColors.pending}`}
                     />
                     <div className="flex-1">
                       <p className="text-sm font-semibold text-[var(--text-secondary)]">
@@ -223,7 +219,7 @@ const TutorDashboard = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-(--text-secondary) text-center py-4">
+                <p className="text-sm text-[var(--text-secondary)] text-center py-4">
                   No applications yet
                 </p>
               )}
@@ -231,7 +227,7 @@ const TutorDashboard = () => {
           </Card.Body>
         </Card>
 
-        {/* Upcoming Sessions — NEW ── */}
+        {/* Upcoming Sessions */}
         <Card>
           <Card.Header divided>
             <div className="flex items-center justify-between">
@@ -250,7 +246,7 @@ const TutorDashboard = () => {
                 upcomingSessions.map((s) => (
                   <div
                     key={s._id}
-                    className="flex items-start gap-3 p-3 bg-purple-50 rounded-xl"
+                    className="flex items-start gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl"
                   >
                     <div className="w-9 h-9 bg-purple-600 rounded-xl flex items-center justify-center text-white text-sm font-black shrink-0">
                       {new Date(s.startTime).getDate()}
@@ -259,10 +255,10 @@ const TutorDashboard = () => {
                       <p className="text-sm font-bold text-[var(--text-primary)] truncate">
                         {s.subject}
                       </p>
-                      <p className="text-xs text-(--text-secondary)">
+                      <p className="text-xs text-[var(--text-secondary)]">
                         {formatSessionTime(s.startTime)}
                       </p>
-                      <p className="text-xs text-purple-600 font-semibold">
+                      <p className="text-xs text-purple-600 dark:text-purple-400 font-semibold">
                         {s.studentName}
                       </p>
                     </div>
@@ -271,7 +267,7 @@ const TutorDashboard = () => {
               ) : (
                 <div className="text-center py-6">
                   <p className="text-3xl mb-2">🗓️</p>
-                  <p className="text-sm text-(--text-secondary)">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     No upcoming classes
                   </p>
                   <Link

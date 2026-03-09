@@ -6,20 +6,29 @@ const contactInfo = [
     icon: "📍",
     label: "Address",
     value: "123 Education Way, Dhaka, Bangladesh",
-    color: "#6b46c1",
+    colorCls: "bg-purple-100 dark:bg-purple-900/30",
+    textCls: "text-purple-600 dark:text-purple-400",
   },
   {
     icon: "📧",
     label: "Email",
     value: "support@tutorhub.com",
-    color: "#11998e",
+    colorCls: "bg-teal-100 dark:bg-teal-900/30",
+    textCls: "text-teal-600 dark:text-teal-400",
   },
-  { icon: "📞", label: "Phone", value: "+880 1234 567 890", color: "#d97706" },
+  {
+    icon: "📞",
+    label: "Phone",
+    value: "+880 1234 567 890",
+    colorCls: "bg-amber-100 dark:bg-amber-900/30",
+    textCls: "text-amber-600 dark:text-amber-400",
+  },
   {
     icon: "🕐",
     label: "Working Hours",
     value: "Sat – Thu, 9 AM – 8 PM",
-    color: "#d4ac0d",
+    colorCls: "bg-yellow-100 dark:bg-yellow-900/30",
+    textCls: "text-yellow-600 dark:text-yellow-400",
   },
 ];
 
@@ -42,9 +51,8 @@ const faqs = [
   },
 ];
 
-// Shared input class
 const inputCls =
-  "w-full px-2 py-2.5 outline-none rounded-xl text-sm transition bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
+  "w-full px-3 py-2.5 outline-none rounded-xl text-sm transition bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500";
 const labelCls =
   "block text-sm font-semibold text-[var(--text-secondary)] mb-1.5";
 
@@ -76,17 +84,17 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gray-950 text-white py-24 px-2">
-        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-[#6b46c1] opacity-20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
+      {/* Hero — dark bg via Tailwind, no inline style */}
+      <section className="relative overflow-hidden bg-gray-950 text-white py-24 px-4">
+        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-purple-600 opacity-20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-teal-600 opacity-20 blur-3xl pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center">
-          <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-2 py-1.5 rounded-full mb-6 tracking-wider uppercase">
+          <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
             Get in Touch
           </span>
           <h1 className="text-5xl md:text-6xl font-black mb-4">
             We're Here to{" "}
-            <span className="bg-gradient-to-r from-[#9f62f2] to-[#11998e] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent">
               Help
             </span>
           </h1>
@@ -97,23 +105,22 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Cards */}
-      <section className="max-w-5xl mx-auto px-2 mt-8 mb-12">
+      {/* Contact cards */}
+      <section className="max-w-5xl mx-auto px-4 mt-8 mb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {contactInfo.map((item) => (
             <div
               key={item.label}
               className="bg-[var(--bg-elevated)] rounded-2xl p-5 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition text-center"
             >
+              {/* Icon bg — Tailwind class, no inline style */}
               <div
-                className="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center text-xl"
-                style={{ background: `${item.color}20` }}
+                className={`w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center text-xl ${item.colorCls}`}
               >
                 {item.icon}
               </div>
               <p
-                className="text-xs font-bold uppercase tracking-wider mb-1"
-                style={{ color: item.color }}
+                className={`text-xs font-bold uppercase tracking-wider mb-1 ${item.textCls}`}
               >
                 {item.label}
               </p>
@@ -126,7 +133,7 @@ const Contact = () => {
       </section>
 
       {/* Form + FAQ */}
-      <section className="max-w-5xl mx-auto px-2 pb-20 grid md:grid-cols-2 gap-10">
+      <section className="max-w-5xl mx-auto px-4 pb-20 grid md:grid-cols-2 gap-10">
         {/* Contact Form */}
         <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] p-8">
           <h2 className="text-2xl font-black text-[var(--text-primary)] mb-1">
@@ -135,7 +142,6 @@ const Contact = () => {
           <p className="text-[var(--text-secondary)] text-sm mb-6">
             We typically reply within one business day.
           </p>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -167,7 +173,6 @@ const Contact = () => {
                 />
               </div>
             </div>
-
             <div>
               <label className={labelCls}>Subject</label>
               <select
@@ -185,7 +190,6 @@ const Contact = () => {
                 <option value="other">Other</option>
               </select>
             </div>
-
             <div>
               <label className={labelCls}>
                 Message <span className="text-red-500">*</span>
@@ -195,16 +199,15 @@ const Contact = () => {
                 value={form.message}
                 onChange={handleChange}
                 rows={5}
-                placeholder="Describe your question or issue in detail..."
+                placeholder="Describe your question or issue..."
                 className={`${inputCls} resize-none`}
                 required
               />
             </div>
-
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3 bg-gradient-to-r from-[#6b46c1] to-[#9f62f2] text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-400 text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
@@ -244,7 +247,6 @@ const Contact = () => {
           <p className="text-[var(--text-secondary)] text-sm mb-6">
             Quick answers to common questions.
           </p>
-
           <div className="space-y-3">
             {faqs.map((faq, i) => (
               <div
@@ -258,12 +260,9 @@ const Contact = () => {
                   <span className="font-semibold text-[var(--text-primary)] text-sm">
                     {faq.q}
                   </span>
+                  {/* Toggle icon — Tailwind conditional, no inline style */}
                   <span
-                    className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-black transition-all"
-                    style={{
-                      background: openFaq === i ? "#6b46c1" : "var(--bg-muted)",
-                      color: openFaq === i ? "white" : "var(--text-secondary)",
-                    }}
+                    className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-black transition-all ${openFaq === i ? "bg-purple-600 text-white" : "bg-[var(--bg-muted)] text-[var(--text-secondary)]"}`}
                   >
                     {openFaq === i ? "−" : "+"}
                   </span>
@@ -279,8 +278,8 @@ const Contact = () => {
             ))}
           </div>
 
-          {/* Social links */}
-          <div className="mt-8 bg-gradient-to-r from-[#6b46c1] to-[#11998e] rounded-2xl p-6 text-white">
+          {/* Social */}
+          <div className="mt-8 bg-gradient-to-r from-purple-600 to-teal-600 rounded-2xl p-6 text-white">
             <h3 className="font-bold text-lg mb-1">Follow Us</h3>
             <p className="text-white/70 text-sm mb-4">
               Stay updated with news, tips, and new features.
@@ -290,7 +289,7 @@ const Contact = () => {
                 <a
                   key={s}
                   href="#"
-                  className="px-2 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-bold hover:bg-white/20 transition"
+                  className="px-3 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-bold hover:bg-white/20 transition"
                 >
                   {s}
                 </a>
