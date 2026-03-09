@@ -5,91 +5,109 @@ import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { toast } from "react-toastify";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
+
+// ── Password rules ────────────────────────────────────────────────────────────
+const validatePassword = (password) => {
+  if (!/[A-Z]/.test(password))
+    return "Must contain at least one uppercase letter";
+  if (!/[a-z]/.test(password))
+    return "Must contain at least one lowercase letter";
+  if (password.length < 6) return "Must be at least 6 characters";
+  return "";
+};
+
+// ── Strength indicator ─────────────────────────────────────────────────────────
+const PasswordStrength = ({ password }) => {
+  if (!password) return null;
+  const checks = [
+    /[A-Z]/.test(password),
+    /[a-z]/.test(password),
+    password.length >= 6,
+    /[0-9]/.test(password),
+    password.length >= 10,
+  ];
+  const score = checks.filter(Boolean).length;
+  const levels = [
+    { label: "Very Weak", color: "bg-red-500", w: "w-1/5" },
+    { label: "Weak", color: "bg-orange-500", w: "w-2/5" },
+    { label: "Fair", color: "bg-yellow-500", w: "w-3/5" },
+    { label: "Strong", color: "bg-teal-500", w: "w-4/5" },
+    { label: "Very Strong", color: "bg-green-500", w: "w-full" },
+  ];
+  const lvl = levels[Math.max(0, score - 1)];
+  return (
+    <div className="mt-2">
+      <div className="h-1.5 bg-[var(--bg-muted)] rounded-full overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-300 ${lvl.color} ${lvl.w}`}
+        />
+      </div>
+      <p
+        className={`text-xs mt-1 font-medium ${lvl.color.replace("bg-", "text-")}`}
+      >
+        {lvl.label}
+      </p>
+    </div>
+  );
+};
 
 const Register = () => {
   const { setUser, createUser, signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const [passwordError, setPasswordError] = useState("");
   const [show, setShow] = useState(false);
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
-  const validatePassword = (password) => {
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasMinLength = password.length >= 6;
-
-    if (!hasUpperCase) {
-      return "Password must contain at least one uppercase letter.";
-    }
-    if (!hasLowerCase) {
-      return "Password must contain at least one lowercase letter";
-    }
-    if (!hasMinLength) {
-      return "Password must be at least 6 characters long";
-    }
-    return "";
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const pass = event.target.password.value;
-    const phone = event.target.phone.value;
-    const role = event.target.role.value;
-    const name = event.target.username.value;
-    const photoUrl = event.target.photoUrl;
-    const file = photoUrl.files[0];
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
 
-    // console.log(file);
+    const email = e.target.email.value;
+    const pass = e.target.password.value;
+    const phone = e.target.phone.value;
+    const role = e.target.role.value;
+    const name = e.target.username.value;
+    const file = e.target.photoUrl.files[0];
 
-    // console.log(email, pass);
-
-    // validate password
     const validationError = validatePassword(pass);
     if (validationError) {
       setPasswordError(validationError);
       toast.error(validationError);
       return;
     }
-
+    if (!file) {
+      toast.error("Please upload a profile photo");
+      return;
+    }
     setPasswordError("");
+    setSubmitting(true);
 
     try {
-      // Upload image to ImgBB
+      // Upload to ImgBB
       const formData = new FormData();
       formData.append("image", file);
-
-      const imgResponse = await axios.post(
+      const imgRes = await axios.post(
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
+      const photoURL = imgRes.data.data.display_url;
 
-      // console.log("Image uploaded:", imgResponse.data);
-
-      const photoURL = imgResponse.data.data.display_url;
-
-      // console.log("Creating user in Firebase...");
-
-      // Create user in Firebase
+      // Firebase
       const userCredential = await createUser(email, pass);
+      await updateProfile(auth.currentUser, { displayName: name, photoURL });
 
-      // console.log("User created in Firebase:", userCredential.user);
-
-      // Update Firebase profile
-      await updateProfile(auth.currentUser, {
-        displayName: name,
-        photoURL: photoURL,
-      });
-
-      // console.log("Firebase profile updated");
-
-      // Prepare user data for MongoDB
+      // MongoDB
       const userData = {
         name,
         email,
@@ -99,266 +117,244 @@ const Register = () => {
         createdAt: new Date().toISOString(),
         uid: userCredential.user.uid,
       };
-
-      // console.log("Saving to MongoDB:", userData);
-
-      // Save user to MongoDB
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users`,
         userData,
       );
 
-      // console.log("MongoDB response:", response.data);
-
       if (response.data.success) {
-        const userRole = role;
-        setUser({
-          ...userCredential.user,
-          displayName: name,
-          photoURL: photoURL,
-        });
-
+        setUser({ ...userCredential.user, displayName: name, photoURL });
         toast.success("Registration successful! Welcome to TutorHub!");
-        event.target.reset();
-
-        navigate(`/dashboard/${userRole}`);
+        e.target.reset();
+        setPhotoPreview(null);
+        navigate(`/dashboard/${role}`);
       }
     } catch (error) {
-      console.error("Registration error:", error);
-      console.error("Error details:", error.response?.data);
-
-      // Handle specific Firebase errors
-      if (error.code === "auth/email-already-in-use") {
+      if (error.code === "auth/email-already-in-use")
         toast.error("This email is already registered");
-      } else if (error.code === "auth/invalid-email") {
+      else if (error.code === "auth/invalid-email")
         toast.error("Invalid email address");
-      } else if (error.code === "auth/weak-password") {
+      else if (error.code === "auth/weak-password")
         toast.error("Password is too weak");
-      } else if (error.response) {
-        // Server responded with error
+      else if (error.response)
         toast.error(error.response.data.message || "Registration failed");
-      } else if (error.request) {
-        // Request made but no response
-        toast.error("Server is not responding. Please check your connection.");
-      } else {
-        // Other errors
+      else
         toast.error(error.message || "Registration failed. Please try again");
-      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  // console.log(user);
-
-  // Handle Google Sign in
   const handleGoogleSignUp = async () => {
     try {
       const result = await signInWithGoogle();
-
-      // Save Google user to MongoDB
       const userData = {
         name: result.user.displayName,
         email: result.user.email,
-        phone: "", // Google doesn't provide phone
-        role: "student", // Default role for Google sign-in
+        phone: "",
+        role: "student",
         photoURL: result.user.photoURL,
         createdAt: new Date().toISOString(),
         uid: result.user.uid,
       };
-
       await axios.post(`${import.meta.env.VITE_API_URL}/users`, userData);
-
       setUser(result.user);
-      toast.success("Successfully signed in with Google!");
+      toast.success("Signed in with Google!");
       navigate("/");
-    } catch (error) {
-      console.error("Google sign-in error:", error);
+    } catch {
       toast.error("Google sign-in failed. Please try again");
     }
   };
 
-  return (
-    <div className="py-20">
-      <MyContainer>
-        <div className="max-w-150 mx-auto px-2">
-          <div className="hero-content flex-col">
-            {/* Header */}
-            <h1 className="text-4xl 2xl:text-5xl font-bold font-serif mb-10">
-              Register
-            </h1>
+  const inputCls =
+    "w-full px-5 py-3.5 rounded-xl outline-none bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500 transition-all text-sm";
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Username */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    User Name <span className="text-red-500">*</span>
-                  </span>
+  return (
+    <div className="min-h-screen py-16 bg-[var(--bg-base)]">
+      <MyContainer>
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-[var(--color-primary)] rounded-2xl flex items-center justify-center text-white font-black text-2xl mx-auto mb-4 shadow-lg">
+              T
+            </div>
+            <h1 className="text-3xl font-black text-[var(--text-primary)]">
+              Create account
+            </h1>
+            <p className="text-[var(--text-muted)] text-sm mt-1">
+              Join TutorHub as a student or tutor
+            </p>
+          </div>
+
+          <div className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] p-6 shadow-sm">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="username"
-                  placeholder="Enter your username..."
-                  className="w-full px-2 py-2 rounded-xl outline-none
-    bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  placeholder="Your full name"
+                  className={inputCls}
                   required
                 />
               </div>
 
-              {/* Username/Email Field */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Email address <span className="text-red-500">*</span>
-                  </span>
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   name="email"
-                  placeholder="Enter your email address..."
-                  className="w-full px-2 py-2 rounded-xl outline-none
-    bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  placeholder="you@example.com"
+                  className={inputCls}
                   required
                 />
               </div>
 
-              {/* Password Field */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Password <span className="text-red-500">*</span>
-                  </span>
+              {/* Password */}
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  Password <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type={show ? "text" : "password"}
                     name="password"
-                    placeholder="Enter your password..."
-                    className="w-full px-2 py-2 rounded-xl outline-none
-    bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Create a strong password"
+                    className={`${inputCls} pr-11`}
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShow(!show)}
-                    className="absolute right-4 top-1/3"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                   >
-                    {show ? <IoEye /> : <IoEyeOff />}{" "}
+                    {show ? <IoEye size={18} /> : <IoEyeOff size={18} />}
                   </button>
                 </div>
-
+                <PasswordStrength password={password} />
                 {passwordError && (
-                  <p className="text-red-500 text-sm mt-2 ml-4">
-                    {passwordError}
-                  </p>
+                  <p className="text-red-500 text-xs mt-1">{passwordError}</p>
                 )}
-
-                <p className="text-xs mt-2 ml-4">
-                  Must contain: uppercase, lowercase letter, and minimum 6
-                  characters
-                </p>
               </div>
 
-              {/* Role Selection */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Role <span className="text-red-500">*</span>
-                  </span>
+              {/* Role */}
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  I am a… <span className="text-red-500">*</span>
                 </label>
-                <select
-                  name="role"
-                  className="w-full px-6 py-4 border shadow-2xl rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
-                  required
-                >
-                  <option value="">Select your role...</option>
-                  <option value="student">Student</option>
-                  <option value="tutor">Tutor</option>
-                </select>
+                <div className="grid grid-cols-2 gap-3">
+                  {["student", "tutor"].map((r) => (
+                    <label key={r} className="relative cursor-pointer">
+                      <input
+                        type="radio"
+                        name="role"
+                        value={r}
+                        className="peer sr-only"
+                        required
+                      />
+                      <div
+                        className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border-2 border-[var(--bg-border-strong)] text-[var(--text-secondary)] text-sm font-semibold text-center
+                        peer-checked:border-purple-500 peer-checked:bg-purple-50 dark:peer-checked:bg-purple-900/20 peer-checked:text-purple-700 dark:peer-checked:text-purple-300
+                        hover:border-purple-300 transition-all"
+                      >
+                        <span className="text-2xl">
+                          {r === "student" ? "🎓" : "👨‍🏫"}
+                        </span>
+                        <span className="capitalize">{r}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
               </div>
 
-              {/* Phone Number */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Phone Number <span className="text-red-500">*</span>
-                  </span>
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="Enter your phone number..."
-                  className="w-full px-2 py-2 rounded-xl outline-none
-    bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  placeholder="+880 1XXX-XXXXXX"
+                  className={inputCls}
                   required
                 />
               </div>
 
               {/* Photo */}
-              <div className="form-control w-full">
-                <label className="label mb-2">
-                  <span className="text-sm font-bold">
-                    Photo <span className="text-red-500">*</span>
-                  </span>
+              <div>
+                <label className="block text-sm font-bold text-[var(--text-secondary)] mb-1.5">
+                  Profile Photo <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="file"
-                  name="photoUrl"
-                  accept="image/*"
-                  className="w-full px-6 py-4 rounded-xl outline-none bg-(--bg-muted) border border-(--bg-border-strong) text-[var(--text-primary)] placeholder:text-(--text-muted) focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all file:mr-4 file:py-2 file:px-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                  required
-                />
+                <div className="flex items-center gap-4">
+                  {photoPreview && (
+                    <img
+                      src={photoPreview}
+                      alt="preview"
+                      className="w-14 h-14 rounded-xl object-cover border-2 border-purple-200 shrink-0"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    name="photoUrl"
+                    accept="image/*"
+                    onChange={handlePhotoChange}
+                    className="flex-1 text-sm text-[var(--text-muted)]
+                      file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0
+                      file:text-sm file:font-semibold file:bg-purple-100 file:text-purple-700
+                      dark:file:bg-purple-900/40 dark:file:text-purple-300
+                      hover:file:bg-purple-200 dark:hover:file:bg-purple-900/60 file:transition-colors"
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="w-full flex items-center gap-2">
-                <span className="text-sm transition-colors">
-                  Already have an account?
-                </span>
-                <Link
-                  to="/login"
-                  className="text-sm underline underline-offset-4 decoration-dotted transition-colors"
-                >
-                  Log In
-                </Link>
-              </div>
-
-              {/* Login Button */}
+              {/* Submit */}
               <button
                 type="submit"
-                className="btn w-full py-5 bg-linear-to-br from-[#632ee3] to-[#9f62f2]  text-white font-bold uppercase tracking-[0.2em] text-sm rounded-full transition-all duration-300 transform active:scale-[0.98] shadow-md hover:shadow-lg mt-4"
+                disabled={submitting}
+                className="w-full py-3.5 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition-all disabled:opacity-60 disabled:cursor-not-allowed text-sm shadow-sm mt-2"
               >
-                Register
+                {submitting ? "Creating account…" : "Create Account"}
               </button>
 
               {/* Divider */}
-              <div className="divider my-8 w-full">OR</div>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-px bg-[var(--bg-border-strong)]" />
+                <span className="text-xs text-[var(--text-muted)] font-medium">
+                  OR
+                </span>
+                <div className="flex-1 h-px bg-[var(--bg-border-strong)]" />
+              </div>
 
-              {/* Google Sign In Button */}
+              {/* Google */}
               <button
                 type="button"
                 onClick={handleGoogleSignUp}
-                className="btn w-full py-4 bg-[var(--bg-elevated)] border-2 border-gray-300 rounded-full flex items-center justify-center gap-3 hover:bg-gray-50 transition-all duration-300 font-semibold text-[var(--text-secondary)]"
+                className="w-full py-3 bg-[var(--bg-surface)] border border-[var(--bg-border-strong)] rounded-xl flex items-center justify-center gap-3 hover:bg-[var(--bg-muted)] transition-colors font-semibold text-sm text-[var(--text-secondary)]"
               >
-                <svg className="w-6 h-6" viewBox="0 0 24 24">
-                  <path
-                    fill="#4285F4"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
-                </svg>
+                <FcGoogle size={20} />
                 Continue with Google
               </button>
             </form>
+
+            <p className="text-center text-sm text-[var(--text-muted)] mt-5">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-purple-600 font-semibold hover:underline"
+              >
+                Log In
+              </Link>
+            </p>
           </div>
         </div>
       </MyContainer>
