@@ -43,7 +43,7 @@ const TutorCard = ({ tutor }) => (
     transition-all duration-300"
   >
     {/* Banner / Photo */}
-    <div className="relative h-44 bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 flex items-center justify-center shrink-0">
+    <div className="relative h-44 bg-[var(--color-primary-light)] dark:bg-purple-900/20 flex items-center justify-center shrink-0">
       <img
         src={
           tutor.photoURL ||
@@ -110,7 +110,7 @@ const TutorCard = ({ tutor }) => (
         <Link
           to={`/tutors/${tutor._id}`}
           className="flex-1 text-center py-2.5 rounded-xl text-sm font-bold
-            bg-gradient-to-r from-purple-600 to-teal-600 text-white
+            bg-[var(--color-primary)] text-white
             hover:opacity-90 transition-opacity"
         >
           View Details
@@ -185,7 +185,7 @@ const AllTutors = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-purple-600 to-teal-600 py-16 px-4">
+      <div className="bg-[var(--color-primary)] py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-black text-white mb-3">
             Find Your Perfect Tutor

@@ -240,7 +240,7 @@ const ScheduleModal = ({
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {saving ? (
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -42,7 +42,7 @@ const TutorCard = ({ tutor }) => (
       transition-all duration-300"
   >
     {/* Banner / Image */}
-    <div className="relative h-44 bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 flex items-center justify-center shrink-0">
+    <div className="relative h-44 bg-[var(--color-primary-light)] dark:bg-purple-900/20 flex items-center justify-center shrink-0">
       <img
         src={
           tutor.photoURL ||

@@ -125,7 +125,7 @@ export const ProfileSettings = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`px-8 py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-bold rounded-xl hover:opacity-90 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`px-8 py-3 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {loading ? "Saving..." : "Save Changes"}
             </button>

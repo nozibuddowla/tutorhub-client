@@ -560,7 +560,7 @@ const TuitionDetails = () => {
               {role === "tutor" && (
                 <button
                   onClick={() => setShowApply(true)}
-                  className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-sm"
+                  className="w-full py-3.5 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-sm"
                 >
                   Apply for this Tuition
                 </button>

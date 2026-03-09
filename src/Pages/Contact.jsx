@@ -279,7 +279,7 @@ const Contact = () => {
           </div>
 
           {/* Social */}
-          <div className="mt-8 bg-gradient-to-r from-purple-600 to-teal-600 rounded-2xl p-6 text-white">
+          <div className="mt-8 bg-[var(--color-primary)] rounded-2xl p-6 text-white">
             <h3 className="font-bold text-lg mb-1">Follow Us</h3>
             <p className="text-white/70 text-sm mb-4">
               Stay updated with news, tips, and new features.

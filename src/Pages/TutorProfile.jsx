@@ -29,7 +29,7 @@ const Stars = ({ rating, size = "md" }) => {
 
 // ── Profile Photo Display ─────────────────────────────────────────────────────
 const ProfilePhoto = ({ tutor }) => (
-  <div className="relative rounded-2xl overflow-hidden border border-[var(--bg-border)] bg-gradient-to-br from-purple-100 to-teal-100 dark:from-purple-900/30 dark:to-teal-900/30 h-52 flex items-center justify-center mb-4">
+  <div className="relative rounded-2xl overflow-hidden border border-[var(--bg-border)] bg-[var(--color-primary-light)] dark:bg-purple-900/20 h-52 flex items-center justify-center mb-4">
     <img
       src={
         tutor.photoURL ||
@@ -160,7 +160,7 @@ const TutorProfile = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-surface)]">
       {/* ── Cover Banner ── */}
-      <div className="h-44 bg-gradient-to-r from-purple-600 to-teal-600 relative overflow-hidden">
+      <div className="h-44 bg-[var(--color-primary)] relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 select-none">
           <span className="absolute top-4 left-10 text-6xl">🎓</span>
           <span className="absolute top-8 right-20 text-5xl">📚</span>
@@ -229,7 +229,7 @@ const TutorProfile = () => {
               {/* CTA */}
               <Link
                 to="/tuitions"
-                className="mt-5 block w-full text-center py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-sm"
+                className="mt-5 block w-full text-center py-3 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-sm"
               >
                 Hire This Tutor
               </Link>
