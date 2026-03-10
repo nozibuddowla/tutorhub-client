@@ -1,269 +1,292 @@
-import { createBrowserRouter } from "react-router";
-import RootLayout from "../RootLayout/RootLayout";
-import Home from "../Pages/Home/Home";
-import Login from "../Pages/Login";
-import Register from "../Pages/Register";
-import DashboardLayout from "../DashboardLayout/DashboardLayout";
-import TutorDashboard from "../Pages/Dashboard/TutorDashboard";
-import AdminDashboard from "../Pages/Dashboard/AdminDashboard";
-import ManageUsers from "../Pages/ManageUsers";
-import ManageTuitions from "../Pages/ManageTuitions";
-import Reports from "../Pages/Reports";
-import TutorApplications from "../Pages/TutorApplications";
-import TutorOngoingTuitions from "../Pages/TutorOngoingTuitions";
-import TutorRevenue from "../Pages/TutorRevenue";
-import StudentDashboard from "../Pages/Dashboard/Student/StudentDashboard";
-import StudentTuitions from "../Pages/Dashboard/Student/StudentTuitions";
-import PostTuition from "../Pages/Dashboard/Student/PostTuition";
-import AppliedTutors from "../Pages/Dashboard/Student/AppliedTutors";
-import StudentPayments from "../Pages/Dashboard/Student/StudentPayments";
-import PaymentCheckout from "../Pages/PaymentCheckout";
-import AllTuitions from "../Pages/AllTuitions";
-import TuitionDetails from "../Pages/TuitionDetails";
-import NotFound from "../components/NotFound";
+import { createBrowserRouter, Outlet } from "react-router";
+import { lazy, Suspense } from "react";
 import Loading from "../components/Loading";
 import ProtectedRoute from "./ProtectedRoute";
-import ProfileSettings from "../Pages/Dashboard/Student/ProfileSettings";
-import AllTutors from "../Pages/AllTutors";
-import TutorProfile from "../Pages/TutorProfile";
-import About from "../Pages/About";
-import Contact from "../Pages/Contact";
-import MessagesPage from "../Pages/Dashboard/MessagesPage";
-import ClassCalendar from "../Pages/Dashboard/ClassCalendar";
-import FAQSection from "../components/FAQSection";
-import TermsOfService from "../Pages/TermsOfService";
-import PrivacyPolicy from "../Pages/PrivacyPolicy";
-import FAQ from "../Pages/FAQ";
 
+// ── Eagerly loaded (critical path — always needed) ────────────────────────────
+import RootLayout from "../RootLayout/RootLayout";
+import Home from "../Pages/Home/Home";
+import NotFound from "../components/NotFound";
+
+// ── Lazy loaded helper ────────────────────────────────────────────────────────
+const lazy_page = (importFn) => {
+  const Component = lazy(importFn);
+  return (
+    <Suspense fallback={<Loading />}>
+      <Component />
+    </Suspense>
+  );
+};
+
+// ── Public pages (lazy) ───────────────────────────────────────────────────────
+const Login = () => lazy_page(() => import("../Pages/Login"));
+const Register = () => lazy_page(() => import("../Pages/Register"));
+const AllTuitions = () => lazy_page(() => import("../Pages/AllTuitions"));
+const TuitionDetails = () => lazy_page(() => import("../Pages/TuitionDetails"));
+const AllTutors = () => lazy_page(() => import("../Pages/AllTutors"));
+const TutorProfile = () => lazy_page(() => import("../Pages/TutorProfile"));
+const About = () => lazy_page(() => import("../Pages/About"));
+const Contact = () => lazy_page(() => import("../Pages/Contact"));
+const FAQ = () => lazy_page(() => import("../Pages/FAQ"));
+const TermsOfService = () => lazy_page(() => import("../Pages/TermsOfService"));
+const PrivacyPolicy = () => lazy_page(() => import("../Pages/PrivacyPolicy"));
+
+// ── Auth pages (lazy) ─────────────────────────────────────────────────────────
+const PaymentCheckout = () =>
+  lazy_page(() => import("../Pages/PaymentCheckout"));
+
+// ── Dashboard layout + shared (lazy) ─────────────────────────────────────────
+const DashboardLayout = () =>
+  lazy_page(() => import("../DashboardLayout/DashboardLayout"));
+const ProfileSettings = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/ProfileSettings"));
+const MessagesPage = () =>
+  lazy_page(() => import("../Pages/Dashboard/MessagesPage"));
+const ClassCalendar = () =>
+  lazy_page(() => import("../Pages/Dashboard/ClassCalendar"));
+
+// ── Student pages (lazy) ──────────────────────────────────────────────────────
+const StudentDashboard = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/StudentDashboard"));
+const StudentTuitions = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/StudentTuitions"));
+const PostTuition = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/PostTuition"));
+const AppliedTutors = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/AppliedTutors"));
+const StudentPayments = () =>
+  lazy_page(() => import("../Pages/Dashboard/Student/StudentPayments"));
+
+// ── Tutor pages (lazy) ────────────────────────────────────────────────────────
+const TutorDashboard = () =>
+  lazy_page(() => import("../Pages/Dashboard/TutorDashboard"));
+const TutorApplications = () =>
+  lazy_page(() => import("../Pages/TutorApplications"));
+const TutorOngoingTuitions = () =>
+  lazy_page(() => import("../Pages/TutorOngoingTuitions"));
+const TutorRevenue = () => lazy_page(() => import("../Pages/TutorRevenue"));
+
+// ── Admin pages (lazy) ────────────────────────────────────────────────────────
+const AdminDashboard = () =>
+  lazy_page(() => import("../Pages/Dashboard/AdminDashboard"));
+const ManageUsers = () => lazy_page(() => import("../Pages/ManageUsers"));
+const ManageTuitions = () => lazy_page(() => import("../Pages/ManageTuitions"));
+const Reports = () => lazy_page(() => import("../Pages/Reports"));
+
+// ── Protected wrapper helper ──────────────────────────────────────────────────
+const Guard = ({ roles, children }) => (
+  <ProtectedRoute allowedRoles={roles}>{children}</ProtectedRoute>
+);
+
+// ── Router ────────────────────────────────────────────────────────────────────
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout></RootLayout>,
+    element: <RootLayout />,
     errorElement: <NotFound />,
     hydrateFallback: <Loading />,
     children: [
-      {
-        path: "/",
-        element: <Home></Home>,
-      },
-      {
-        path: "/login",
-        element: <Login></Login>,
-      },
-      {
-        path: "/signup",
-        element: <Register></Register>,
-      },
-      {
-        path: "/tuitions",
-        element: <AllTuitions />,
-      },
-      {
-        path: "/tuitions/:id",
-        element: <TuitionDetails />,
-      },
-      {
-        path: "/tutors",
-        element: <AllTutors />,
-      },
-      {
-        path: "/tutors/:id",
-        element: <TutorProfile />,
-      },
-      { path: "/about", element: <About /> },
-      { path: "/contact", element: <Contact /> },
-      { path: "/faq", element: <FAQ /> },
-      { path: "/terms", element: <TermsOfService /> },
-      { path: "/privacy", element: <PrivacyPolicy /> },
+      { index: true, element: <Home /> },
+      { path: "login", element: <Login /> },
+      { path: "signup", element: <Register /> },
+      { path: "tuitions", element: <AllTuitions /> },
+      { path: "tuitions/:id", element: <TuitionDetails /> },
+      { path: "tutors", element: <AllTutors /> },
+      { path: "tutors/:id", element: <TutorProfile /> },
+      { path: "about", element: <About /> },
+      { path: "contact", element: <Contact /> },
+      { path: "faq", element: <FAQ /> },
+      { path: "terms", element: <TermsOfService /> },
+      { path: "privacy", element: <PrivacyPolicy /> },
     ],
   },
+
   {
     path: "/payment/checkout",
     element: (
-      <ProtectedRoute allowedRoles={["student"]}>
+      <Guard roles={["student"]}>
         <PaymentCheckout />
-      </ProtectedRoute>
+      </Guard>
     ),
   },
+
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute allowedRoles={["student", "tutor", "admin"]}>
+      <Guard roles={["student", "tutor", "admin"]}>
         <DashboardLayout />
-      </ProtectedRoute>
+      </Guard>
     ),
     children: [
-      // Student Routes
+      // ── Student ──────────────────────────────────────────────────────────
       {
         path: "student",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <StudentDashboard />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/my-tuitions",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <StudentTuitions />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/post-tuition",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <PostTuition />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/applied-tutors",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <AppliedTutors />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/messages",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <MessagesPage />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/calendar",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <ClassCalendar />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/payments",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <StudentPayments />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "student/settings",
         element: (
-          <ProtectedRoute allowedRoles={["student"]}>
+          <Guard roles={["student"]}>
             <ProfileSettings />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
 
-      // Tutor Routes
+      // ── Tutor ─────────────────────────────────────────────────────────────
       {
         path: "tutor",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <TutorDashboard />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/applications",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <TutorApplications />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/ongoing",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <TutorOngoingTuitions />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/revenue",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <TutorRevenue />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/messages",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <MessagesPage />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/calendar",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <ClassCalendar />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "tutor/settings",
         element: (
-          <ProtectedRoute allowedRoles={["tutor"]}>
+          <Guard roles={["tutor"]}>
             <ProfileSettings />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
 
-      // Admin Routes
+      // ── Admin ─────────────────────────────────────────────────────────────
       {
         path: "admin",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <Guard roles={["admin"]}>
             <AdminDashboard />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "admin/users",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <Guard roles={["admin"]}>
             <ManageUsers />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "admin/tuitions",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <Guard roles={["admin"]}>
             <ManageTuitions />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "admin/reports",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <Guard roles={["admin"]}>
             <Reports />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
       {
         path: "admin/settings",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <Guard roles={["admin"]}>
             <ProfileSettings />
-          </ProtectedRoute>
+          </Guard>
         ),
       },
     ],
   },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;
