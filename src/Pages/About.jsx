@@ -57,15 +57,13 @@ const values = [
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-[var(--bg-elevated)]">
-      {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gray-950 text-white py-28 px-2">
-        {/* Decorative blobs */}
+    <div className="min-h-screen bg-[var(--bg-surface)]">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gray-950 text-white py-28 px-4">
         <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#632ee3] opacity-20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#11998e] opacity-20 blur-3xl pointer-events-none" />
-
         <div className="relative max-w-4xl mx-auto text-center">
-          <span className="inline-block bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/20 text-sm font-semibold px-2 py-1.5 rounded-full mb-6 tracking-wider uppercase">
+          <span className="inline-block bg-white/10 border border-white/20 text-sm font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wider uppercase">
             Our Story
           </span>
           <h1 className="text-5xl md:text-6xl font-black leading-tight mb-6">
@@ -81,31 +79,32 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── Stats ────────────────────────────────────────────── */}
-      <section className="bg-[var(--bg-surface)] py-16 px-2">
+      {/* Stats — fixed: space between class names */}
+      <section className="bg-[var(--bg-elevated)] py-16 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="bg-[var(--bg-base)]rounded-2xl p-6 text-center shadow-sm border border-[var(--bg-border)]hover:shadow-md transition"
+              className="bg-[var(--bg-surface)] rounded-2xl p-6 text-center shadow-sm border border-[var(--bg-border)] hover:shadow-md transition"
             >
               <div className="text-3xl mb-2">{s.icon}</div>
               <p className="text-3xl font-black text-[var(--text-primary)]">
                 {s.value}
               </p>
-              <p className="text-sm text-(--text-secondary) mt-1">{s.label}</p>
+              <p className="text-sm text-[var(--text-secondary)] mt-1">
+                {s.label}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Mission ──────────────────────────────────────────── */}
-      <section className="py-20 px-2">
+      {/* Mission */}
+      <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* Left: visual */}
           <div className="relative">
             <div className="bg-gradient-to-br from-[#632ee3] to-[#11998e] rounded-3xl p-1 shadow-2xl">
-              <div className="bg-[var(--bg-base)]rounded-[22px] p-8 space-y-4">
+              <div className="bg-[var(--bg-elevated)] rounded-[22px] p-8 space-y-4">
                 {[
                   {
                     label: "Student posts tuition request",
@@ -138,13 +137,11 @@ const About = () => {
                 ))}
               </div>
             </div>
-            {/* floating badge */}
-            <div className="absolute -bottom-4 -right-4 bg-[#632ee3] text-white px-2 py-2 rounded-full text-sm font-bold shadow-lg">
+            <div className="absolute -bottom-4 -right-4 bg-[#632ee3] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
               Trusted by 2000+ students ✓
             </div>
           </div>
 
-          {/* Right: text */}
           <div>
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
               Our Mission
@@ -165,7 +162,7 @@ const About = () => {
             </p>
             <Link
               to="/tuitions"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#632ee3] to-[#9f62f2] text-white font-bold rounded-xl hover:opacity-90 transition"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:opacity-90 transition"
             >
               Browse Tuitions →
             </Link>
@@ -173,8 +170,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── Values ───────────────────────────────────────────── */}
-      <section className="bg-[var(--bg-surface)]py-20 px-2">
+      {/* Values — fixed: space in class names */}
+      <section className="bg-[var(--bg-elevated)] py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
@@ -188,14 +185,14 @@ const About = () => {
             {values.map((v) => (
               <div
                 key={v.title}
-                className="bg-[var(--bg-base)]rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]flex gap-5 hover:shadow-md transition"
+                className="bg-[var(--bg-surface)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] flex gap-5 hover:shadow-md transition"
               >
                 <span className="text-3xl shrink-0">{v.icon}</span>
                 <div>
                   <h3 className="font-bold text-[var(--text-primary)] text-lg mb-1">
                     {v.title}
                   </h3>
-                  <p className="text-(--text-secondary) text-sm leading-relaxed">
+                  <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                     {v.desc}
                   </p>
                 </div>
@@ -205,8 +202,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── Team ─────────────────────────────────────────────── */}
-      <section className="py-20 px-2">
+      {/* Team — fixed: space in class names */}
+      <section className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#632ee3] font-bold text-sm uppercase tracking-widest">
@@ -220,7 +217,7 @@ const About = () => {
             {team.map((member) => (
               <div
                 key={member.name}
-                className="bg-[var(--bg-base)]rounded-2xl p-8 text-center shadow-sm border border-[var(--bg-border)]hover:shadow-lg transition group"
+                className="bg-[var(--bg-elevated)] rounded-2xl p-8 text-center shadow-sm border border-[var(--bg-border)] hover:shadow-lg transition group"
               >
                 <div
                   className="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-2xl font-black group-hover:scale-105 transition-transform"
@@ -237,7 +234,7 @@ const About = () => {
                 >
                   {member.role}
                 </p>
-                <p className="text-(--text-secondary) text-sm leading-relaxed">
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                   {member.bio}
                 </p>
               </div>
@@ -246,8 +243,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="py-20 px-2 bg-gradient-to-r from-[#632ee3] to-[#11998e]">
+      {/* CTA */}
+      <section className="py-20 px-4 bg-[var(--color-primary)]">
         <div className="max-w-3xl mx-auto text-center text-white">
           <h2 className="text-4xl font-black mb-4">Ready to Start Learning?</h2>
           <p className="text-white/80 text-lg mb-8">
@@ -257,13 +254,13 @@ const About = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/signup"
-              className="px-8 py-3.5 bg-white text-[#632ee3] hover:bg-white/90 font-bold rounded-xl hover:bg-gray-100 transition"
+              className="px-8 py-3.5 bg-white text-[#632ee3] font-bold rounded-xl hover:bg-gray-100 transition"
             >
               Get Started Free
             </Link>
             <Link
               to="/tutors"
-              className="px-8 py-3.5 bg-[var(--bg-elevated)]/10 border border-[var(--bg-elevated)]/30 text-white font-bold rounded-xl hover:bg-[var(--bg-elevated)]/20 transition"
+              className="px-8 py-3.5 bg-white/10 border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition"
             >
               Browse Tutors
             </Link>

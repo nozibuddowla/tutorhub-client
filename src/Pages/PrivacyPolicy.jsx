@@ -75,7 +75,7 @@ const sections = [
       "Access: You can view your personal data at any time from your profile and dashboard. You may request a full export of your data by emailing support@tutorhub.com.",
       "Correction: You can update your profile information (name, photo) directly from Dashboard → Settings. For email changes, contact support.",
       "Deletion: You may request permanent deletion of your account and all associated data by emailing support@tutorhub.com. Deletion is processed within 7 business days.",
-      "Opt-out: You may opt out of non-essential communications at any time. Authentication and transactional emails (payment receipts, application updates) cannot be disabled as they are essential to the service.",
+      "Opt-out: You may opt out of non-essential communications at any time. Authentication and transactional emails cannot be disabled as they are essential to the service.",
     ],
   },
   {
@@ -92,7 +92,7 @@ const sections = [
     title: "Policy Updates",
     icon: "📝",
     content: [
-      "We may update this Privacy Policy from time to time. When we do, we will revise the 'Last updated' date at the top of this page.",
+      "We may update this Privacy Policy from time to time. When we do, we will revise the Last updated date at the top of this page.",
       "For significant changes, we will notify you via email or a prominent notice on the platform. Continued use of TutorHub after changes take effect constitutes your acceptance of the updated policy.",
       "This policy was last updated on March 1, 2026.",
     ],
@@ -188,7 +188,7 @@ const PrivacyPolicy = () => {
 
       {/* Main layout */}
       <div className="max-w-6xl mx-auto px-4 py-12 flex gap-8 items-start">
-        {/* Sticky sidebar */}
+        {/* Sticky sidebar — FIXED: solid active state */}
         <aside className="hidden lg:block w-64 shrink-0 sticky top-24">
           <div className="bg-[var(--bg-elevated)] border border-[var(--bg-border)] rounded-2xl p-4">
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mb-4 px-2">
@@ -201,7 +201,7 @@ const PrivacyPolicy = () => {
                   onClick={() => scrollToSection(s.id)}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium text-left transition-all ${
                     activeSection === s.id
-                      ? "bg-teal-50 dark:bg-teal-900/30 text-white dark:text-teal-400 font-bold"
+                      ? "bg-teal-600 text-white font-bold"
                       : "text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)]"
                   }`}
                 >
@@ -223,7 +223,7 @@ const PrivacyPolicy = () => {
               className="bg-[var(--bg-elevated)] border border-[var(--bg-border)] rounded-3xl p-7 scroll-mt-28"
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-2xl bg-teal-600 dark:bg-teal-900/40 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-2xl bg-teal-600 flex items-center justify-center text-xl text-white">
                   {s.icon}
                 </div>
                 <h2 className="text-xl font-black text-[var(--text-primary)]">
@@ -244,20 +244,19 @@ const PrivacyPolicy = () => {
             </section>
           ))}
 
-          {/* Footer note */}
           <div className="bg-[var(--bg-surface)] border border-[var(--bg-border)] rounded-2xl p-6 text-center">
             <p className="text-sm text-[var(--text-secondary)]">
               Questions about our Privacy Policy?{" "}
               <Link
                 to="/contact"
-                className="text-teal-600 dark:text-teal-400 font-semibold hover:underline"
+                className="text-teal-600 font-semibold hover:underline"
               >
                 Contact our support team
               </Link>{" "}
               or email{" "}
               <a
                 href="mailto:support@tutorhub.com"
-                className="text-teal-600 dark:text-teal-400 font-semibold hover:underline"
+                className="text-teal-600 font-semibold hover:underline"
               >
                 support@tutorhub.com
               </a>
