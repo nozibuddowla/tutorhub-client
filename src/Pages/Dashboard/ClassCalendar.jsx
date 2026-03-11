@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -385,11 +385,6 @@ const ClassCalendar = () => {
   const [showSchedule, setShowSchedule] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
 
-  useEffect(() => {
-    if (!user?.email) return;
-    fetchData();
-  }, [user]);
-
   const fetchData = async () => {
     try {
       const [sessionsRes, tuitionsRes] = await Promise.all([
@@ -415,6 +410,11 @@ const ClassCalendar = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!user?.email) return;
+    fetchData();
+  }, [user]);
 
   const handleSchedule = async (data) => {
     try {

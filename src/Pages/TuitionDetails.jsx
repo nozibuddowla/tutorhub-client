@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
@@ -218,10 +218,6 @@ const TuitionDetails = () => {
   const [applying, setApplying] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
-  useEffect(() => {
-    fetchTuition();
-  }, [id]);
-
   const fetchTuition = async () => {
     try {
       const res = await axios.get(
@@ -234,6 +230,10 @@ const TuitionDetails = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchTuition();
+  }, [id]);
 
   const handleApplySubmit = async (e) => {
     e.preventDefault();

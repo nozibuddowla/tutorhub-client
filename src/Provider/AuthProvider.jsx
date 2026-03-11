@@ -1,4 +1,11 @@
-import React, { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import auth from "../firebase/firebase.config";
 import {
   createUserWithEmailAndPassword,
@@ -11,124 +18,97 @@ import {
 import axios from "axios";
 
 export const AuthContext = createContext();
+export const useAuth = () => useContext(AuthContext);
+
+const API = import.meta.env.VITE_API_URL;
+const googleProvider = new GoogleAuthProvider(); // moved outside — created once, not on every render
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("");
 
-  // Google Provider
-  const googleProvider = new GoogleAuthProvider();
-
-  // ─── AXIOS INTERCEPTOR ───────────────────────────────────────────────────────
-  // Automatically handle 401 (token expired/invalid) responses globally
+  // ─── AXIOS 401 INTERCEPTOR ────────────────────────────────────────────────
   useEffect(() => {
     const interceptor = axios.interceptors.response.use(
-      (response) => response, // Pass through successful responses
-
+      (res) => res,
       async (error) => {
         const status = error?.response?.status;
-        const originalRequest = error?.config;
+        const url = error?.config?.url || "";
+        const noRetry = error?.config?._retry;
 
-        // If 401 and not already retrying and not a login/logout request
-        if (
-          status === 401 &&
-          !originalRequest._retry &&
-          !originalRequest.url.includes("/jwt") &&
-          !originalRequest.url.includes("/logout") &&
-          !originalRequest.url.includes("/users/role")
-        ) {
-          originalRequest._retry = true;
+        const isAuthEndpoint =
+          url.includes("/jwt") ||
+          url.includes("/logout") ||
+          url.includes("/users/role");
 
-          // Token expired - force logout
+        if (status === 401 && !noRetry && !isAuthEndpoint) {
+          error.config._retry = true;
           try {
-            await axios.post(
-              `${import.meta.env.VITE_API_URL}/logout`,
-              {},
-              { withCredentials: true },
-            );
-          } catch (e) {
-            // Silent fail - logout anyway
+            await axios.post(`${API}/logout`, {}, { withCredentials: true });
+          } catch {
+            // silent — logout anyway
           }
-
           await signOut(auth);
           setUser(null);
           setRole("");
-
-          // Redirect to login
           window.location.href = "/login";
         }
-
         return Promise.reject(error);
       },
     );
-
-    // Cleanup interceptor on unmount
-    return () => {
-      axios.interceptors.response.eject(interceptor);
-    };
+    return () => axios.interceptors.response.eject(interceptor);
   }, []);
 
-  // ─── AUTH METHODS ────────────────────────────────────────────────────────────
-
-  const createUser = (email, pass) => {
+  // ─── AUTH METHODS (stable references with useCallback) ───────────────────
+  const createUser = useCallback((email, pass) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, pass);
-  };
+  }, []);
 
-  // Sign in with email and password
-  const signIn = (email, pass) => {
+  const signIn = useCallback((email, pass) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, pass);
-  };
+  }, []);
 
-  // Sign in with Google
-  const signInWithGoogle = () => {
+  const signInWithGoogle = useCallback(() => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
-  };
+  }, []);
 
-  // Sign out
-  const logOut = async () => {
+  const logOut = useCallback(async () => {
     setLoading(true);
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/logout`,
-        {},
-        { withCredentials: true },
-      );
-
-      return signOut(auth);
-    } catch (error) {
-      console.error("Logout error:", error);
-      return signOut(auth);
+      await axios.post(`${API}/logout`, {}, { withCredentials: true });
+    } finally {
+      // always sign out of Firebase even if API call fails
+      await signOut(auth);
+      setUser(null);
+      setRole("");
     }
-  };
+  }, []);
 
-  // ─── AUTH STATE LISTENER ─────────────────────────────────────────────────────
+  // ─── AUTH STATE LISTENER ──────────────────────────────────────────────────
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
       if (currentUser) {
         try {
-          // Get user role
-          const roleResponse = await axios.get(
-            `${import.meta.env.VITE_API_URL}/users/role/${currentUser.email}`,
+          const { data } = await axios.get(
+            `${API}/users/role/${currentUser.email}`,
           );
-
-          if (roleResponse.data.success) {
-            setRole(roleResponse.data.role);
-            // Only get JWT if the user is confirmed in the DB
+          if (data.success) {
+            setRole(data.role);
             await axios.post(
-              `${import.meta.env.VITE_API_URL}/jwt`,
+              `${API}/jwt`,
               { email: currentUser.email },
               { withCredentials: true },
             );
           }
-        } catch (error) {
-          console.error("Auth initialization error:", error);
-          setRole("student"); // Default role
+        } catch {
+          // don't expose error in production — default to student
+          setRole("student");
         }
       } else {
         setRole("");
@@ -136,23 +116,25 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
 
-  const authData = {  
-    user,
-    setUser,
-    loading,
-    setLoading,
-    createUser,
-    signIn,
-    signInWithGoogle,
-    logOut,
-    role,
-    setRole,
-  };
+  // ─── MEMOIZED CONTEXT VALUE (prevents all consumers re-rendering) ─────────
+  const authData = useMemo(
+    () => ({
+      user,
+      setUser,
+      loading,
+      setLoading,
+      createUser,
+      signIn,
+      signInWithGoogle,
+      logOut,
+      role,
+      setRole,
+    }),
+    [user, loading, role, createUser, signIn, signInWithGoogle, logOut],
+  );
 
   return <AuthContext value={authData}>{children}</AuthContext>;
 };

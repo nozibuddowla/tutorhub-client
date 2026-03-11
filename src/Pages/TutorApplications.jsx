@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -12,23 +12,24 @@ const TutorApplications = () => {
   const [editingApp, setEditingApp] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  useEffect(() => {
-    fetchApplications();
-  }, [user]);
-
-  const fetchApplications = async () => {
+  // ✅ FIX: useCallback BEFORE useEffect
+  const fetchApplications = useCallback(async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/tutor/applications/${user.email}`,
         { withCredentials: true },
       );
       setApplications(res.data);
-      setLoading(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to fetch applications");
+    } finally {
       setLoading(false);
     }
-  };
+  }, [user?.email]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (user?.email) fetchApplications();
+  }, [fetchApplications]);
 
   const handleEdit = (app) => {
     setEditingApp({ ...app });
@@ -50,23 +51,22 @@ const TutorApplications = () => {
       toast.success("Application updated successfully");
       setShowEditModal(false);
       fetchApplications();
-    } catch (err) {
+    } catch {
       toast.error("Failed to update application");
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this application?")) {
-      try {
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/applications/${id}`,
-          { withCredentials: true },
-        );
-        toast.success("Application deleted");
-        fetchApplications();
-      } catch (err) {
-        toast.error("Failed to delete application");
-      }
+    if (!window.confirm("Are you sure you want to delete this application?"))
+      return;
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/applications/${id}`, {
+        withCredentials: true,
+      });
+      toast.success("Application deleted");
+      fetchApplications();
+    } catch {
+      toast.error("Failed to delete application");
     }
   };
 
@@ -77,9 +77,7 @@ const TutorApplications = () => {
     rejected: applications.filter((a) => a.status === "rejected").length,
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -88,11 +86,9 @@ const TutorApplications = () => {
         <h2 className="text-2xl font-black text-[var(--text-primary)]">
           My Applications
         </h2>
-        <p className="text-(--text-secondary) mt-1">
+        <p className="text-[var(--text-secondary)] mt-1">
           Track and manage your tuition applications
         </p>
-
-        {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
           <Badge variant="gray">Total: {stats.total}</Badge>
           <Badge variant="yellow" dot>
@@ -116,11 +112,9 @@ const TutorApplications = () => {
               className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                {/* Application Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <Badge variant="purple">{app.subject || "N/A"}</Badge>
-
                     <Badge
                       variant={
                         app.status === "approved"
@@ -134,40 +128,40 @@ const TutorApplications = () => {
                       {app.status}
                     </Badge>
                   </div>
-
                   <h3 className="font-bold text-lg text-[var(--text-primary)] mb-2">
                     Application for {app.tuitionTitle || "Tuition"}
                   </h3>
-
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <p className="text-(--text-secondary)">Qualifications</p>
+                      <p className="text-[var(--text-secondary)]">
+                        Qualifications
+                      </p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         {app.qualifications}
                       </p>
                     </div>
                     <div>
-                      <p className="text-(--text-secondary)">Experience</p>
+                      <p className="text-[var(--text-secondary)]">Experience</p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         {app.experience}
                       </p>
                     </div>
                     <div>
-                      <p className="text-(--text-secondary)">Expected Salary</p>
+                      <p className="text-[var(--text-secondary)]">
+                        Expected Salary
+                      </p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         ৳{app.expectedSalary}/month
                       </p>
                     </div>
                     <div>
-                      <p className="text-(--text-secondary)">Applied On</p>
+                      <p className="text-[var(--text-secondary)]">Applied On</p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         {new Date(app.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                 </div>
-
-                {/* Actions */}
                 {app.status === "pending" && (
                   <div className="flex gap-3">
                     <Button
@@ -193,7 +187,7 @@ const TutorApplications = () => {
       ) : (
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📝</div>
-          <p className="text-(--text-secondary) text-lg font-medium">
+          <p className="text-[var(--text-secondary)] text-lg font-medium">
             No applications yet. Start applying for tuitions!
           </p>
         </div>

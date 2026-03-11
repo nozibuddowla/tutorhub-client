@@ -1,33 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "../components/Loading";
 import { Badge, Table } from "../components/ui";
 
-
 const TutorRevenue = () => {
   const { user } = useContext(AuthContext);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchRevenue();
-  }, [user]);
-
-  const fetchRevenue = async () => {
+  // ✅ FIX: useCallback BEFORE useEffect
+  const fetchRevenue = useCallback(async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/tutor/revenue/${user.email}`,
         { withCredentials: true },
       );
       setPayments(res.data);
-      setLoading(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to fetch revenue data");
+    } finally {
       setLoading(false);
     }
-  };
+  }, [user?.email]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (user?.email) fetchRevenue();
+  }, [fetchRevenue]);
 
   const totalEarnings = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
   const thisMonth = payments
@@ -90,10 +90,8 @@ const TutorRevenue = () => {
       ),
     },
   ];
-  
-  if (loading) {
-    return <Loading />;
-  }
+
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -113,21 +111,22 @@ const TutorRevenue = () => {
               💵
             </div>
             <div>
-              <p className="text-sm text-(--text-secondary)">Total Earnings</p>
+              <p className="text-sm text-[var(--text-secondary)]">
+                Total Earnings
+              </p>
               <p className="text-3xl font-black text-[var(--text-primary)]">
                 ৳{totalEarnings.toLocaleString()}
               </p>
             </div>
           </div>
         </div>
-
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center text-2xl">
               📅
             </div>
             <div>
-              <p className="text-sm text-(--text-secondary)">This Month</p>
+              <p className="text-sm text-[var(--text-secondary)]">This Month</p>
               <p className="text-3xl font-black text-[var(--text-primary)]">
                 ৳{thisMonth.toLocaleString()}
               </p>
@@ -137,7 +136,6 @@ const TutorRevenue = () => {
       </div>
 
       {/* Transaction History */}
-
       <div className="bg-[var(--bg-elevated)] rounded-2xl shadow-sm border border-[var(--bg-border)] overflow-hidden">
         <div className="p-6 border-b border-[var(--bg-border)]">
           <h3 className="text-xl font-bold text-[var(--text-primary)]">

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 import { toast } from "react-toastify";
@@ -31,11 +31,15 @@ const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const location = useLocation();
+  const prevPath = useRef(location.pathname);
 
-  // Close menus on route change
+  // ✅ FIX: prevPath ref pattern — ESLint happy, no direct setState at effect body
   useEffect(() => {
-    setMobileOpen(false);
-    setProfileOpen(false);
+    if (prevPath.current !== location.pathname) {
+      prevPath.current = location.pathname;
+      setMobileOpen(false);
+      setProfileOpen(false);
+    }
   }, [location.pathname]);
 
   // Close profile dropdown on outside click
@@ -92,7 +96,6 @@ const Navbar = () => {
         : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
     }`;
 
-  // ── Public links — 5 routes (logged out) ─────────────────────────────────
   const publicLinks = [
     { to: "/", label: "Home" },
     { to: "/tuitions", label: "Tuitions" },
@@ -101,7 +104,6 @@ const Navbar = () => {
     { to: "/contact", label: "Contact" },
   ];
 
-  // ── Logged-in extra desktop links (makes 6+ total routes when logged in) ──
   const loggedInLinks = [
     { to: getDashboardLink(), icon: "⚡", label: "Dashboard" },
     { to: getMessagesLink(), icon: "💬", label: "Messages" },
@@ -113,7 +115,7 @@ const Navbar = () => {
     <>
       <nav className="sticky top-0 z-50 w-full bg-[var(--bg-elevated)] border-b border-[var(--bg-border)] shadow-sm dark:shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* ── Logo ─────────────────────────────────────────── */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-purple-700 to-teal-500">
               <span className="text-white font-black text-lg">T</span>
@@ -123,9 +125,8 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* ── Desktop Center Nav ────────────────────────────── */}
+          {/* Desktop Center Nav */}
           <ul className="hidden lg:flex items-center gap-5">
-            {/* Public links always visible */}
             {publicLinks.map(({ to, label }) => (
               <li key={to}>
                 <NavLink to={to} className={linkCls} end={to === "/"}>
@@ -133,7 +134,6 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ))}
-            {/* Extra links when logged in → total 8 routes in nav */}
             {user &&
               loggedInLinks.slice(0, 2).map(({ to, label }) => (
                 <li key={to}>
@@ -144,12 +144,11 @@ const Navbar = () => {
               ))}
           </ul>
 
-          {/* ── Desktop End ───────────────────────────────────── */}
+          {/* Desktop End */}
           <div className="hidden lg:flex items-center gap-2">
             <DarkModeToggle isDark={isDark} toggle={toggle} />
 
             {user ? (
-              /* ── Profile Dropdown ── */
               <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setProfileOpen((v) => !v)}
@@ -188,10 +187,8 @@ const Navbar = () => {
                   </svg>
                 </button>
 
-                {/* Dropdown */}
                 {profileOpen && (
                   <div className="absolute right-0 top-full mt-2 w-60 bg-[var(--bg-elevated)] border border-[var(--bg-border)] rounded-2xl shadow-2xl overflow-hidden z-50">
-                    {/* Header */}
                     <div className="px-4 py-3 bg-[var(--bg-surface)] border-b border-[var(--bg-border)]">
                       <div className="flex items-center gap-3">
                         <img
@@ -216,7 +213,6 @@ const Navbar = () => {
                       </span>
                     </div>
 
-                    {/* Menu items — all 4 logged-in routes */}
                     <div className="py-1.5">
                       {loggedInLinks.map(({ to, icon, label }) => (
                         <Link
@@ -232,7 +228,6 @@ const Navbar = () => {
                       ))}
                     </div>
 
-                    {/* Logout */}
                     <div className="border-t border-[var(--bg-border)] py-1.5">
                       <button
                         onClick={handleLogout}
@@ -263,7 +258,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* ── Mobile: dark toggle + hamburger ──────────────── */}
+          {/* Mobile: dark toggle + hamburger */}
           <div className="flex lg:hidden items-center gap-2">
             <DarkModeToggle isDark={isDark} toggle={toggle} />
             <button
@@ -278,19 +273,16 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* ── Mobile Drawer ─────────────────────────────────────────────────────── */}
+      {/* Mobile Drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
 
-          {/* Panel */}
           <div className="absolute top-16 left-0 right-0 bg-[var(--bg-elevated)] border-b border-[var(--bg-border)] shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="px-4 py-3 space-y-0.5">
-              {/* Public nav links */}
               <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider px-3 pt-2 pb-1.5">
                 Navigation
               </p>
@@ -311,7 +303,6 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
-              {/* Logged-in links */}
               {user && (
                 <>
                   <div className="pt-2">
@@ -338,7 +329,6 @@ const Navbar = () => {
                     ))}
                   </div>
 
-                  {/* User card + logout */}
                   <div className="mt-2 pt-3 border-t border-[var(--bg-border)]">
                     <div className="flex items-center gap-3 px-3 py-2 mb-1">
                       <img
@@ -369,7 +359,6 @@ const Navbar = () => {
                 </>
               )}
 
-              {/* Logged-out auth buttons */}
               {!user && (
                 <div className="pt-3 pb-2 border-t border-[var(--bg-border)] mt-2 flex flex-col gap-2">
                   <Link

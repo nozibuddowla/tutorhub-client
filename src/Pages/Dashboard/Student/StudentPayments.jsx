@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -11,30 +11,28 @@ const StudentPayments = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPayment, setSelectedPayment] = useState(null);
 
-  useEffect(() => {
-    fetchPayments();
-  }, [user]);
-
-  const fetchPayments = async () => {
+  // ✅ FIX: declare with useCallback BEFORE useEffect
+  const fetchPayments = useCallback(async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/student/payments/${user.email}`,
         { withCredentials: true },
       );
       setPayments(res.data);
-      setLoading(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to fetch payments");
-      console.error(err);
+    } finally {
       setLoading(false);
     }
-  };
+  }, [user?.email]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (user?.email) fetchPayments();
+  }, [fetchPayments]);
 
   const totalPaid = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -52,35 +50,33 @@ const StudentPayments = () => {
               💰
             </div>
             <div>
-              <p className="text-sm text-(--text-secondary)">Total Paid</p>
+              <p className="text-sm text-[var(--text-secondary)]">Total Paid</p>
               <p className="text-3xl font-black text-[var(--text-primary)]">
                 ৳{totalPaid.toLocaleString()}
               </p>
             </div>
           </div>
         </div>
-
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center text-2xl">
               ✓
             </div>
             <div>
-              <p className="text-sm text-(--text-secondary)">Successful</p>
+              <p className="text-sm text-[var(--text-secondary)]">Successful</p>
               <p className="text-3xl font-black text-[var(--text-primary)]">
                 {payments.filter((p) => p.status === "success").length}
               </p>
             </div>
           </div>
         </div>
-
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)]">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">
               📊
             </div>
             <div>
-              <p className="text-sm text-(--text-secondary)">
+              <p className="text-sm text-[var(--text-secondary)]">
                 Total Transactions
               </p>
               <p className="text-3xl font-black text-[var(--text-primary)]">
@@ -102,55 +98,43 @@ const StudentPayments = () => {
         {payments.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-(--bg-surface) border-b border-[var(--bg-border)]">
+              <thead className="bg-[var(--bg-surface)] border-b border-[var(--bg-border)]">
                 <tr>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Date
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Tutor
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Tuition
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Amount
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Status
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Transaction ID
-                  </th>
-                  <th className="text-left py-4 px-6 text-sm font-bold text-(--text-secondary)">
-                    Action
-                  </th>
+                  {[
+                    "Date",
+                    "Tutor",
+                    "Tuition",
+                    "Amount",
+                    "Status",
+                    "Transaction ID",
+                    "Action",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="text-left py-4 px-6 text-sm font-bold text-[var(--text-secondary)]"
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divider-(--bg-border)">
+              <tbody className="divide-y divide-[var(--bg-border)]">
                 {payments.map((payment) => (
                   <tr
                     key={payment._id}
-                    className="hover:bg-(--bg-surface) transition-colors"
+                    className="hover:bg-[var(--bg-surface)] transition-colors"
                   >
                     <td className="py-4 px-6">
                       <p className="text-sm text-[var(--text-secondary)]">
                         {new Date(payment.createdAt).toLocaleDateString(
                           "en-US",
-                          {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          },
+                          { year: "numeric", month: "short", day: "numeric" },
                         )}
                       </p>
                       <p className="text-xs text-[var(--text-muted)]">
                         {new Date(payment.createdAt).toLocaleTimeString(
                           "en-US",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          },
+                          { hour: "2-digit", minute: "2-digit" },
                         )}
                       </p>
                     </td>
@@ -158,7 +142,7 @@ const StudentPayments = () => {
                       <p className="font-semibold text-[var(--text-primary)]">
                         {payment.tutorName || "N/A"}
                       </p>
-                      <p className="text-xs text-(--text-secondary)">
+                      <p className="text-xs text-[var(--text-secondary)]">
                         {payment.tutorEmail || "N/A"}
                       </p>
                     </td>
@@ -186,7 +170,7 @@ const StudentPayments = () => {
                       </span>
                     </td>
                     <td className="py-4 px-6">
-                      <p className="text-xs text-(--text-secondary) font-mono">
+                      <p className="text-xs text-[var(--text-secondary)] font-mono">
                         {payment.transactionId || "N/A"}
                       </p>
                     </td>
@@ -196,8 +180,7 @@ const StudentPayments = () => {
                           onClick={() => setSelectedPayment(payment)}
                           className="text-xs bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 transition-colors"
                         >
-                          {" "}
-                          Review Tutor{" "}
+                          Review Tutor
                         </button>
                       )}
                     </td>
@@ -209,7 +192,7 @@ const StudentPayments = () => {
         ) : (
           <div className="p-12 text-center">
             <div className="text-6xl mb-4">💳</div>
-            <p className="text-(--text-secondary) text-lg font-medium">
+            <p className="text-[var(--text-secondary)] text-lg font-medium">
               No payments yet
             </p>
             <p className="text-[var(--text-muted)] text-sm mt-2">
@@ -218,6 +201,7 @@ const StudentPayments = () => {
           </div>
         )}
       </div>
+
       {selectedPayment && (
         <ReviewModal
           payment={selectedPayment}

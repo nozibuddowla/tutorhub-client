@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -92,10 +92,6 @@ const StudentDashboard = () => {
   const [recentActivity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user?.email) fetchDashboardData();
-  }, [user]);
-
   const fetchDashboardData = async () => {
     try {
       const [tuitionsRes, appsRes, sessionsRes] = await Promise.all([
@@ -151,6 +147,10 @@ const StudentDashboard = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user?.email) fetchDashboardData();
+  }, [user]);
 
   const timeAgo = (date) => {
     const days = Math.floor((Date.now() - new Date(date)) / 86400000);

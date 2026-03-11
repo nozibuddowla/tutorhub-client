@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import { Link } from "react-router";
@@ -97,10 +97,6 @@ const TutorDashboard = () => {
   const [upcomingSessions, setUpcoming] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, [user]);
-
   const fetchDashboardData = async () => {
     try {
       const [appRes, ongoingRes, revenueRes, sessionsRes] = await Promise.all([
@@ -136,6 +132,10 @@ const TutorDashboard = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [user]);
 
   if (loading) return <Loading />;
 

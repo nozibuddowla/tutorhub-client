@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -12,24 +12,24 @@ const StudentTuitions = () => {
   const [editingTuition, setEditingTuition] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  useEffect(() => {
-    fetchTuitions();
-  }, [user]);
-
-  const fetchTuitions = async () => {
+  // ✅ FIX: useCallback BEFORE useEffect
+  const fetchTuitions = useCallback(async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/student/tuitions/${user.email}`,
         { withCredentials: true },
       );
       setTuitions(res.data);
-      setLoading(false);
-    } catch (err) {
+    } catch {
       toast.error("Failed to fetch tuitions");
-      console.error(err);
+    } finally {
       setLoading(false);
     }
-  };
+  }, [user?.email]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (user?.email) fetchTuitions();
+  }, [fetchTuitions]);
 
   const handleEdit = (tuition) => {
     setEditingTuition({ ...tuition });
@@ -52,9 +52,8 @@ const StudentTuitions = () => {
       toast.success("Tuition updated successfully!");
       setShowEditModal(false);
       fetchTuitions();
-    } catch (err) {
+    } catch {
       toast.error("Failed to update tuition");
-      console.error(err);
     }
   };
 
@@ -75,7 +74,6 @@ const StudentTuitions = () => {
           await axios.delete(`${import.meta.env.VITE_API_URL}/tuitions/${id}`, {
             withCredentials: true,
           });
-
           Swal.fire({
             icon: "success",
             title: "Deleted!",
@@ -83,23 +81,19 @@ const StudentTuitions = () => {
             timer: 2200,
             showConfirmButton: false,
           });
-
           fetchTuitions();
-        } catch (err) {
+        } catch {
           Swal.fire({
             icon: "error",
             title: "Error",
             text: "Failed to delete tuition. Please try again.",
           });
-          console.error(err);
         }
       }
     });
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">
@@ -108,11 +102,9 @@ const StudentTuitions = () => {
         <h2 className="text-2xl font-black text-[var(--text-primary)]">
           My Tuitions
         </h2>
-        <p className="text-(--text-secondary) mt-1">
+        <p className="text-[var(--text-secondary)] mt-1">
           Manage your posted tuition requests
         </p>
-
-        {/* Stats */}
         <div className="mt-4 flex flex-wrap gap-3">
           <div className="bg-blue-600 px-2 py-2 rounded-xl">
             <p className="text-sm text-white font-semibold">
@@ -141,7 +133,6 @@ const StudentTuitions = () => {
               className="bg-[var(--bg-elevated)] rounded-2xl p-6 shadow-sm border border-[var(--bg-border)] hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                {/* Tuition Info */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
@@ -159,26 +150,24 @@ const StudentTuitions = () => {
                       {tuition.status || "pending"}
                     </span>
                   </div>
-
                   <h3 className="font-bold text-lg text-[var(--text-primary)] mb-3">
                     {tuition.description || "Tuition Request"}
                   </h3>
-
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                     <div>
-                      <p className="text-(--text-secondary)">Location</p>
+                      <p className="text-[var(--text-secondary)]">Location</p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.location}
                       </p>
                     </div>
                     <div>
-                      <p className="text-(--text-secondary)">Salary</p>
+                      <p className="text-[var(--text-secondary)]">Salary</p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         ৳{tuition.salary}/month
                       </p>
                     </div>
                     <div>
-                      <p className="text-(--text-secondary)">Posted On</p>
+                      <p className="text-[var(--text-secondary)]">Posted On</p>
                       <p className="font-semibold text-[var(--text-primary)]">
                         {tuition.createdAt
                           ? new Date(tuition.createdAt).toLocaleDateString()
@@ -187,18 +176,16 @@ const StudentTuitions = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Actions */}
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(tuition)}
-                    className="px-6 py-3 bg-blue-6000 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(tuition._id)}
-                    className="px-6 py-3 bg-red-6000 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                    className="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors"
                   >
                     Delete
                   </button>
@@ -210,7 +197,7 @@ const StudentTuitions = () => {
       ) : (
         <div className="bg-[var(--bg-elevated)] rounded-2xl p-12 text-center border-2 border-dashed border-gray-200">
           <div className="text-6xl mb-4">📚</div>
-          <p className="text-(--text-secondary) text-lg font-medium">
+          <p className="text-[var(--text-secondary)] text-lg font-medium">
             No tuitions posted yet
           </p>
           <p className="text-[var(--text-muted)] text-sm mt-2">
@@ -241,9 +228,7 @@ const StudentTuitions = () => {
                         subject: e.target.value,
                       })
                     }
-                    className="w-full px-2 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                    className="w-full px-2 py-2 rounded-xl bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -260,9 +245,7 @@ const StudentTuitions = () => {
                         salary: e.target.value,
                       })
                     }
-                    className="w-full px-2 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                    className="w-full px-2 py-2 rounded-xl bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                     required
                   />
                 </div>
@@ -280,9 +263,7 @@ const StudentTuitions = () => {
                       location: e.target.value,
                     })
                   }
-                  className="w-full px-2 py-2 rounded-xl outline-none
-    bg-[var(--bg-muted)] border border-[var(--bg-border-strong)]
-    text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                  className="w-full px-2 py-2 rounded-xl bg-[var(--bg-muted)] border border-[var(--bg-border-strong)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
                   required
                 />
               </div>
@@ -301,7 +282,7 @@ const StudentTuitions = () => {
                   }
                   className="w-full px-2 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none"
                   required
-                ></textarea>
+                />
               </div>
               <div className="flex gap-3 pt-4">
                 <button

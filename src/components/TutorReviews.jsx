@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 // ── Star display ──────────────────────────────────────────────────────────────
@@ -9,11 +9,7 @@ const Stars = ({ rating, size = "sm" }) => {
       {[1, 2, 3, 4, 5].map((n) => (
         <svg
           key={n}
-          className={`${sz} ${
-            n <= Math.round(parseFloat(rating || 0))
-              ? "text-yellow-400"
-              : "text-gray-200 dark:text-gray-700"
-          }`}
+          className={`${sz} ${n <= Math.round(parseFloat(rating || 0)) ? "text-yellow-400" : "text-gray-200 dark:text-gray-700"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -55,21 +51,34 @@ const RatingBar = ({ label, count, total }) => {
 // ── Main TutorReviews component ───────────────────────────────────────────────
 const TutorReviews = ({ tutorEmail }) => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // ✅ FIX: false by default (not true)
   const [page, setPage] = useState(1);
   const PER_PAGE = 4;
 
+  // ✅ FIX: async function inside effect, no direct setState at body level
   useEffect(() => {
-    if (!tutorEmail) {
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/reviews/${tutorEmail}`)
-      .then((r) => setReviews(r.data || []))
-      .catch(() => setReviews([]))
-      .finally(() => setLoading(false));
+    if (!tutorEmail) return; // ✅ FIX: just return early — don't call setLoading(false)
+
+    let cancelled = false;
+
+    const fetchReviews = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/reviews/${tutorEmail}`,
+        );
+        if (!cancelled) setReviews(res.data || []);
+      } catch {
+        if (!cancelled) setReviews([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    fetchReviews();
+    return () => {
+      cancelled = true;
+    };
   }, [tutorEmail]);
 
   if (!tutorEmail) return null;
@@ -99,7 +108,6 @@ const TutorReviews = ({ tutorEmail }) => {
 
   return (
     <section className="bg-[var(--bg-elevated)] rounded-2xl border border-[var(--bg-border)] p-6 mt-6">
-      {/* Section header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-black text-[var(--text-primary)]">
           Reviews & Ratings
@@ -151,9 +159,7 @@ const TutorReviews = ({ tutorEmail }) => {
       {/* Summary + cards */}
       {!loading && total > 0 && (
         <>
-          {/* Rating summary */}
           <div className="flex flex-col sm:flex-row gap-6 mb-8 p-5 bg-[var(--bg-surface)] rounded-2xl border border-[var(--bg-border)]">
-            {/* Big score */}
             <div className="flex flex-col items-center justify-center shrink-0 gap-1 min-w-[80px]">
               <p className="text-6xl font-black text-[var(--text-primary)] leading-none">
                 {avg}
@@ -163,8 +169,6 @@ const TutorReviews = ({ tutorEmail }) => {
                 {total} review{total !== 1 ? "s" : ""}
               </p>
             </div>
-
-            {/* Distribution bars */}
             <div className="flex-1 flex flex-col justify-center gap-2">
               {dist.map(({ n, count }) => (
                 <RatingBar key={n} label={n} count={count} total={total} />
@@ -172,7 +176,6 @@ const TutorReviews = ({ tutorEmail }) => {
             </div>
           </div>
 
-          {/* Individual review cards */}
           <div className="space-y-4">
             {paged.map((review, i) => {
               const initials = (review.studentName || "?")
@@ -187,13 +190,11 @@ const TutorReviews = ({ tutorEmail }) => {
                   key={review._id || i}
                   className="flex gap-3 p-4 bg-[var(--bg-surface)] rounded-xl border border-[var(--bg-border)]"
                 >
-                  {/* Avatar */}
                   <div
                     className={`w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-white text-xs font-black ${color}`}
                   >
                     {initials}
                   </div>
-
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 flex-wrap">
                       <div>
@@ -224,7 +225,6 @@ const TutorReviews = ({ tutorEmail }) => {
             })}
           </div>
 
-          {/* Load more */}
           {hasMore && (
             <button
               onClick={() => setPage((p) => p + 1)}
